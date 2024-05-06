@@ -6,7 +6,10 @@ type Props = {
   userNumber?: number;
 };
 
-export const MeepleFence = ({ width, height, userNumber }: Props) => {
+/**
+ *  1번 빨강, 2번 초록, 3번 민트, 4번 보라, userNumber 없으면 회색
+ */
+export const Farmer = ({ width, height, userNumber }: Props) => {
   const positionX =
     userNumber === 1
       ? 0
@@ -22,7 +25,7 @@ export const MeepleFence = ({ width, height, userNumber }: Props) => {
 };
 
 const Container = styled.div<{ width: number; height: number; positionX: number }>`
-  background-image: url('/fences.webp');
+  background-image: url('/farmers.webp');
   background-repeat: no-repeat;
   background-position-x: ${props => props.positionX}%;
   background-size: 500% 100%;
