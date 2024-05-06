@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Footer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/footer';
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
 type Props = {
   title: string;
@@ -9,12 +9,13 @@ type Props = {
   top: number;
   left: number;
   children: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export const ActionContainer = ({ title, width, height, top, left, children }: Props) => {
+export const ActionContainer = ({ title, width, height, top, left, children, onClick }: Props) => {
   return (
     <>
-      <Container width={width} height={height} top={top} left={left}>
+      <Container width={width} height={height} top={top} left={left} onClick={onClick}>
         <Wrapper>
           <Title>{title}</Title>
           <DescriptionWrapper>{children}</DescriptionWrapper>
@@ -25,7 +26,7 @@ export const ActionContainer = ({ title, width, height, top, left, children }: P
   );
 };
 
-const Container = styled.div<{ width: number; height: number; top: number; left: number }>`
+const Container = styled.button<{ width: number; height: number; top: number; left: number }>`
   height: ${props => props.height}px;
   top: ${props => props.top}px;
   width: ${props => props.width}px;
