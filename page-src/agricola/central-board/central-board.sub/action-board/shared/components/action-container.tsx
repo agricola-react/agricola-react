@@ -6,18 +6,27 @@ type Props = {
   title: string;
   width: number;
   height: number;
+  contentHeight?: number;
   top: number;
   left: number;
   children: ReactNode;
 };
 
-export const ActionContainer = ({ title, width, height, top, left, children }: Props) => {
+export const ActionContainer = ({
+  title,
+  width,
+  height,
+  top,
+  left,
+  contentHeight,
+  children,
+}: Props) => {
   return (
     <>
       <Container width={width} height={height} top={top} left={left}>
         <Wrapper>
           <Title>{title}</Title>
-          <DescriptionWrapper>{children}</DescriptionWrapper>
+          <DescriptionWrapper contentHeight={contentHeight}>{children}</DescriptionWrapper>
           <Footer />
         </Wrapper>
       </Container>
@@ -54,7 +63,7 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-const DescriptionWrapper = styled.div`
+const DescriptionWrapper = styled.div<{ contentHeight?: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,5 +72,5 @@ const DescriptionWrapper = styled.div`
   background-position: 0 -40px;
   background-size: 100% 120px;
   padding-top: 5px;
-  height: 45px;
+  height: ${props => props.contentHeight ?? 45}px;
 `;

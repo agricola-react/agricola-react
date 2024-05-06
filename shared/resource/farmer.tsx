@@ -17,7 +17,7 @@ export const Farmer = ({ width, height, userNumber }: Props) => {
         ? 25
         : userNumber === 3
           ? 50
-          : userNumber === 5
+          : userNumber === 4
             ? 75
             : 100;
 
