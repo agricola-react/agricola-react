@@ -90,10 +90,10 @@ export const UserBoard = () => {
         <MeepleFirst width={20} height={40} />
       </div>
       <SpaceHeight height={20} />
-      <div className="flex gap-[20px]">
+      <div className="flex flex-wrap gap-[10px]">
         {resourceList.map(({ Component, count }, index) => {
           return (
-            <div className="flex items-center gap-[10px]" key={index}>
+            <div className="flex items-center gap-[5px]" key={index}>
               <div className="font-bold">{count}</div>
               <div>{Component}</div>
             </div>
@@ -139,5 +139,5 @@ const Container = styled.div`
   border-radius: 20px !important;
   box-shadow: -1px 2px 5px #000;
   padding: 20px;
-  height: 250px;
+  height: 220px;
 `;

@@ -13,9 +13,7 @@ export const UserSection = () => {
 };
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  height: 600px;
 `;
