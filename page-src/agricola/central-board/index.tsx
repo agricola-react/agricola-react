@@ -32,6 +32,7 @@ export const CentralBoard = () => {
 const CentralBoardContainer = styled.div`
   background-image: url('https://x.boardgamearena.net/data/themereleases/current/games/agricola/220107-0030/img/central.png');
   background-size: 100% auto;
+  background-repeat: no-repeat;
   height: 795px;
   width: 830px;
   position: relative;
