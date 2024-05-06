@@ -6,7 +6,7 @@ type Props = {
   userNumber?: number;
 };
 
-export const MeepleFence = ({ width, height, userNumber }: Props) => {
+export const Barn = ({ width, height, userNumber }: Props) => {
   const positionX =
     userNumber === 1
       ? 0
@@ -22,7 +22,7 @@ export const MeepleFence = ({ width, height, userNumber }: Props) => {
 };
 
 const Container = styled.div<{ width: number; height: number; positionX: number }>`
-  background-image: url('/fences.webp');
+  background-image: url('/stables.webp');
   background-repeat: no-repeat;
   background-position-x: ${props => props.positionX}%;
   background-size: 500% 100%;

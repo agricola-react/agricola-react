@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
-import { 갈대밭 } from 'page-src/agricola/central-board/action-board/갈대밭';
-import { 곡식종자 } from 'page-src/agricola/central-board/action-board/곡식종자';
-import { 교습 } from 'page-src/agricola/central-board/action-board/교습';
-import { 낚시 } from 'page-src/agricola/central-board/action-board/낚시';
-import { 날품팔이 } from 'page-src/agricola/central-board/action-board/날품팔이';
-import { 농장확장 } from 'page-src/agricola/central-board/action-board/농장확장';
-import { 농지 } from 'page-src/agricola/central-board/action-board/농지';
-import { 숲 } from 'page-src/agricola/central-board/action-board/숲';
-import { 울타리 } from 'page-src/agricola/central-board/action-board/울타리';
-import { 회합장소 } from 'page-src/agricola/central-board/action-board/회합장소';
-import { 흙채굴장 } from 'page-src/agricola/central-board/action-board/흙채굴장';
+import { 갈대밭 } from 'page-src/agricola/central-board/central-board.sub/action-board/갈대밭';
+import { 곡식종자 } from 'page-src/agricola/central-board/central-board.sub/action-board/곡식종자';
+import { 교습 } from 'page-src/agricola/central-board/central-board.sub/action-board/교습';
+import { 낚시 } from 'page-src/agricola/central-board/central-board.sub/action-board/낚시';
+import { 날품팔이 } from 'page-src/agricola/central-board/central-board.sub/action-board/날품팔이';
+import { 농장확장 } from 'page-src/agricola/central-board/central-board.sub/action-board/농장확장';
+import { 농지 } from 'page-src/agricola/central-board/central-board.sub/action-board/농지';
+import { 숲 } from 'page-src/agricola/central-board/central-board.sub/action-board/숲';
+import { 울타리 } from 'page-src/agricola/central-board/central-board.sub/action-board/울타리';
+import { 회합장소 } from 'page-src/agricola/central-board/central-board.sub/action-board/회합장소';
+import { 흙채굴장 } from 'page-src/agricola/central-board/central-board.sub/action-board/흙채굴장';
 
 export const CentralBoard = () => {
   return (
