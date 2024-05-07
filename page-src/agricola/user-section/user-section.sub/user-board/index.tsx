@@ -104,7 +104,7 @@ export const UserBoard = ({ player }: Props) => {
           );
         })}
       </div>
-      <hr className="border-1 border-solid border-[#80502e] my-[10px]" />
+      <hr className="border-1 border-solid border-[#80502e] my-[5px]" />
       <div className="flex justify-center gap-[20px]">
         {livestocks.map(({ Component, count }, index) => {
           return (
@@ -115,7 +115,7 @@ export const UserBoard = ({ player }: Props) => {
           );
         })}
       </div>
-      <hr className="border-1 border-solid border-[#80502e] my-[10px]" />
+      <hr className="border-1 border-solid border-[#80502e] my-[5px]" />
       <div className="flex justify-center gap-[20px]">
         {EtcRecourseList.map(({ Component, count }, index) => {
           return (
@@ -143,7 +143,7 @@ const Container = styled.div`
   border-radius: 20px !important;
   box-shadow: -1px 2px 5px #000;
   padding: 20px;
-  height: 220px;
+  height: 190px;
 `;
 
 const Circle = styled.div<{ color: string }>`
