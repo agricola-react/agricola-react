@@ -91,7 +91,7 @@ export const UserBoard = ({ player }: Props) => {
             <div className="font-bold">{player.name}</div>
           </div>
         </div>
-        {player.isFirst && <MeepleFirst width={20} height={40} />}
+        {player.isFirst && <MeepleFirst width={17} height={35} />}
       </div>
       <SpaceHeight height={20} />
       <div className="flex flex-wrap gap-[10px]">
