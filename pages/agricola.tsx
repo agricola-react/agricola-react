@@ -3,8 +3,11 @@ import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
 import { UserSection } from 'page-src/agricola/user-section';
 import { PlayerBoard } from 'page-src/agricola/player-board';
+import { useRecoilValue } from 'recoil';
+import { playersState } from '@/shared/recoil';
 
 const AgricolaPage = () => {
+  const players = useRecoilValue(playersState);
   return (
     <StyledBackground>
       <Header />
@@ -13,10 +16,9 @@ const AgricolaPage = () => {
         <UserSection />
       </BoardWrapper>
       <PlayerBoardWrapper>
-        <PlayerBoard playerNumber={1} />
-        <PlayerBoard playerNumber={2} />
-        <PlayerBoard playerNumber={3} />
-        <PlayerBoard playerNumber={4} />
+        {players.map(player => (
+          <PlayerBoard key={player.number} playerNumber={player.number} />
+        ))}
       </PlayerBoardWrapper>
     </StyledBackground>
   );
