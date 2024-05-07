@@ -1,11 +1,17 @@
-import { MeepleChild } from '@/shared/resource/meeple-child';
-import { MeepleMinor } from '@/shared/resource/meeple-minor';
-import styled from '@emotion/styled';
-import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { MeepleChild } from "@/shared/resource/meeple-child";
+import { MeepleMinor } from "@/shared/resource/meeple-minor";
+import styled from "@emotion/styled";
+import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
 
 export const 급한가족늘리기 = () => {
   return (
-    <ActionContainer width={140} height={140} top={156} left={331} title="급한가족늘리기">
+    <ActionContainer
+      width={140}
+      height={140}
+      top={626}
+      left={167}
+      title="급한가족늘리기"
+    >
       <ContentWrapper>
         <Wrapper>
           <ContentWrapper>

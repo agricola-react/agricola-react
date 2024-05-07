@@ -1,10 +1,16 @@
-import { Reed } from '@/shared/resource/reed';
-import styled from '@emotion/styled';
-import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { Reed } from "@/shared/resource/reed";
+import styled from "@emotion/styled";
+import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
 
 export const 갈대밭 = () => {
   return (
-    <ActionContainer width={140} height={86} top={411} left={167} title="갈대밭">
+    <ActionContainer
+      width={140}
+      height={86}
+      top={411}
+      left={167}
+      title="갈대밭"
+    >
       <ContentWrapper>
         <Wrapper>
           <Text>1</Text>

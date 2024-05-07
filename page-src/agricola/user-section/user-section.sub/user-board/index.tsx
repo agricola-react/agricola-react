@@ -1,4 +1,5 @@
 import { SpaceHeight } from '@/shared/components/space-height';
+import { Player } from '@/shared/recoil';
 import { Barn } from '@/shared/resource/barn';
 import { Clay } from '@/shared/resource/clay';
 import { Farmer } from '@/shared/resource/farmer';
@@ -15,65 +16,69 @@ import { Vegetable } from '@/shared/resource/vegetable';
 import { Wood } from '@/shared/resource/wood';
 import styled from '@emotion/styled';
 
-export const UserBoard = () => {
+type Props = {
+  player: Player;
+};
+
+export const UserBoard = ({ player }: Props) => {
   const resourceList = [
     {
       Component: <Wood width={15} height={20} />,
-      count: 1,
+      count: player.wood,
     },
     {
       Component: <Clay width={15} height={20} />,
-      count: 1,
+      count: player.clay,
     },
     {
       Component: <Stone width={15} height={20} />,
-      count: 1,
+      count: player.stone,
     },
     {
       Component: <Reed width={15} height={20} />,
-      count: 1,
+      count: player.reed,
     },
     {
       Component: <Grain width={15} height={20} />,
-      count: 1,
+      count: player.grain,
     },
     {
       Component: <Vegetable width={15} height={20} />,
-      count: 1,
+      count: player.vegetable,
     },
     {
       Component: <MeepleFood width={15} height={20} />,
-      count: 1,
+      count: player.food,
     },
   ];
 
   const livestocks = [
     {
       Component: <MeepleSheep width={20} height={20} />,
-      count: 1,
+      count: player.sheep,
     },
     {
       Component: <MeeplePig width={20} height={20} />,
-      count: 1,
+      count: player.pig,
     },
     {
       Component: <MeepleCattle width={20} height={20} />,
-      count: 1,
+      count: player.cattle,
     },
   ];
 
   const EtcRecourseList = [
     {
-      Component: <Farmer width={15} height={20} userNumber={1} />,
-      count: 1,
+      Component: <Farmer width={15} height={20} userNumber={player.number} />,
+      count: player.farmer,
     },
     {
-      Component: <MeepleFence width={15} height={20} userNumber={1} />,
-      count: 1,
+      Component: <MeepleFence width={15} height={20} userNumber={player.number} />,
+      count: player.fence,
     },
     {
-      Component: <Barn width={15} height={20} userNumber={1} />,
-      count: 1,
+      Component: <Barn width={15} height={20} userNumber={player.number} />,
+      count: player.barn,
     },
   ];
 
@@ -81,13 +86,12 @@ export const UserBoard = () => {
     <Container>
       <div className="flex justify-between">
         <div className="flex items-center gap-[15px]">
-          <div>아이콘</div>
+          <Circle color={player.color} />
           <div>
-            <div>Player 1</div>
-            <div>14점</div>
+            <div className="font-bold">{player.name}</div>
           </div>
         </div>
-        <MeepleFirst width={20} height={40} />
+        {player.isFirst && <MeepleFirst width={20} height={40} />}
       </div>
       <SpaceHeight height={20} />
       <div className="flex flex-wrap gap-[10px]">
@@ -100,7 +104,7 @@ export const UserBoard = () => {
           );
         })}
       </div>
-      <hr className="border-1 border-solid border-[#80502e] my-[10px]" />
+      <hr className="border-1 border-solid border-[#80502e] my-[5px]" />
       <div className="flex justify-center gap-[20px]">
         {livestocks.map(({ Component, count }, index) => {
           return (
@@ -111,7 +115,7 @@ export const UserBoard = () => {
           );
         })}
       </div>
-      <hr className="border-1 border-solid border-[#80502e] my-[10px]" />
+      <hr className="border-1 border-solid border-[#80502e] my-[5px]" />
       <div className="flex justify-center gap-[20px]">
         {EtcRecourseList.map(({ Component, count }, index) => {
           return (
@@ -139,5 +143,12 @@ const Container = styled.div`
   border-radius: 20px !important;
   box-shadow: -1px 2px 5px #000;
   padding: 20px;
-  height: 220px;
+  height: 190px;
+`;
+
+const Circle = styled.div<{ color: string }>`
+  width: 20px;
+  height: 20px;
+  background-color: ${({ color }) => color};
+  border-radius: 50%;
 `;

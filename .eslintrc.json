@@ -1,9 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "eslint-config-prettier", "eslint:recommended"],
+  "extends": ["next/core-web-vitals", "eslint-config-prettier", "eslint:recommended", "prettier"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "eslint-plugin-prettier"],
+  "plugins": ["@typescript-eslint", "prettier", "eslint-plugin-prettier"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+          "endOfLine": "auto"
+      }
+  ],
     "@next/next/no-img-element": "off"
   }
 }
