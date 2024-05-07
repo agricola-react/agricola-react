@@ -1,3 +1,4 @@
+import { Farmer } from '@/shared/resource/farmer';
 import styled from '@emotion/styled';
 import { Footer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/footer';
 import { ReactNode } from 'react';
@@ -10,6 +11,8 @@ type Props = {
   top: number;
   left: number;
   children: ReactNode;
+  userNumber?: number;
+  descriptionHeight?: number;
 };
 
 export const ActionContainer = ({
@@ -20,15 +23,24 @@ export const ActionContainer = ({
   left,
   contentHeight,
   children,
+  descriptionHeight,
+  userNumber,
 }: Props) => {
   return (
     <>
       <Container width={width} height={height} top={top} left={left}>
         <Wrapper>
           <Title>{title}</Title>
-          <DescriptionWrapper contentHeight={contentHeight}>{children}</DescriptionWrapper>
+          <DescriptionWrapper contentHeight={contentHeight} descriptionHeight={descriptionHeight}>
+            {children}
+          </DescriptionWrapper>
           <Footer />
         </Wrapper>
+        {userNumber && (
+          <UserContainer>
+            <Farmer width={30} height={40} userNumber={1} />
+          </UserContainer>
+        )}
       </Container>
     </>
   );
@@ -40,6 +52,7 @@ const Container = styled.div<{ width: number; height: number; top: number; left:
   width: ${props => props.width}px;
   left: ${props => props.left}px;
   position: absolute;
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`
@@ -63,14 +76,22 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-const DescriptionWrapper = styled.div<{ contentHeight?: number }>`
+const DescriptionWrapper = styled.div<{ contentHeight?: number; descriptionHeight?: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
   background-image: url('/action_frame.webp');
   background-position: 0 -40px;
-  background-size: 100% 120px;
+  background-size: ${props =>
+    !props.descriptionHeight ? '100% 120px' : `100% ${props.descriptionHeight}px`};
   padding-top: 5px;
   height: ${props => props.contentHeight ?? 45}px;
+`;
+
+const UserContainer = styled.div`
+  position: absolute;
+  top: 30px;
+  left: 40%;
+  z-index: 11;
 `;
