@@ -9,7 +9,7 @@ export const 급한가족늘리기 = () => {
       width={140}
       height={140}
       top={626}
-      left={6}
+      left={167}
       title="급한가족늘리기"
     >
       <ContentWrapper>
