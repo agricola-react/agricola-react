@@ -1,7 +1,15 @@
+import { roundState } from '@/shared/recoil';
 import styled from '@emotion/styled';
+import { useRecoilValue } from 'recoil';
 
 export const Header = () => {
-  return <HeaderContainer>아그리콜라 데모 버전</HeaderContainer>;
+  const round = useRecoilValue(roundState);
+  return (
+    <HeaderContainer>
+      <div>아그리콜라 데모 버전</div>
+      <div>{round} 라운드</div>
+    </HeaderContainer>
+  );
 };
 
 const HeaderContainer = styled.div`
