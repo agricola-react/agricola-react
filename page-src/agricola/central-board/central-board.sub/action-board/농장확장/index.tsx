@@ -9,86 +9,57 @@ import { RoomWood } from '@/shared/resource/room-wood';
 import { Stone } from '@/shared/resource/stone';
 import { Wood } from '@/shared/resource/wood';
 import styled from '@emotion/styled';
+import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 
 export const 농장확장 = () => {
   return (
-    <Container>
-      <Wrapper>
-        <Title>농장확장</Title>
-        <SpaceHeight height={8} />
-        <div>
-          <DescriptionWrapper>
-            <DescriptionNumber>5</DescriptionNumber>
-            <Wood width={15} height={17} />
-            <DescriptionNumber>2</DescriptionNumber>
-            <Reed width={15} height={17} />
-            <Arrow width={13} height={13} />
-            <RoomWood width={20} height={10} />
-          </DescriptionWrapper>
+    <ActionContainer
+      width={115}
+      height={134}
+      top={0}
+      left={30}
+      contentHeight={100}
+      descriptionHeight={155}
+      title="농장확장"
+    >
+      <div className="flex flex-col items-center">
+        <div className="flex">
+          <DescriptionNumber>5</DescriptionNumber>
+          <Wood width={10} height={15} />
+          <DescriptionNumber>2</DescriptionNumber>
+          <Reed width={10} height={15} />
+          <Arrow width={13} height={13} />
+          <RoomWood width={20} height={10} />
         </div>
         <SpaceHeight height={5} />
-        <div>
-          <DescriptionWrapper>
-            <DescriptionNumber>5</DescriptionNumber>
-            <Clay width={15} height={17} />
-            <DescriptionNumber>2</DescriptionNumber>
-            <Reed width={15} height={17} />
-            <Arrow width={13} height={13} />
-            <RoomClay width={20} height={10} />
-          </DescriptionWrapper>
+        <div className="flex">
+          <DescriptionNumber>5</DescriptionNumber>
+          <Clay width={10} height={15} />
+          <DescriptionNumber>2</DescriptionNumber>
+          <Reed width={10} height={15} />
+          <Arrow width={13} height={13} />
+          <RoomClay width={20} height={10} />
         </div>
         <SpaceHeight height={5} />
-        <div>
-          <DescriptionWrapper>
-            <DescriptionNumber>5</DescriptionNumber>
-            <Stone width={15} height={17} />
-            <DescriptionNumber>2</DescriptionNumber>
-            <Reed width={15} height={17} />
-            <Arrow width={13} height={13} />
-            <RoomStone width={20} height={10} />
-          </DescriptionWrapper>
+        <div className="flex">
+          <DescriptionNumber>5</DescriptionNumber>
+          <Stone width={10} height={15} />
+          <DescriptionNumber>2</DescriptionNumber>
+          <Reed width={10} height={15} />
+          <Arrow width={13} height={13} />
+          <RoomStone width={20} height={10} />
         </div>
         <Plus>+</Plus>
-        <div>
-          <DescriptionWrapper>
-            <DescriptionNumber>5</DescriptionNumber>
-            <Wood width={15} height={17} />
-            <Arrow width={13} height={13} />
-            <Barn width={15} height={15} />
-          </DescriptionWrapper>
+        <div className="flex">
+          <DescriptionNumber>5</DescriptionNumber>
+          <Wood width={10} height={15} />
+          <Arrow width={13} height={13} />
+          <Barn width={10} height={15} />
         </div>
-      </Wrapper>
-    </Container>
+      </div>
+    </ActionContainer>
   );
 };
-
-const Container = styled.div`
-  position: absolute;
-  height: 144px;
-  top: -10px;
-  left: 30px;
-  width: 115px;
-  background-image: url('/action_frame.webp');
-  background-size: 100% 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div``;
-
-const Title = styled.div`
-  font-size: 11px;
-  margin: 0px;
-  margin-top: 11px;
-  text-align: center;
-  font-weight: bold;
-`;
-
-const DescriptionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const DescriptionNumber = styled.span`
   font-size: 10px;
