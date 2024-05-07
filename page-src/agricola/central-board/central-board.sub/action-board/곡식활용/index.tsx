@@ -1,11 +1,17 @@
-import { MeepleBread } from '@/shared/resource/meeple-bread';
-import { MeepleSow } from '@/shared/resource/meeple-sow';
-import styled from '@emotion/styled';
-import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { MeepleBread } from "@/shared/resource/meeple-bread";
+import { MeepleSow } from "@/shared/resource/meeple-sow";
+import styled from "@emotion/styled";
+import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
 
 export const 곡식활용 = () => {
   return (
-    <ActionContainer width={140} height={140} top={2} left={331} title="곡식활용">
+    <ActionContainer
+      width={140}
+      height={140}
+      top={2}
+      left={167}
+      title="곡식활용"
+    >
       <ContentWrapper>
         <Wrapper>
           <ContentWrapper>

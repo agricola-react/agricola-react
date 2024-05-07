@@ -1,10 +1,16 @@
-import { Stone } from '@/shared/resource/stone';
-import styled from '@emotion/styled';
-import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { Stone } from "@/shared/resource/stone";
+import styled from "@emotion/styled";
+import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
 
 export const 동부채석장 = () => {
   return (
-    <ActionContainer width={140} height={140} top={462} left={493} title="동부채석장">
+    <ActionContainer
+      width={140}
+      height={140}
+      top={462}
+      left={331}
+      title="동부채석장"
+    >
       <ContentWrapper>
         <Wrapper>
           <Text>1</Text>
