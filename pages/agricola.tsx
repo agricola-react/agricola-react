@@ -12,7 +12,12 @@ const AgricolaPage = () => {
         <CentralBoard />
         <UserSection />
       </BoardWrapper>
-      <PlayerBoard />
+      <PlayerBoardWrapper>
+        <PlayerBoard playerNumber={1} />
+        <PlayerBoard playerNumber={2} />
+        <PlayerBoard playerNumber={3} />
+        <PlayerBoard playerNumber={4} />
+      </PlayerBoardWrapper>
     </StyledBackground>
   );
 };
@@ -31,6 +36,11 @@ const BoardWrapper = styled.div`
   justify-content: space-between;
   padding: 0 30px;
   padding-top: 10px;
+`;
+
+const PlayerBoardWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export default AgricolaPage;
