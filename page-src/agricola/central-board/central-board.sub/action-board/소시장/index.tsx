@@ -1,10 +1,16 @@
-import { MeepleCattle } from '@/shared/resource/meeple-cattle';
-import styled from '@emotion/styled';
-import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { MeepleCattle } from "@/shared/resource/meeple-cattle";
+import styled from "@emotion/styled";
+import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
 
 export const 소시장 = () => {
   return (
-    <ActionContainer width={140} height={140} top={462} left={330} title="소시장">
+    <ActionContainer
+      width={140}
+      height={140}
+      top={462}
+      left={493}
+      title="소시장"
+    >
       <ContentWrapper>
         <Wrapper>
           <Text>1</Text>
