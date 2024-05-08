@@ -12,6 +12,7 @@ type Props = {
 };
 
 export const Room = ({ width, height, roomType, index, children }: Props) => {
+  console.log(index);
   const positionX =
     roomType === 'wood' ? 0 : roomType === 'clay' ? 50 : roomType === 'stone' ? 100 : 0;
 
