@@ -1,3 +1,4 @@
+import { BackNumber } from '@/shared/resource/back-number';
 import { Farmer } from '@/shared/resource/farmer';
 import styled from '@emotion/styled';
 import { Footer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/footer';
@@ -10,9 +11,12 @@ type Props = {
   contentHeight?: number;
   top: number;
   left: number;
+  isActive: boolean;
   children: ReactNode;
   userNumber?: number;
   descriptionHeight?: number;
+  backNumber?: number;
+  onClick: () => void;
 };
 
 export const ActionContainer = ({
@@ -22,13 +26,17 @@ export const ActionContainer = ({
   top,
   left,
   contentHeight,
+  isActive,
   children,
   descriptionHeight,
   userNumber,
+  backNumber,
+  onClick,
 }: Props) => {
   return (
-    <>
-      <Container width={width} height={height} top={top} left={left}>
+    <Container width={width} height={height} top={top} left={left} onClick={onClick}>
+      {!isActive && <BackNumber backNumber={backNumber} />}
+      {isActive && (
         <Wrapper>
           <Title>{title}</Title>
           <DescriptionWrapper contentHeight={contentHeight} descriptionHeight={descriptionHeight}>
@@ -36,13 +44,13 @@ export const ActionContainer = ({
           </DescriptionWrapper>
           <Footer />
         </Wrapper>
-        {userNumber && (
-          <UserContainer>
-            <Farmer width={30} height={40} userNumber={1} />
-          </UserContainer>
-        )}
-      </Container>
-    </>
+      )}
+      {isActive && userNumber && (
+        <UserContainer>
+          <Farmer width={30} height={40} userNumber={userNumber} />
+        </UserContainer>
+      )}
+    </Container>
   );
 };
 

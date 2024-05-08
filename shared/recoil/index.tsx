@@ -5,6 +5,11 @@ export const roundState = atom({
   default: 1,
 });
 
+export const currentPlayerIndexState = atom({
+  key: 'currentPlayerIndexState',
+  default: 0,
+});
+
 export type Player = {
   number: number;
   name: string;
@@ -23,8 +28,10 @@ export type Player = {
   sheep: number;
   pig: number;
   cattle: number;
-  // 사람수
+  // 전체 사람수
   farmer: number;
+  // 집에 있는 사람수
+  homeFarmer: number;
   // 울타리
   fence: number;
   // 외양간
@@ -49,9 +56,10 @@ export const playersState = atom<Player[]>({
       pig: 0,
       cattle: 0,
       food: 0,
-      farmer: 0,
+      farmer: 2,
       fence: 0,
       barn: 0,
+      homeFarmer: 2,
     },
     {
       number: 2,
@@ -68,9 +76,10 @@ export const playersState = atom<Player[]>({
       pig: 0,
       cattle: 0,
       food: 0,
-      farmer: 0,
+      farmer: 2,
       fence: 0,
       barn: 0,
+      homeFarmer: 2,
     },
     {
       number: 3,
@@ -87,9 +96,10 @@ export const playersState = atom<Player[]>({
       pig: 0,
       cattle: 0,
       food: 0,
-      farmer: 0,
+      farmer: 2,
       fence: 0,
       barn: 0,
+      homeFarmer: 2,
     },
     {
       number: 4,
@@ -106,9 +116,10 @@ export const playersState = atom<Player[]>({
       pig: 0,
       cattle: 0,
       food: 0,
-      farmer: 0,
+      farmer: 2,
       fence: 0,
       barn: 0,
+      homeFarmer: 2,
     },
   ],
 });

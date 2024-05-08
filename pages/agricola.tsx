@@ -1,10 +1,27 @@
+import { playersState, roundState } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
 import { UserSection } from 'page-src/agricola/user-section';
+import { useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { PlayerBoard } from 'page-src/agricola/player-board';
 
 const AgricolaPage = () => {
+  const [players, setPlayers] = useRecoilState(playersState);
+  const setRound = useSetRecoilState(roundState);
+
+  useEffect(() => {
+    const homeFarmers = players.reduce((acc, cur) => {
+      return acc + cur.homeFarmer;
+    }, 0);
+
+    if (homeFarmers === 0) {
+      setRound(round => round + 1);
+      setPlayers(players.map(player => ({ ...player, homeFarmer: player.farmer })));
+    }
+  }, [players]);
+
   return (
     <StyledBackground>
       <Header />

@@ -1,11 +1,60 @@
+import { roundState } from '@/shared/recoil';
 import { MeepleFood } from '@/shared/resource/meeple-food';
 import { MeepleOccupation } from '@/shared/resource/meeple-occupation';
 import styled from '@emotion/styled';
+import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
+// TODO: 직업카드 작업해야함
 export const 교습 = () => {
+  const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
+  const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
+  const [usedPlayers, setUsedPlayers] = useState<number[]>([]); // 사용한 플레이어 번호
+  const round = useRecoilValue(roundState);
+
+  const handleClick = () => {
+    // 처음사용하면 토큰무료, 그 다음부턴 1토큰
+    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+      // 처음사용하면 토큰무료, 그 다음부턴 1토큰
+      if (usedPlayers.includes(currentPlayer.number)) {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].food -= 1;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+      } else {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+        setUsedPlayers(prev => [...prev, currentPlayer.number]);
+      }
+
+      setSelectedPlayerNumber(currentPlayer.number);
+      nextPlayer();
+    }
+  };
+
+  useEffect(() => {
+    setSelectedPlayerNumber(undefined);
+  }, [round]);
+
   return (
-    <ActionContainer width={115} height={94} top={406} left={30} title="교습">
+    <ActionContainer
+      width={115}
+      height={94}
+      top={406}
+      left={30}
+      isActive
+      title="교습"
+      onClick={handleClick}
+      userNumber={selectedPlayerNumber}
+    >
       <ContentWrapper>
         <Wrapper>
           <Text>1</Text>

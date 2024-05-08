@@ -5,7 +5,7 @@ import { ActionContainer } from 'page-src/agricola/central-board/central-board.s
 export const 농지 = () => {
   return (
     <>
-      <ActionContainer width={112} height={80} top={310} left={30} title="농지">
+      <ActionContainer width={112} height={80} top={310} left={30} isActive title="농지">
         <ContentWrapper>
           <MeepleField width={38} height={20} />
         </ContentWrapper>

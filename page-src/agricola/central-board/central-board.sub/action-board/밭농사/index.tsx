@@ -1,11 +1,31 @@
-import { MeepleField } from "@/shared/resource/meeple-field";
-import { MeepleSow } from "@/shared/resource/meeple-sow";
-import styled from "@emotion/styled";
-import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
+import { roundState } from '@/shared/recoil';
+import { MeepleField } from '@/shared/resource/meeple-field';
+import { MeepleSow } from '@/shared/resource/meeple-sow';
+import styled from '@emotion/styled';
+import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
 export const 밭농사 = () => {
+  const round = useRecoilValue(roundState);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (round >= 12) {
+      setIsActive(true);
+    }
+  }, [round]);
+
   return (
-    <ActionContainer width={140} height={140} top={626} left={6} title="밭농사">
+    <ActionContainer
+      width={140}
+      height={140}
+      top={626}
+      left={6}
+      isActive={isActive}
+      backNumber={5}
+      title="밭농사"
+    >
       <ContentWrapper>
         <Wrapper>
           <ContentWrapper>
