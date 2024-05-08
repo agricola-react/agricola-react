@@ -1,8 +1,16 @@
 import { atom } from 'recoil';
 
-export const roundState = atom({
+type Round = {
+  round: number;
+  currentPlayer: number;
+};
+
+export const roundState = atom<Round>({
   key: 'roundState',
-  default: 1,
+  default: {
+    round: 1,
+    currentPlayer: 1,
+  },
 });
 
 export type Player = {
