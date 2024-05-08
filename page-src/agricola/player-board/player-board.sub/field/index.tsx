@@ -1,4 +1,4 @@
-import { 현재턴State } from '@/shared/recoil/현재턴/atoms';
+import { currentActionState } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -11,9 +11,9 @@ type Props = {
 };
 
 export const Field = ({ width, height, index, children }: Props) => {
-  const turnInfo = useRecoilValue(현재턴State);
+  const actionState = useRecoilValue(currentActionState);
   const handleClick = useCallback(() => {
-    switch (turnInfo.action) {
+    switch (actionState) {
       case '씨 뿌리기':
         alert(`${index}번 슬롯: 씨 뿌리기 클릭`);
         break;
@@ -21,7 +21,7 @@ export const Field = ({ width, height, index, children }: Props) => {
         alert(`${index}번 슬롯 클릭`);
         break;
     }
-  }, [turnInfo]);
+  }, [actionState]);
 
   return (
     <Container width={width} height={height} onClick={handleClick}>
