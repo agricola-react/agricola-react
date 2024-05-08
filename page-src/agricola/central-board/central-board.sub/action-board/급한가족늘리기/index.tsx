@@ -1,15 +1,29 @@
-import { MeepleChild } from "@/shared/resource/meeple-child";
-import { MeepleMinor } from "@/shared/resource/meeple-minor";
-import styled from "@emotion/styled";
-import { ActionContainer } from "page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container";
+import { roundState } from '@/shared/recoil';
+import { MeepleChild } from '@/shared/resource/meeple-child';
+import { MeepleMinor } from '@/shared/resource/meeple-minor';
+import styled from '@emotion/styled';
+import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
 export const 급한가족늘리기 = () => {
+  const round = useRecoilValue(roundState);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (round >= 13) {
+      setIsActive(true);
+    }
+  }, [round]);
+
   return (
     <ActionContainer
       width={140}
       height={140}
       top={626}
       left={167}
+      backNumber={5}
+      isActive={isActive}
       title="급한가족늘리기"
     >
       <ContentWrapper>

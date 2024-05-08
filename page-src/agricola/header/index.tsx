@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <div>아그리콜라 데모 버전</div>
-      <div>{round.round} 라운드</div>
+      <div>{round} 라운드</div>
     </HeaderContainer>
   );
 };

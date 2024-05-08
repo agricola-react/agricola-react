@@ -20,6 +20,7 @@ export const 농장확장 = () => {
       left={30}
       contentHeight={100}
       descriptionHeight={155}
+      isActive
       title="농장확장"
     >
       <div className="flex flex-col items-center">

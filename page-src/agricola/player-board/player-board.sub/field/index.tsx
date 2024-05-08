@@ -17,6 +17,9 @@ export const Field = ({ width, height, index, children }: Props) => {
       case '씨 뿌리기':
         alert(`${index}번 슬롯: 씨 뿌리기 클릭`);
         break;
+      default:
+        alert(`${index}번 슬롯 클릭`);
+        break;
     }
   }, [turnInfo]);
 

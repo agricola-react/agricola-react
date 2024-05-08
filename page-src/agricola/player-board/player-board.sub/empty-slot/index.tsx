@@ -20,6 +20,9 @@ export const EmptySlot = ({ width, height, index, children }: Props) => {
       case '밭 일구기':
         alert(`${index}번 슬롯: 밭 일구기 클릭`);
         break;
+      default:
+        alert(`${index}번 슬롯 클릭`);
+        break;
     }
   }, [turnInfo]);
   return (

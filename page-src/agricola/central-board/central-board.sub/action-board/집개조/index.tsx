@@ -1,10 +1,22 @@
+import { roundState } from '@/shared/recoil';
 import { MeepleMajor } from '@/shared/resource/meeple-major';
 import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import { MeepleUpgrade } from '@/shared/resource/meeple-upgrade';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
 export const 집개조 = () => {
+  const round = useRecoilValue(roundState);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (round >= 7) {
+      setIsActive(true);
+    }
+  }, [round]);
+
   return (
     <ActionContainer
       width={140}
@@ -12,6 +24,8 @@ export const 집개조 = () => {
       top={156}
       left={657}
       contentHeight={60}
+      backNumber={2}
+      isActive={isActive}
       title="집개조"
     >
       <Wrapper>
