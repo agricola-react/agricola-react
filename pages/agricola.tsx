@@ -5,6 +5,7 @@ import { Header } from 'page-src/agricola/header';
 import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import { PlayerBoard } from 'page-src/agricola/player-board';
 
 const AgricolaPage = () => {
   const [players, setPlayers] = useRecoilState(playersState);
@@ -14,8 +15,6 @@ const AgricolaPage = () => {
     const homeFarmers = players.reduce((acc, cur) => {
       return acc + cur.homeFarmer;
     }, 0);
-
-    console.log(homeFarmers, 'homeFarmers');
 
     if (homeFarmers === 0) {
       setRound(round => round + 1);
@@ -30,12 +29,15 @@ const AgricolaPage = () => {
         <CentralBoard />
         <UserSection />
       </BoardWrapper>
+      <PlayerBoard />
     </StyledBackground>
   );
 };
 
 const StyledBackground = styled.div`
   background-image: url('https://x.boardgamearena.net/data/themereleases/current/games/agricola/220107-0030/img/background.jpg');
+  background-repeat: repeat;
+  overflow: scroll;
   height: 100%;
   width: 100%;
   padding-top: 10px;
