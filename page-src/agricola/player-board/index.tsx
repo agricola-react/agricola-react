@@ -81,14 +81,13 @@ export const PlayerBoard = ({ playerNumber }: Props) => {
   const players = useRecoilValue(playersState);
   const owner = players.find(player => player.number === playerNumber);
 
+  const boardFarmers = playerBoard.reduce((sum, cur) => {
+    if (cur.type === '방' && cur.resource === '사람') return sum + 1;
+    return sum;
+  }, 0);
+
   useEffect(() => {
     if (owner === undefined) return;
-
-    const boardFarmers = playerBoard.reduce((sum, cur) => {
-      if (cur.type === '방' && cur.resource === '사람') return sum + 1;
-      return sum;
-    }, 0);
-
     // homeFarmer 값이 감소한 경우 -> homeFarmer를 방에서 없앤다
     if (owner.homeFarmer < boardFarmers) {
       setPlayerBoard(getUpdatedFarmerBoard(playerBoard, 'reduce'));
