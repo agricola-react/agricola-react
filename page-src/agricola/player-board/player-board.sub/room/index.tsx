@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 
 type RoomType = 'stone' | 'wood' | 'clay';
 
@@ -6,12 +7,20 @@ type Props = {
   width: number;
   height: number;
   roomType: RoomType;
+  index: number; // 슬롯의 위치
+  children?: ReactNode;
 };
 
-export const Room = ({ width, height, roomType }: Props) => {
+export const Room = ({ width, height, roomType, index, children }: Props) => {
+  console.log(index);
   const positionX =
     roomType === 'wood' ? 0 : roomType === 'clay' ? 50 : roomType === 'stone' ? 100 : 0;
-  return <Container width={width} height={height} positionX={positionX}></Container>;
+
+  return (
+    <Container width={width} height={height} positionX={positionX}>
+      {children}
+    </Container>
+  );
 };
 
 const Container = styled.div<{ width: number; height: number; positionX: number }>`

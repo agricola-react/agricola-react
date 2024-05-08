@@ -123,3 +123,16 @@ export const playersState = atom<Player[]>({
     },
   ],
 });
+
+export type PlayerAction =
+  | '액션선택'
+  | '방 확장'
+  | '씨 뿌리기'
+  | '밭 일구기'
+  | '울타리 설치'
+  | '외양간 설치';
+
+export const currentActionState = atom<PlayerAction | null>({
+  key: 'currentActionState',
+  default: null,
+});
