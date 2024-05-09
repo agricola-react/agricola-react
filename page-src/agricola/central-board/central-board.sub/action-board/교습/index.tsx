@@ -18,14 +18,19 @@ export const 교습 = () => {
   const handleClick = () => {
     // 처음사용하면 토큰무료, 그 다음부턴 1토큰
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      // 처음사용하면 토큰무료, 그 다음부턴 1토큰
+      // 이미 사용했던 유저라면
       if (usedPlayers.includes(currentPlayer.number)) {
-        setPlayers(
-          produce(_players => {
-            _players[currentPlayerIndex].food -= 1;
-            _players[currentPlayerIndex].homeFarmer -= 1;
-          })
-        );
+        if (currentPlayer.food >= 1) {
+          setPlayers(
+            produce(_players => {
+              _players[currentPlayerIndex].food -= 1;
+              _players[currentPlayerIndex].homeFarmer -= 1;
+            })
+          );
+        } else {
+          alert('음식이 부족합니다.');
+          return;
+        }
       } else {
         setPlayers(
           produce(_players => {

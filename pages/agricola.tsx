@@ -2,26 +2,64 @@ import { currentPlayerIndexState, playersState, roundState } from '@/shared/reco
 import styled from '@emotion/styled';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
+import { PlayerBoard } from 'page-src/agricola/player-board';
+import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
 import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { PlayerBoard } from 'page-src/agricola/player-board';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+const harvest_rounds = [5, 8, 10, 12, 14, 15];
 
 const AgricolaPage = () => {
   const [players, setPlayers] = useRecoilState(playersState);
-  const setRound = useSetRecoilState(roundState);
+  const [round, setRound] = useRecoilState(roundState);
   const currentPlayerIndex = useRecoilValue(currentPlayerIndexState);
 
   useEffect(() => {
+    // 라운드가 끝났으면 다음 라운드로 넘어가기
     const homeFarmers = players.reduce((acc, cur) => {
       return acc + cur.homeFarmer;
     }, 0);
 
     if (homeFarmers === 0) {
       setRound(round => round + 1);
-      setPlayers(players.map(player => ({ ...player, homeFarmer: player.farmer })));
     }
   }, [players]);
+
+  useEffect(() => {
+    /**
+     * 수확로직 (harvest_rounds로 넘어가기전 실행)
+     * 1. 작물수확(TODO)
+     * 2. 가족먹여살리기
+     * 3. 번식(TODO)
+     */
+    const isHarvestTime = harvest_rounds.includes(round);
+
+    if (isHarvestTime) {
+      alert('가족먹여살라기 시간입니다.');
+    }
+
+    setPlayers(
+      players.map(player => {
+        const { newFood, newGrain, newVegetable, remainingFood } = calculateFeedingCount(player);
+
+        return {
+          ...player,
+          farmer: player.farmer + player.baby,
+          homeFarmer: player.farmer + player.baby,
+          baby: 0,
+          food: isHarvestTime ? newFood : player.food,
+          grain: isHarvestTime ? newGrain : player.grain,
+          vegetable: isHarvestTime ? newVegetable : player.vegetable,
+          bagging: isHarvestTime
+            ? remainingFood > 0
+              ? remainingFood
+              : player.bagging
+            : player.bagging,
+        };
+      })
+    );
+  }, [round]);
 
   return (
     <StyledBackground>
