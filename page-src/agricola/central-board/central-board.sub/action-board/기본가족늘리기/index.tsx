@@ -16,7 +16,6 @@ export const 기본가족늘리기 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
 
   const handleClick = () => {
-    // 조건 추가: 가족을 넣을 농장이 있는지 확인
     const isEmptyRoom = currentPlayer.slots.some(
       slot => slot.resource === null && slot.type === '방'
     );
