@@ -1,3 +1,4 @@
+import { ResourceType, SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
 import { atom } from 'recoil';
 
 export const roundState = atom({
@@ -9,6 +10,29 @@ export const currentPlayerIndexState = atom({
   key: 'currentPlayerIndexState',
   default: 0,
 });
+
+export type SlotValue = {
+  type: SlotType;
+  resource: ResourceType;
+  count: number;
+};
+
+const initBoard: SlotValue[] = new Array(15)
+  .fill({
+    type: null,
+    resource: null,
+    count: 1,
+  })
+  .map((value, index) => {
+    if (index === 5 || index === 10) {
+      return {
+        type: '방',
+        resource: '사람',
+        count: 1,
+      };
+    }
+    return value;
+  });
 
 export type Player = {
   number: number;
@@ -40,6 +64,8 @@ export type Player = {
   barn: number;
   // 구걸
   bagging: number;
+  // 플레이어 보드
+  slots: SlotValue[];
 };
 
 export const playersState = atom<Player[]>({
@@ -66,6 +92,7 @@ export const playersState = atom<Player[]>({
       homeFarmer: 2,
       baby: 0,
       bagging: 0,
+      slots: initBoard,
     },
     {
       number: 2,
@@ -88,6 +115,7 @@ export const playersState = atom<Player[]>({
       homeFarmer: 2,
       baby: 0,
       bagging: 0,
+      slots: initBoard,
     },
     {
       number: 3,
@@ -110,6 +138,7 @@ export const playersState = atom<Player[]>({
       homeFarmer: 2,
       baby: 0,
       bagging: 0,
+      slots: initBoard,
     },
     {
       number: 4,
@@ -132,6 +161,7 @@ export const playersState = atom<Player[]>({
       homeFarmer: 2,
       baby: 0,
       bagging: 0,
+      slots: initBoard,
     },
   ],
 });
