@@ -32,10 +32,14 @@ export type Player = {
   farmer: number;
   // 집에 있는 사람수
   homeFarmer: number;
+  // 한번도 일하지 않은 베이비
+  baby: number;
   // 울타리
   fence: number;
   // 외양간
   barn: number;
+  // 구걸
+  bagging: number;
 };
 
 export const playersState = atom<Player[]>({
@@ -60,6 +64,8 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
     },
     {
       number: 2,
@@ -80,6 +86,8 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
     },
     {
       number: 3,
@@ -100,6 +108,8 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
     },
     {
       number: 4,
@@ -120,6 +130,8 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
     },
   ],
 });

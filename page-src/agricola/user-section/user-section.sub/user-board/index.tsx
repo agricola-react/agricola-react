@@ -4,6 +4,7 @@ import { Barn } from '@/shared/resource/barn';
 import { Clay } from '@/shared/resource/clay';
 import { Farmer } from '@/shared/resource/farmer';
 import { Grain } from '@/shared/resource/grain';
+import { MeepleBagging } from '@/shared/resource/meeple-bagging';
 import { MeepleCattle } from '@/shared/resource/meeple-cattle';
 import { MeepleFence } from '@/shared/resource/meeple-fence';
 import { MeepleFirst } from '@/shared/resource/meeple-first';
@@ -79,6 +80,10 @@ export const UserBoard = ({ player }: Props) => {
     {
       Component: <Barn width={15} height={20} userNumber={player.number} />,
       count: player.barn,
+    },
+    {
+      Component: <MeepleBagging width={20} height={20} />,
+      count: player.bagging,
     },
   ];
 

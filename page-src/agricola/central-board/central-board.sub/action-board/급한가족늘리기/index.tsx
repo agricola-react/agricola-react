@@ -1,9 +1,8 @@
 import { roundState } from '@/shared/recoil';
 import { MeepleChild } from '@/shared/resource/meeple-child';
-import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 export const 급한가족늘리기 = () => {
@@ -30,9 +29,6 @@ export const 급한가족늘리기 = () => {
         <Wrapper>
           <ContentWrapper>
             <MeepleChild width={30} height={35} />
-            <div className="font-bold">▷</div>
-            <div className="font-bold">1</div>
-            <MeepleMinor width={30} height={20} />
           </ContentWrapper>
         </Wrapper>
       </ContentWrapper>
