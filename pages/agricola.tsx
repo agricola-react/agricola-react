@@ -2,7 +2,7 @@ import { currentPlayerIndexState, playersState, roundState } from '@/shared/reco
 import styled from '@emotion/styled';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
-import { PlayerBoard } from 'page-src/agricola/player-board';
+import { PlayerSlots } from 'page-src/agricola/player-board';
 import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
 import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect } from 'react';
@@ -71,7 +71,7 @@ const AgricolaPage = () => {
       </BoardWrapper>
       <PlayerBoardWrapper>
         {players.map(player => (
-          <PlayerBoard key={player.number} playerNumber={player.number} />
+          <PlayerSlots key={player.number} playerNumber={player.number} />
         ))}
       </PlayerBoardWrapper>
     </StyledBackground>
