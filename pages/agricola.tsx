@@ -15,16 +15,17 @@ const AgricolaPage = () => {
   const [round, setRound] = useRecoilState(roundState);
   const currentPlayerIndex = useRecoilValue(currentPlayerIndexState);
 
+  const homeFarmers = players.reduce((acc, cur) => {
+    return acc + cur.homeFarmer;
+  }, 0);
+
   useEffect(() => {
     // 라운드가 끝났으면 다음 라운드로 넘어가기
-    const homeFarmers = players.reduce((acc, cur) => {
-      return acc + cur.homeFarmer;
-    }, 0);
 
     if (homeFarmers === 0) {
       setRound(round => round + 1);
     }
-  }, [players]);
+  }, [homeFarmers]);
 
   useEffect(() => {
     /**

@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
-import { useEffect } from 'react';
-import { Slot } from './player-board.sub/slot';
-import { useRecoilState } from 'recoil';
 import { Player, SlotValue, playersState } from '@/shared/recoil';
+import styled from '@emotion/styled';
 import { produce } from 'immer';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { Slot } from './player-board.sub/slot';
 
 type Props = {
   playerNumber: number;
@@ -42,7 +42,7 @@ function getUpdatedFarmerBoard(
           playerSlots[index] = {
             ...slot,
             resource: null,
-            count: slot.count,
+            count: slot.count - 1,
           };
           return true;
         }
@@ -67,7 +67,6 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
   useEffect(() => {
     if (owner === undefined) return;
-    console.log(`${owner.name}'s boardFarmers >>>`, boardFarmers);
     // homeFarmer 값이 감소한 경우 -> homeFarmer를 방에서 없앤다
     if (owner.homeFarmer < boardFarmers) {
       setPlayers(
@@ -80,7 +79,6 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
       );
       return;
     }
-    console.log('owner >>>', owner);
     // 모두 복귀 -> homeFarmer를 모든 방에 넣는다
     if (owner.homeFarmer === owner.farmer) {
       setPlayers(
