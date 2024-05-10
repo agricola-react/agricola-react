@@ -22,7 +22,7 @@ const initBoard: SlotValue[] = new Array(15)
   .fill({
     type: null,
     resource: null,
-    count: 1,
+    count: 0,
   })
   .map((value, index) => {
     if (index === 5 || index === 10) {

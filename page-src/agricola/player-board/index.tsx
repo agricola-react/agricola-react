@@ -41,7 +41,8 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         produce(_players => {
           _players[playerNumber - 1].slots = getUpdatedSlots(
             _players[playerNumber - 1].slots,
-            'fill'
+            'fill',
+            owner
           );
         })
       );
