@@ -13,8 +13,8 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useCallback, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 const ACTION_TITLE: PlayerAction = '농장 확장';
 
@@ -25,9 +25,11 @@ export const 농장확장 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const [action, setAction] = useRecoilState(currentActionState);
-  const round = useRecoilState(roundState);
+  const round = useRecoilValue(roundState);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
+    if (selectedPlayerNumber !== undefined) return;
+
     const isValid =
       currentPlayer[currentPlayer.roomType] >= COUNT * 5 && currentPlayer.reed >= COUNT * 2;
 
@@ -43,7 +45,7 @@ export const 농장확장 = () => {
     }
 
     alert('자원이 부족합니다.');
-  };
+  }, [selectedPlayerNumber, currentPlayer]);
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);
