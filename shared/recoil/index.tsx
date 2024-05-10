@@ -1,3 +1,4 @@
+import { RoomType } from 'page-src/agricola/player-board/player-board.sub/room';
 import { ResourceType, SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
 import { atom } from 'recoil';
 
@@ -66,6 +67,8 @@ export type Player = {
   bagging: number;
   // 플레이어 보드
   slots: SlotValue[];
+  // 집 종류
+  roomType: RoomType;
 };
 
 export const playersState = atom<Player[]>({
@@ -93,6 +96,7 @@ export const playersState = atom<Player[]>({
       baby: 0,
       bagging: 0,
       slots: initBoard,
+      roomType: 'wood',
     },
     {
       number: 2,
@@ -116,6 +120,7 @@ export const playersState = atom<Player[]>({
       baby: 0,
       bagging: 0,
       slots: initBoard,
+      roomType: 'wood',
     },
     {
       number: 3,
@@ -139,6 +144,7 @@ export const playersState = atom<Player[]>({
       baby: 0,
       bagging: 0,
       slots: initBoard,
+      roomType: 'wood',
     },
     {
       number: 4,
@@ -162,6 +168,7 @@ export const playersState = atom<Player[]>({
       baby: 0,
       bagging: 0,
       slots: initBoard,
+      roomType: 'wood',
     },
   ],
 });
@@ -172,7 +179,8 @@ export type PlayerAction =
   | '씨 뿌리기'
   | '밭 일구기'
   | '울타리 설치'
-  | '외양간 설치';
+  | '외양간 설치'
+  | '농장 확장';
 
 export const currentActionState = atom<PlayerAction | null>({
   key: 'currentActionState',
