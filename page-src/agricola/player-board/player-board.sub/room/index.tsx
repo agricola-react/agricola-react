@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
-type RoomType = 'stone' | 'wood' | 'clay';
+export type RoomType = 'stone' | 'wood' | 'clay';
 
 type Props = {
   width: number;
