@@ -1,4 +1,5 @@
 import { SpaceHeight } from '@/shared/components/space-height';
+import { PlayerAction, currentActionState, roundState } from '@/shared/recoil';
 import { Arrow } from '@/shared/resource/arrow';
 import { Barn } from '@/shared/resource/barn';
 import { Clay } from '@/shared/resource/clay';
@@ -9,9 +10,45 @@ import { RoomWood } from '@/shared/resource/room-wood';
 import { Stone } from '@/shared/resource/stone';
 import { Wood } from '@/shared/resource/wood';
 import styled from '@emotion/styled';
+import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+
+const ACTION_TITLE: PlayerAction = '농장 확장';
+
+// TODO: 확장 방 수 (사용자 입력으로 처리해야 함)
+const COUNT = 1;
 
 export const 농장확장 = () => {
+  const { currentPlayer, setPlayers, currentPlayerIndex } = useCurrentPlayer();
+  const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
+  const [action, setAction] = useRecoilState(currentActionState);
+  const round = useRecoilState(roundState);
+
+  const handleClick = () => {
+    const isValid =
+      currentPlayer[currentPlayer.roomType] >= COUNT * 5 && currentPlayer.reed >= COUNT * 2;
+
+    if (isValid) {
+      setAction(ACTION_TITLE);
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayerIndex].homeFarmer -= 1;
+        })
+      );
+      setSelectedPlayerNumber(currentPlayer.number);
+      return;
+    }
+
+    alert('자원이 부족합니다.');
+  };
+
+  useEffect(() => {
+    setSelectedPlayerNumber(undefined);
+  }, [round]);
+
   return (
     <ActionContainer
       width={115}
@@ -21,7 +58,9 @@ export const 농장확장 = () => {
       contentHeight={100}
       descriptionHeight={155}
       isActive
-      title="농장확장"
+      title={ACTION_TITLE}
+      onClick={handleClick}
+      userNumber={selectedPlayerNumber}
     >
       <div className="flex flex-col items-center">
         <div className="flex">
