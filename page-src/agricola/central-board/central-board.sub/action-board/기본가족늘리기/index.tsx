@@ -16,6 +16,8 @@ export const 기본가족늘리기 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
 
   const handleClick = () => {
+    if (!isActive) return;
+
     const isEmptyRoom = currentPlayer.slots.some(
       slot => slot.resource === null && slot.type === '방'
     );

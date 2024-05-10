@@ -93,7 +93,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         alert(`${index}번 슬롯: 밭 일구기 클릭`);
         break;
       default:
-        alert(`${index}번 슬롯 클릭`);
+        alert(`액션 칸을 선택해주세요.`);
         break;
     }
   }, [action, currentPlayer]);

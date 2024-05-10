@@ -65,7 +65,16 @@ const AgricolaPage = () => {
   return (
     <StyledBackground>
       <Header />
-      <p style={{ textAlign: 'center' }}>현재 턴: {players[currentPlayerIndex].name}</p>
+      <p style={{ textAlign: 'center' }}>
+        <strong
+          style={{
+            color: `${players[currentPlayerIndex].color}`,
+          }}
+        >
+          {players[currentPlayerIndex].name}
+        </strong>{' '}
+        님의 차례입니다.
+      </p>
       <BoardWrapper>
         <CentralBoard />
         <UserSection />

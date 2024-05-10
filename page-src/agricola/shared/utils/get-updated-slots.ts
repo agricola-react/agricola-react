@@ -1,5 +1,4 @@
 import { Player, SlotValue } from '@/shared/recoil';
-import { getTwoDimensionBoard } from './get-two-dimension-board';
 
 export function getUpdatedSlots(
   playerSlots: SlotValue[],

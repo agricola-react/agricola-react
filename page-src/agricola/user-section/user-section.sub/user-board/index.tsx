@@ -148,7 +148,7 @@ const Container = styled.div`
   border-radius: 20px !important;
   box-shadow: -1px 2px 5px #000;
   padding: 20px;
-  height: 190px;
+  /* height: 190px; */
 `;
 
 const Circle = styled.div<{ color: string }>`
