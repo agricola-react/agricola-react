@@ -1,59 +1,15 @@
-import { Player, SlotValue, playersState } from '@/shared/recoil';
+import { Player, playersState } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Slot } from './player-board.sub/slot';
+import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
 
 type Props = {
   playerNumber: number;
 };
 
-function getUpdatedFarmerBoard(
-  playerSlots: SlotValue[],
-  type: 'reduce' | 'fill' | 'increase'
-): SlotValue[] {
-  switch (type) {
-    case 'fill':
-      return playerSlots.map(slot => {
-        if (slot.type === '방')
-          return {
-            ...slot,
-            resource: '사람',
-            count: slot.count + 1,
-          };
-        return slot;
-      });
-    case 'increase':
-      playerSlots.some((slot, index) => {
-        if (slot.type === '방' && slot.resource === null) {
-          playerSlots[index] = {
-            ...slot,
-            resource: '사람',
-            count: slot.count + 1,
-          };
-          return true;
-        }
-      });
-      return [...playerSlots];
-    case 'reduce':
-      playerSlots.some((slot, index) => {
-        if (slot.type === '방' && slot.resource === '사람') {
-          playerSlots[index] = {
-            ...slot,
-            resource: null,
-            count: slot.count - 1,
-          };
-          return true;
-        }
-      });
-      return [...playerSlots];
-    default:
-      return [...playerSlots];
-  }
-}
-
-// TODO: useContext
 export const PlayerSlots = ({ playerNumber }: Props) => {
   const [players, setPlayers] = useRecoilState(playersState);
   const owner = players.find(player => player.number === playerNumber) as Player;
@@ -71,7 +27,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
     if (owner.homeFarmer < boardFarmers) {
       setPlayers(
         produce(_players => {
-          _players[playerNumber - 1].slots = getUpdatedFarmerBoard(
+          _players[playerNumber - 1].slots = getUpdatedSlots(
             _players[playerNumber - 1].slots,
             'reduce'
           );
@@ -83,7 +39,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
     if (owner.homeFarmer === owner.farmer) {
       setPlayers(
         produce(_players => {
-          _players[playerNumber - 1].slots = getUpdatedFarmerBoard(
+          _players[playerNumber - 1].slots = getUpdatedSlots(
             _players[playerNumber - 1].slots,
             'fill'
           );
@@ -95,7 +51,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
     if (owner.homeFarmer > boardFarmers) {
       setPlayers(
         produce(_players => {
-          _players[playerNumber - 1].slots = getUpdatedFarmerBoard(
+          _players[playerNumber - 1].slots = getUpdatedSlots(
             _players[playerNumber - 1].slots,
             'increase'
           );
