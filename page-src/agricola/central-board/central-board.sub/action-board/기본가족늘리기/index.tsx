@@ -1,4 +1,4 @@
-import { roundState } from '@/shared/recoil';
+import { currentActionState, roundState } from '@/shared/recoil';
 import { MeepleChild } from '@/shared/resource/meeple-child';
 import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import styled from '@emotion/styled';
@@ -14,8 +14,13 @@ export const 기본가족늘리기 = () => {
   const round = useRecoilValue(roundState);
   const [isActive, setIsActive] = useState(false);
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
+  const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
     if (!isActive) return;
 
     const isEmptyRoom = currentPlayer.slots.some(

@@ -5,7 +5,7 @@ import { ActionContainer } from 'page-src/agricola/central-board/central-board.s
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useEffect, useState } from 'react';
 import { produce } from 'immer';
-import { roundState } from '@/shared/recoil';
+import { currentActionState, roundState } from '@/shared/recoil';
 import { useRecoilValue } from 'recoil';
 
 // TODO: 보조설비 작업 필요
@@ -13,8 +13,14 @@ export const 회합장소 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const round = useRecoilValue(roundState);
+  const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     // 현재턴인 플레이어의 갈대 자원을 3 증가시킨다.(누적됨)
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(players =>

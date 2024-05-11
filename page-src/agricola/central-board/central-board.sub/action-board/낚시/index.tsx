@@ -1,4 +1,4 @@
-import { roundState } from '@/shared/recoil';
+import { currentActionState, roundState } from '@/shared/recoil';
 import { MeepleFood } from '@/shared/resource/meeple-food';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
@@ -12,8 +12,14 @@ export const 낚시 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [currentFood, setCurrentFood] = useState(0);
   const round = useRecoilValue(roundState);
+  const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(
