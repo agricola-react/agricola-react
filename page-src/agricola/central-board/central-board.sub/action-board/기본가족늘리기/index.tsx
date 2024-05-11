@@ -46,6 +46,7 @@ export const 기본가족늘리기 = () => {
   useEffect(() => {
     if (round >= 6) {
       setIsActive(true);
+      setSelectedPlayerNumber(undefined);
     }
   }, [round]);
 
@@ -59,6 +60,7 @@ export const 기본가족늘리기 = () => {
       isActive={isActive}
       title="기본가족늘리기"
       onClick={handleClick}
+      userNumber={selectedPlayerNumber}
     >
       <ContentWrapper>
         <Wrapper>
