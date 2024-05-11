@@ -1,4 +1,4 @@
-import { Player, currentActionState, playersState } from '@/shared/recoil';
+import { Player, PlayerAction, currentActionState, playersState } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
@@ -38,7 +38,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   const ownerIndex = players.findIndex(_player => _player.number === playerNumber);
 
   const validate = useCallback(
-    (action: '농장 확장') => {
+    (action: PlayerAction) => {
       const board = getTwoDimensionBoard(owner.slots);
       const slotRow = Math.floor(index / COL);
       const slotCol = index % COL;
@@ -82,16 +82,23 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
           );
           setAction(null);
           nextPlayer();
-          return;
+          break;
         }
         alert('[농장 확장] 새로운 농장은 기존 농장과 인접한 곳에만 설치할 수 있습니다.');
         break;
-      case '방 확장':
-        alert(`${index}번 슬롯: 방 확장 클릭`);
+      case '농지':
+        setPlayers(
+          produce(_players => {
+            _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
+              if (idx === index) return { type: '밭', resource: null, count: 0 };
+              return slot;
+            });
+          })
+        );
+        setAction(null);
+        nextPlayer();
         break;
-      case '밭 일구기':
-        alert(`${index}번 슬롯: 밭 일구기 클릭`);
-        break;
+
       default:
         alert(`액션 칸을 선택해주세요.`);
         break;
