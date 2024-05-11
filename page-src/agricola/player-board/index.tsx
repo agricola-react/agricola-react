@@ -48,18 +48,18 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
       );
       return;
     }
-    // homeFarmer 값이 증가한 경우 -> homeFarmer를 방에 추가
-    if (owner.homeFarmer > boardFarmers) {
-      setPlayers(
-        produce(_players => {
-          _players[playerNumber - 1].slots = getUpdatedSlots(
-            _players[playerNumber - 1].slots,
-            'increase'
-          );
-        })
-      );
-      return;
-    }
+    // // homeFarmer 값이 증가한 경우 -> homeFarmer를 방에 추가
+    // if (owner.homeFarmer > boardFarmers) {
+    //   setPlayers(
+    //     produce(_players => {
+    //       _players[playerNumber - 1].slots = getUpdatedSlots(
+    //         _players[playerNumber - 1].slots,
+    //         'increase'
+    //       );
+    //     })
+    //   );
+    //   return;
+    // }
   }, [owner?.homeFarmer, owner?.farmer]);
 
   return (

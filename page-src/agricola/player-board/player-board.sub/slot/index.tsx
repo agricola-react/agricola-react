@@ -61,11 +61,11 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
       case '사람':
         return (
           <>
-            {count > 0 && (
-              <Row>
-                <Farmer width={36} height={45} userNumber={playerNumber} />
-              </Row>
-            )}
+            <Row>
+              {new Array(count).fill(0).map((_, index) => (
+                <Farmer key={index} width={36} height={45} userNumber={playerNumber} />
+              ))}
+            </Row>
           </>
         );
       case '곡식':
