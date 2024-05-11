@@ -24,7 +24,7 @@ const COUNT = 1;
 export const 농장확장 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
-  const [action, setAction] = useRecoilState(currentActionState);
+  const [, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
 
   const handleClick = useCallback(() => {
