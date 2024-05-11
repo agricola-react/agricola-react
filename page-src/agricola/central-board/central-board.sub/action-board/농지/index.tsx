@@ -29,7 +29,7 @@ export const 농지 = () => {
     }
 
     alert('농지를 설치할 수 있는 칸이 없습니다.');
-  }, [currentPlayer]);
+  }, [currentPlayer, selectedPlayerNumber]);
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);
