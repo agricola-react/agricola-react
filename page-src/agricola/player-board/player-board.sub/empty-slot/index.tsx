@@ -72,6 +72,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         if (validate(action)) {
           setPlayers(
             produce(_players => {
+              _players[ownerIndex].homeFarmer -= 1;
               _players[ownerIndex].reed -= COUNT * 2;
               _players[ownerIndex][_players[ownerIndex].roomType] -= COUNT * 5;
               _players[ownerIndex].slots = owner.slots.map((value, idx) => {
@@ -89,6 +90,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       case '농지':
         setPlayers(
           produce(_players => {
+            _players[ownerIndex].homeFarmer -= 1;
             _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
               if (idx === index) return { type: '밭', resource: null, count: 0 };
               return slot;

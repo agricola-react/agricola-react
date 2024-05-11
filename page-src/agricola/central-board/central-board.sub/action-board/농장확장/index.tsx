@@ -10,7 +10,6 @@ import { RoomWood } from '@/shared/resource/room-wood';
 import { Stone } from '@/shared/resource/stone';
 import { Wood } from '@/shared/resource/wood';
 import styled from '@emotion/styled';
-import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useCallback, useEffect, useState } from 'react';
@@ -22,7 +21,7 @@ const ACTION_TITLE: PlayerAction = '농장 확장';
 const COUNT = 1;
 
 export const 농장확장 = () => {
-  const { currentPlayer, setPlayers, currentPlayerIndex } = useCurrentPlayer();
+  const { currentPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const [, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
@@ -35,11 +34,6 @@ export const 농장확장 = () => {
 
     if (isValid) {
       setAction(ACTION_TITLE);
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
       setSelectedPlayerNumber(currentPlayer.number);
       return;
     }

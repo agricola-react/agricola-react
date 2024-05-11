@@ -1,4 +1,9 @@
-import { currentPlayerIndexState, playersState, roundState } from '@/shared/recoil';
+import {
+  currentActionState,
+  currentPlayerIndexState,
+  playersState,
+  roundState,
+} from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
@@ -14,6 +19,7 @@ const AgricolaPage = () => {
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
   const currentPlayerIndex = useRecoilValue(currentPlayerIndexState);
+  const action = useRecoilValue(currentActionState);
 
   const homeFarmers = players.reduce((acc, cur) => {
     return acc + cur.homeFarmer;
@@ -22,10 +28,10 @@ const AgricolaPage = () => {
   useEffect(() => {
     // 라운드가 끝났으면 다음 라운드로 넘어가기
 
-    if (homeFarmers === 0) {
+    if (homeFarmers === 0 && action === null) {
       setRound(round => round + 1);
     }
-  }, [homeFarmers]);
+  }, [homeFarmers, action]);
 
   useEffect(() => {
     /**
@@ -37,7 +43,7 @@ const AgricolaPage = () => {
     const isHarvestTime = harvest_rounds.includes(round);
 
     if (isHarvestTime) {
-      alert('가족먹여살라기 시간입니다.');
+      alert('가족먹여살리기 시간입니다.');
     }
 
     setPlayers(
