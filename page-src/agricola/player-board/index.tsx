@@ -97,6 +97,7 @@ const Title = styled.div`
 const Wrapper = styled.div`
   padding: 50px 0;
   width: 660px;
+  height: 500px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
