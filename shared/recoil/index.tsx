@@ -16,21 +16,26 @@ export type Player = {
   color: string;
   // 첫번째 순서인지
   isFirst: boolean;
-  // 자원
+  // --------------자원------------
   wood: number;
   clay: number;
   stone: number;
+  //갈대
   reed: number;
+  //곡물
   grain: number;
+  //채소
   vegetable: number;
   food: number;
-  // 가축
+  // ---------------가축---------------
   sheep: number;
   pig: number;
   cattle: number;
+  //----------------사람----------
   // 전체 사람수
   farmer: number;
   // 집에 있는 사람수
+  //-------------웉타리-------
   homeFarmer: number;
   // 울타리
   fence: number;

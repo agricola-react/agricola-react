@@ -6,6 +6,7 @@ import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { PlayerBoard } from 'page-src/agricola/player-board';
+import PointNow from 'page-src/agricola/central-board/central-board.sub/action-board/점수현황판';
 
 const AgricolaPage = () => {
   const [players, setPlayers] = useRecoilState(playersState);
@@ -27,6 +28,7 @@ const AgricolaPage = () => {
     <StyledBackground>
       <Header />
       <p style={{ textAlign: 'center' }}>현재 턴: {players[currentPlayerIndex].name}</p>
+      <PointNow />
       <BoardWrapper>
         <CentralBoard />
         <UserSection />
