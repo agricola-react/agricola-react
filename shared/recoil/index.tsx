@@ -1,3 +1,6 @@
+import { RoomType } from 'page-src/agricola/player-board/player-board.sub/room';
+import { ResourceType, SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
+import { COL, ROW } from 'page-src/agricola/shared/utils/get-two-dimension-board';
 import { atom } from 'recoil';
 
 export const roundState = atom({
@@ -9,6 +12,29 @@ export const currentPlayerIndexState = atom({
   key: 'currentPlayerIndexState',
   default: 0,
 });
+
+export type SlotValue = {
+  type: SlotType;
+  resource: ResourceType;
+  count: number;
+};
+
+const initBoard: SlotValue[] = new Array(ROW * COL)
+  .fill({
+    type: null,
+    resource: null,
+    count: 0,
+  })
+  .map((value, index) => {
+    if (index === 5 || index === 10) {
+      return {
+        type: '방',
+        resource: '사람',
+        count: 1,
+      };
+    }
+    return value;
+  });
 
 export type Player = {
   number: number;
@@ -37,10 +63,18 @@ export type Player = {
   // 집에 있는 사람수
   //-------------웉타리-------
   homeFarmer: number;
+  // 한번도 일하지 않은 베이비
+  baby: number;
   // 울타리
   fence: number;
   // 외양간
   barn: number;
+  // 구걸
+  bagging: number;
+  // 플레이어 보드
+  slots: SlotValue[];
+  // 집 종류
+  roomType: RoomType;
 };
 
 export const playersState = atom<Player[]>({
@@ -65,6 +99,10 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
+      slots: initBoard,
+      roomType: 'wood',
     },
     {
       number: 2,
@@ -85,6 +123,10 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
+      slots: initBoard,
+      roomType: 'wood',
     },
     {
       number: 3,
@@ -105,6 +147,10 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
+      slots: initBoard,
+      roomType: 'wood',
     },
     {
       number: 4,
@@ -125,17 +171,15 @@ export const playersState = atom<Player[]>({
       fence: 0,
       barn: 0,
       homeFarmer: 2,
+      baby: 0,
+      bagging: 0,
+      slots: initBoard,
+      roomType: 'wood',
     },
   ],
 });
 
-export type PlayerAction =
-  | '액션선택'
-  | '방 확장'
-  | '씨 뿌리기'
-  | '밭 일구기'
-  | '울타리 설치'
-  | '외양간 설치';
+export type PlayerAction = '농장 확장' | '농지';
 
 export const currentActionState = atom<PlayerAction | null>({
   key: 'currentActionState',

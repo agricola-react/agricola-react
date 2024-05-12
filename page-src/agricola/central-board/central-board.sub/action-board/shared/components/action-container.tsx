@@ -33,6 +33,8 @@ export const ActionContainer = ({
   backNumber,
   onClick,
 }: Props) => {
+  const isFamily = title.includes('가족');
+
   return (
     <Container width={width} height={height} top={top} left={left} onClick={onClick}>
       {!isActive && <BackNumber backNumber={backNumber} />}
@@ -48,6 +50,11 @@ export const ActionContainer = ({
       {isActive && userNumber && (
         <UserContainer>
           <Farmer width={30} height={40} userNumber={userNumber} />
+          {isFamily && (
+            <div className="relative top-[-30px] left-[30px]">
+              <Farmer width={20} height={30} userNumber={userNumber} />
+            </div>
+          )}
         </UserContainer>
       )}
     </Container>

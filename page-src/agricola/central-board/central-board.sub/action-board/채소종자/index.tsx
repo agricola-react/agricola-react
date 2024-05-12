@@ -1,4 +1,4 @@
-import { roundState } from '@/shared/recoil';
+import { currentActionState, roundState } from '@/shared/recoil';
 import { Vegetable } from '@/shared/resource/vegetable';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
@@ -12,8 +12,14 @@ export const 채소종자 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const round = useRecoilValue(roundState);
+  const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
     if (isActive && selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(
