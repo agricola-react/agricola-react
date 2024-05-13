@@ -19,6 +19,12 @@ export type SlotValue = {
   count: number;
 };
 
+export type JobType = {
+  name: string;
+  isActive: boolean;
+  src: string;
+};
+
 const initBoard: SlotValue[] = new Array(ROW * COL)
   .fill({
     type: null,
@@ -71,7 +77,7 @@ export type Player = {
   // 집 종류
   roomType: RoomType;
   // 직업 카드
-  JobCard;
+  jobCards: JobType[];
 };
 
 export const playersState = atom<Player[]>({
@@ -100,6 +106,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+      ],
     },
     {
       number: 2,
@@ -124,6 +147,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+      ],
     },
     {
       number: 3,
@@ -148,6 +188,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+      ],
     },
     {
       number: 4,
@@ -172,6 +229,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+      ],
     },
   ],
 });
