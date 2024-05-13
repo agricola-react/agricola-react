@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Slot } from './player-board.sub/slot';
 import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
+import { Dialog } from '@radix-ui/themes';
 
 type Props = {
   playerNumber: number;
@@ -80,9 +81,28 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         ))}
       </Wrapper>
       <div className="flex items-center justify-center gap-3">
-        <div>직업카드</div>
-        <div>보조설비</div>
-        <div>주요설비</div>
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <div>직업카드</div>
+          </Dialog.Trigger>
+
+          <Dialog.Content>
+            <Dialog.Title>Edit profile</Dialog.Title>
+            <Dialog.Description size="2" mb="4">
+              Make changes to your profile.
+            </Dialog.Description>
+          </Dialog.Content>
+        </Dialog.Root>
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <div>보조설비</div>
+          </Dialog.Trigger>
+        </Dialog.Root>
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <div>주요설비</div>
+          </Dialog.Trigger>
+        </Dialog.Root>
       </div>
     </Container>
   );
