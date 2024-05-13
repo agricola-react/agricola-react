@@ -2,11 +2,7 @@ import { Player, PlayerAction, currentActionState, playersState } from '@/shared
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import {
-  COL,
-  ROW,
-  getTwoDimensionBoard,
-} from 'page-src/agricola/shared/utils/get-two-dimension-board';
+import { isExistAtLeastOne, isNearPosition } from 'page-src/agricola/shared/utils/validate-slot';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -21,13 +17,6 @@ type Props = {
   children?: ReactNode;
 };
 
-const d = [
-  { dr: -1, dc: 0 },
-  { dr: 1, dc: 0 },
-  { dr: 0, dc: -1 },
-  { dr: 0, dc: 1 },
-];
-
 export const EmptySlot = ({ width, height, index, playerNumber, children }: Props) => {
   const [players, setPlayers] = useRecoilState(playersState);
   const [action, setAction] = useRecoilState(currentActionState);
@@ -39,20 +28,12 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
 
   const validate = useCallback(
     (action: PlayerAction) => {
-      const board = getTwoDimensionBoard(owner.slots);
-      const slotRow = Math.floor(index / COL);
-      const slotCol = index % COL;
-
       switch (action) {
         case '농장 확장':
-          return d.some(({ dr, dc }) => {
-            const row = slotRow + dr;
-            const col = slotCol + dc;
-            if (row >= 0 && row < ROW && col >= 0 && col < COL && board[row][col].type === '방') {
-              return true;
-            }
-            return false;
-          });
+          return isNearPosition(owner.slots, index, '방');
+
+        case '농지':
+          return !isExistAtLeastOne(owner.slots, '밭');
 
         default:
           return false;
@@ -87,18 +68,23 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         }
         alert('[농장 확장] 새로운 농장은 기존 농장과 인접한 곳에만 설치할 수 있습니다.');
         break;
+
       case '농지':
-        setPlayers(
-          produce(_players => {
-            _players[ownerIndex].homeFarmer -= 1;
-            _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
-              if (idx === index) return { type: '밭', resource: null, count: 0 };
-              return slot;
-            });
-          })
-        );
-        setAction(null);
-        nextPlayer();
+        if (validate(action) || isNearPosition(currentPlayer.slots, index, '밭')) {
+          setPlayers(
+            produce(_players => {
+              _players[ownerIndex].homeFarmer -= 1;
+              _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
+                if (idx === index) return { type: '밭', resource: null, count: 0 };
+                return slot;
+              });
+            })
+          );
+          setAction(null);
+          nextPlayer();
+          break;
+        }
+        alert('[농지] 농지가 이미 존재하는 경우, 기존 농지와 인접한 곳에만 설치할 수 있습니다.');
         break;
 
       default:
