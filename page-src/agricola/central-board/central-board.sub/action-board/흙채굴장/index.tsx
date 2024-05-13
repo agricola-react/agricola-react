@@ -1,4 +1,4 @@
-import { currentActionState, roundState } from '@/shared/recoil';
+import { roundState } from '@/shared/recoil';
 import { Clay } from '@/shared/resource/clay';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
@@ -12,14 +12,8 @@ export const 흙채굴장 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [currentClay, setCurrentClay] = useState(0);
   const round = useRecoilValue(roundState);
-  const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
-    if (action !== null) {
-      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
-      return;
-    }
-
     // 현재턴인 플레이어의 흙 자원을 3 증가시킨다.(누적됨)
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(

@@ -67,6 +67,6 @@ const CentralBoardContainer = styled.div`
   background-size: 100% auto;
   background-repeat: no-repeat;
   height: 795px;
-  min-width: 830px;
+  width: 830px;
   position: relative;
 `;

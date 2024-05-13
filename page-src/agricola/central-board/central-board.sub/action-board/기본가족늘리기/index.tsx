@@ -1,52 +1,17 @@
-import { currentActionState, roundState } from '@/shared/recoil';
+import { roundState } from '@/shared/recoil';
 import { MeepleChild } from '@/shared/resource/meeple-child';
-import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
-import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { produce } from 'immer';
 
-// TODO: 보조설비 사용기능 추가
 export const 기본가족늘리기 = () => {
-  const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const round = useRecoilValue(roundState);
   const [isActive, setIsActive] = useState(false);
-  const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
-  const action = useRecoilValue(currentActionState);
-
-  const handleClick = () => {
-    if (action !== null) {
-      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
-      return;
-    }
-    if (!isActive) return;
-
-    const isEmptyRoom = currentPlayer.slots.some(
-      slot => slot.resource === null && slot.type === '방'
-    );
-    if (!isEmptyRoom) {
-      alert('빈방이 없어유!');
-      return;
-    }
-
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].baby += 1;
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
-    }
-  };
 
   useEffect(() => {
     if (round >= 6) {
       setIsActive(true);
-      setSelectedPlayerNumber(undefined);
     }
   }, [round]);
 
@@ -59,16 +24,11 @@ export const 기본가족늘리기 = () => {
       backNumber={2}
       isActive={isActive}
       title="기본가족늘리기"
-      onClick={handleClick}
-      userNumber={selectedPlayerNumber}
     >
       <ContentWrapper>
         <Wrapper>
           <ContentWrapper>
             <MeepleChild width={30} height={35} />
-            <div className="font-bold">▷</div>
-            <div className="font-bold">1</div>
-            <MeepleMinor width={30} height={20} />
           </ContentWrapper>
         </Wrapper>
       </ContentWrapper>

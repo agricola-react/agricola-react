@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 
-export type RoomType = 'stone' | 'wood' | 'clay';
+type RoomType = 'stone' | 'wood' | 'clay';
 
 type Props = {
   width: number;
@@ -12,6 +12,7 @@ type Props = {
 };
 
 export const Room = ({ width, height, roomType, index, children }: Props) => {
+  console.log(index);
   const positionX =
     roomType === 'wood' ? 0 : roomType === 'clay' ? 50 : roomType === 'stone' ? 100 : 0;
 

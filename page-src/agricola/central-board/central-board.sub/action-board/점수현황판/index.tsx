@@ -19,18 +19,18 @@ import { Farmer } from '@/shared/resource/farmer';
 import { Reed } from '@/shared/resource/reed';
 import { MeepleFood } from './../../../../../../shared/resource/meeple-food';
 
-const PointCal = (items:any) => {
-    return(
-      switch(items) {
-        /* 밭 */
-        case '수정':
-          if('수정')
-          [break]
+// const PointCal = (items:any) => {
+//     return(
+//       switch(items) {
+//         /* 밭 */
+//         case '수정':
+//           if('수정')
+//           [break]
 
-        case ''
-      }
-    )
-}
+//         case ''
+//       }
+//     )
+// }
 
 const PointNow = () => {
   const players = useRecoilValue(playersState);

@@ -8,8 +8,6 @@ import { MeepleSheep } from '@/shared/resource/meeple-sheep';
 import { Farmer } from '@/shared/resource/farmer';
 import { Grain } from '@/shared/resource/grain';
 import { Vegetable } from '@/shared/resource/vegetable';
-import { useRecoilValue } from 'recoil';
-import { Player, playersState } from '@/shared/recoil';
 
 export type SlotType = '방' | '밭' | '울타리' | null;
 export type Crops = '곡식' | '채소';
@@ -26,9 +24,6 @@ type Props = {
 
 // resourceType과 count 정보를 통해, 슬롯 내부 자원은 Slot 컴포넌트에서 그린다.
 export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) => {
-  const players = useRecoilValue(playersState);
-  const owner = players.find(_player => _player.number === playerNumber) as Player;
-
   const ResourceComponent =
     resourceType === '소'
       ? MeepleCattle
@@ -49,36 +44,24 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
       case '양':
       case '돼지':
         return (
-          <>
-            {count > 0 && (
-              <Row>
-                <ResourceComponent width={30} height={30} />
-                <p style={{ marginLeft: '5px' }}>X {count}</p>
-              </Row>
-            )}
-          </>
+          <Row>
+            <ResourceComponent width={30} height={30} />
+            <p style={{ marginLeft: '5px' }}>X {count}</p>
+          </Row>
         );
       case '사람':
         return (
-          <>
-            <Row>
-              {new Array(count).fill(0).map((_, index) => (
-                <Farmer key={index} width={36} height={45} userNumber={playerNumber} />
-              ))}
-            </Row>
-          </>
+          <Row>
+            <Farmer width={36} height={45} userNumber={playerNumber} />
+          </Row>
         );
       case '곡식':
       case '채소':
         return (
-          <>
-            {count > 0 && (
-              <Row>
-                <ResourceComponent width={30} height={40} />
-                <p style={{ marginLeft: '5px', color: 'white' }}>X {count}</p>
-              </Row>
-            )}
-          </>
+          <Row>
+            <ResourceComponent width={30} height={40} />
+            <p style={{ marginLeft: '5px', color: 'white' }}>X {count}</p>
+          </Row>
         );
       //* 외양간은 울타리 컴포넌트 안에서 그리는 걸로 .. (겹침)
       //   case '외양간':
@@ -90,7 +73,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
   //* 빈 땅인 경우
   if (type === null) {
     return (
-      <EmptySlot width={110} height={110} index={index} playerNumber={playerNumber}>
+      <EmptySlot width={110} height={110} index={index}>
         <ResourceContainer />
       </EmptySlot>
     );
@@ -99,7 +82,8 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
   switch (type) {
     case '방':
       return (
-        <Room width={110} height={110} roomType={owner.roomType} index={index}>
+        // TODO: roomType => 전역 상태 값으로 읽어오기
+        <Room width={110} height={110} roomType="wood" index={index}>
           <ResourceContainer />
         </Room>
       );
@@ -113,7 +97,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
 
     case '울타리':
       return (
-        <EmptySlot width={110} height={110} index={index} playerNumber={playerNumber}>
+        <EmptySlot width={110} height={110} index={index}>
           <ResourceContainer />
         </EmptySlot>
       );

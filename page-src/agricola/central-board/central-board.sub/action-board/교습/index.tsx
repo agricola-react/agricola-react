@@ -1,4 +1,4 @@
-import { currentActionState, roundState } from '@/shared/recoil';
+import { roundState } from '@/shared/recoil';
 import { MeepleFood } from '@/shared/resource/meeple-food';
 import { MeepleOccupation } from '@/shared/resource/meeple-occupation';
 import styled from '@emotion/styled';
@@ -14,28 +14,18 @@ export const 교습 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [usedPlayers, setUsedPlayers] = useState<number[]>([]); // 사용한 플레이어 번호
   const round = useRecoilValue(roundState);
-  const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
-    if (action !== null) {
-      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
-      return;
-    }
     // 처음사용하면 토큰무료, 그 다음부턴 1토큰
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      // 이미 사용했던 유저라면
+      // 처음사용하면 토큰무료, 그 다음부턴 1토큰
       if (usedPlayers.includes(currentPlayer.number)) {
-        if (currentPlayer.food >= 1) {
-          setPlayers(
-            produce(_players => {
-              _players[currentPlayerIndex].food -= 1;
-              _players[currentPlayerIndex].homeFarmer -= 1;
-            })
-          );
-        } else {
-          alert('음식이 부족합니다.');
-          return;
-        }
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].food -= 1;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
       } else {
         setPlayers(
           produce(_players => {

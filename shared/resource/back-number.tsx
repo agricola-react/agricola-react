@@ -32,7 +32,7 @@ const Container = styled.div<{ positionX: number }>`
   background-position-x: ${props => props.positionX}%;
   background-size: 600% 100%;
   width: 100%;
-  height: 140px;
+  height: 100%;
   position: absolute;
   z-index: 1;
 `;
