@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Slot } from './player-board.sub/slot';
 import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
-import { Dialog } from '@radix-ui/themes';
+import * as Dialog from '@radix-ui/react-dialog';
 
 type Props = {
   playerNumber: number;
@@ -82,26 +82,21 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
       </Wrapper>
       <div className="flex items-center justify-center gap-3">
         <Dialog.Root>
-          <Dialog.Trigger>
-            <div>직업카드</div>
-          </Dialog.Trigger>
+          <Dialog.Trigger>직업카드</Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="DialogOverlay">
+              <Dialog.Content className="DialogContent">...</Dialog.Content>
+            </Dialog.Overlay>
+          </Dialog.Portal>
+        </Dialog.Root>
 
-          <Dialog.Content>
-            <Dialog.Title>Edit profile</Dialog.Title>
-            <Dialog.Description size="2" mb="4">
-              Make changes to your profile.
-            </Dialog.Description>
-          </Dialog.Content>
-        </Dialog.Root>
         <Dialog.Root>
-          <Dialog.Trigger>
-            <div>보조설비</div>
-          </Dialog.Trigger>
-        </Dialog.Root>
-        <Dialog.Root>
-          <Dialog.Trigger>
-            <div>주요설비</div>
-          </Dialog.Trigger>
+          <Dialog.Trigger>보조설비</Dialog.Trigger>
+          <Dialog.Portal>
+            <Dialog.Overlay className="DialogOverlay">
+              <Dialog.Content className="DialogContent">보조설비</Dialog.Content>
+            </Dialog.Overlay>
+          </Dialog.Portal>
         </Dialog.Root>
       </div>
     </Container>
