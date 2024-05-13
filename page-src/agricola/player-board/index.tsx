@@ -79,6 +79,11 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
           />
         ))}
       </Wrapper>
+      <div className="flex items-center justify-center gap-3">
+        <div>직업카드</div>
+        <div>보조설비</div>
+        <div>주요설비</div>
+      </div>
     </Container>
   );
 };

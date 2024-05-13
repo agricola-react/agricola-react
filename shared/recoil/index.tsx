@@ -70,6 +70,8 @@ export type Player = {
   slots: SlotValue[];
   // 집 종류
   roomType: RoomType;
+  // 직업 카드
+  JobCard;
 };
 
 export const playersState = atom<Player[]>({
