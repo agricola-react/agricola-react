@@ -10,6 +10,9 @@
       }
   ],
     "@next/next/no-img-element": "off"
-  }
+  },
+  "env": {
+    "jest": true
+}
 }
 
