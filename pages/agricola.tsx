@@ -10,12 +10,14 @@ import { Header } from 'page-src/agricola/header';
 import { PlayerSlots } from 'page-src/agricola/player-board';
 import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
 import { UserSection } from 'page-src/agricola/user-section';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const harvest_rounds = [5, 8, 10, 12, 14, 15];
 
 const AgricolaPage = () => {
+  const [isBottom, setIsBottom] = useState(false);
+
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
   const currentPlayerIndex = useRecoilValue(currentPlayerIndexState);
@@ -90,6 +92,18 @@ const AgricolaPage = () => {
           <PlayerSlots key={player.number} playerNumber={player.number} />
         ))}
       </PlayerBoardWrapper>
+      <FloatingButton
+        onClick={() => {
+          const height = isBottom ? 0 : document.body.scrollHeight;
+          window.scrollTo({
+            top: height,
+            behavior: 'smooth',
+          });
+          setIsBottom(prev => !prev);
+        }}
+      >
+        {isBottom ? '위로' : '아래로'}
+      </FloatingButton>
     </StyledBackground>
   );
 };
@@ -113,6 +127,24 @@ const BoardWrapper = styled.div`
 const PlayerBoardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const FloatingButton = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 export default AgricolaPage;
