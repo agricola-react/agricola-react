@@ -3,6 +3,11 @@ import { ResourceType, SlotType } from 'page-src/agricola/player-board/player-bo
 import { atom } from 'recoil';
 import { COL, ROW } from '../constants';
 
+export const resultModalOpenState = atom({
+  key: 'resultModalOpenState',
+  default: false,
+});
+
 export const roundState = atom({
   key: 'roundState',
   default: 1,
@@ -17,6 +22,12 @@ export type SlotValue = {
   type: SlotType;
   resource: ResourceType;
   count: number;
+};
+
+export type JobType = {
+  name: string;
+  isActive: boolean;
+  src: string;
 };
 
 const initBoard: SlotValue[] = new Array(ROW * COL)
@@ -70,6 +81,8 @@ export type Player = {
   slots: SlotValue[];
   // 집 종류
   roomType: RoomType;
+  // 직업 카드
+  jobCards: JobType[];
 };
 
 export const playersState = atom<Player[]>({
@@ -98,6 +111,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '마술사',
+          isActive: false,
+          src: '/job-card/마술사.jpg',
+        },
+        {
+          name: '창고관리인',
+          isActive: false,
+          src: '/job-card/창고관리인.jpg',
+        },
+        {
+          name: '채소장수',
+          isActive: false,
+          src: '/job-card/채소장수.jpg',
+        },
+      ],
     },
     {
       number: 2,
@@ -122,6 +152,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '나무꾼',
+          isActive: false,
+          src: '/job-card/나무꾼.jpg',
+        },
+        {
+          name: '보조경작자',
+          isActive: false,
+          src: '/job-card/보조경작자.jpg',
+        },
+        {
+          name: '쟁기몰이꾼',
+          isActive: false,
+          src: '/job-card/쟁기몰이꾼.jpg',
+        },
+      ],
     },
     {
       number: 3,
@@ -146,6 +193,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '버섯따는사람',
+          isActive: false,
+          src: '/job-card/버섯따는사람.jpg',
+        },
+        {
+          name: '지붕다지는사람',
+          isActive: false,
+          src: '/job-card/지붕다지는사람.jpg',
+        },
+        {
+          name: '지붕다지는사람',
+          isActive: false,
+          src: '/job-card/지붕다지는사람.jpg',
+        },
+      ],
     },
     {
       number: 4,
@@ -170,6 +234,23 @@ export const playersState = atom<Player[]>({
       bagging: 0,
       slots: initBoard,
       roomType: 'wood',
+      jobCards: [
+        {
+          name: '소규모농부',
+          isActive: false,
+          src: '/job-card/소규모농부.jpg',
+        },
+        {
+          name: '작살꾼',
+          isActive: false,
+          src: '/job-card/작살꾼.jpg',
+        },
+        {
+          name: '재산관리인',
+          isActive: false,
+          src: '/job-card/재산관리인.jpg',
+        },
+      ],
     },
   ],
 });

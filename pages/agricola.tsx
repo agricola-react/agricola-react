@@ -2,25 +2,30 @@ import {
   currentActionState,
   currentPlayerIndexState,
   playersState,
+  resultModalOpenState,
   roundState,
 } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
 import { PlayerSlots } from 'page-src/agricola/player-board';
+import ResultModal from 'page-src/agricola/result-modal';
 import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
 import { harvest } from 'page-src/agricola/shared/utils/harvest';
 import { UserSection } from 'page-src/agricola/user-section';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 const harvest_rounds = [5, 8, 10, 12, 14, 15];
 
 const AgricolaPage = () => {
+  const [isBottom, setIsBottom] = useState(false);
+
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
+  const [, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
   const action = useRecoilValue(currentActionState);
+  const setResultModalOpenState = useSetRecoilState(resultModalOpenState);
 
   const homeFarmers = players.reduce((acc, cur) => {
     return acc + cur.homeFarmer;
@@ -72,21 +77,16 @@ const AgricolaPage = () => {
         };
       })
     );
+
+    // 마지막 결과확인
+    if (round === 15) {
+      setResultModalOpenState(true);
+    }
   }, [round]);
 
   return (
     <StyledBackground>
       <Header />
-      <p style={{ textAlign: 'center' }}>
-        <strong
-          style={{
-            color: `${players[currentPlayerIndex].color}`,
-          }}
-        >
-          {players[currentPlayerIndex].name}
-        </strong>{' '}
-        님의 차례입니다.
-      </p>
       <BoardWrapper>
         <CentralBoard />
         <UserSection />
@@ -96,6 +96,26 @@ const AgricolaPage = () => {
           <PlayerSlots key={player.number} playerNumber={player.number} />
         ))}
       </PlayerBoardWrapper>
+      <ResultModal />
+      <FloatingButton
+        onClick={() => {
+          const height = isBottom ? 0 : document.body.scrollHeight;
+          window.scrollTo({
+            top: height,
+            behavior: 'smooth',
+          });
+          setIsBottom(prev => !prev);
+        }}
+      >
+        {isBottom ? '위로' : '아래로'}
+      </FloatingButton>
+      <FloatingTopButton
+        onClick={() => {
+          setResultModalOpenState(true);
+        }}
+      >
+        현재 점수 보기
+      </FloatingTopButton>
     </StyledBackground>
   );
 };
@@ -119,6 +139,41 @@ const BoardWrapper = styled.div`
 const PlayerBoardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const FloatingButton = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const FloatingTopButton = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 export default AgricolaPage;
