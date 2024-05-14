@@ -3,6 +3,11 @@ import { ResourceType, SlotType } from 'page-src/agricola/player-board/player-bo
 import { COL, ROW } from 'page-src/agricola/shared/utils/get-two-dimension-board';
 import { atom } from 'recoil';
 
+export const resultModalOpenState = atom({
+  key: 'resultModalOpenState',
+  default: false,
+});
+
 export const roundState = atom({
   key: 'roundState',
   default: 1,
