@@ -8,13 +8,20 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 const ACTION_TITLE: PlayerAction = '농지';
 
+//! 농지 설치 끝나면, 다음 순서가 첫 번째 플레이어로 넘어감 / 다음 순서를 건너 뜀
+
 export const 농지 = () => {
   const { currentPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
-  const [, setAction] = useRecoilState(currentActionState);
+  const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
 
   const handleClick = useCallback(() => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     if (selectedPlayerNumber !== undefined) return;
 
     const isValid = currentPlayer.slots.some(slot => {
@@ -29,7 +36,7 @@ export const 농지 = () => {
     }
 
     alert('농지를 설치할 수 있는 칸이 없습니다.');
-  }, [currentPlayer, selectedPlayerNumber]);
+  }, [action, currentPlayer, selectedPlayerNumber]);
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);

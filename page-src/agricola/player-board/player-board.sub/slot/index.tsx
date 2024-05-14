@@ -22,6 +22,8 @@ type Props = {
   count: number; // 자원 수
   index: number; // 슬롯 위치
   playerNumber: number;
+  owner: Player;
+  ownerIndex: number;
 };
 
 // resourceType과 count 정보를 통해, 슬롯 내부 자원은 Slot 컴포넌트에서 그린다.
@@ -106,7 +108,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
 
     case '밭':
       return (
-        <Field width={110} height={110} index={index}>
+        <Field width={110} height={110} index={index} playerNumber={playerNumber}>
           <ResourceContainer />
         </Field>
       );

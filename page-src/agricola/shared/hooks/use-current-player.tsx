@@ -17,6 +17,7 @@ export const useCurrentPlayer = () => {
       nextIndex = (nextIndex + 1) % players.length;
     } while (players[nextIndex].homeFarmer === 0 && nextIndex !== currentPlayerIndex);
 
+    console.log(`[useCurrentPlayer] nextIndex: ${nextIndex}`);
     setCurrentPlayerIndex(nextIndex);
 
     // 라운드 완료 여부 확인

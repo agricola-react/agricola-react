@@ -23,10 +23,15 @@ const COUNT = 1;
 export const 농장확장 = () => {
   const { currentPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
-  const [, setAction] = useRecoilState(currentActionState);
+  const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
 
   const handleClick = useCallback(() => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     if (selectedPlayerNumber !== undefined) return;
 
     const isValid =
@@ -39,7 +44,7 @@ export const 농장확장 = () => {
     }
 
     alert('자원이 부족합니다.');
-  }, [selectedPlayerNumber, currentPlayer]);
+  }, [action, selectedPlayerNumber, currentPlayer]);
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);
