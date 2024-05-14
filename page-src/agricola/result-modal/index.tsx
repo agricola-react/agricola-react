@@ -1,3 +1,4 @@
+import { ModalContainer } from '@/shared/components/modal-container';
 import { playersState, resultModalOpenState } from '@/shared/recoil';
 import { Barn } from '@/shared/resource/barn';
 import { Grain } from '@/shared/resource/grain';
@@ -7,8 +8,6 @@ import { MeeplePig } from '@/shared/resource/meeple-pig';
 import { MeepleSheep } from '@/shared/resource/meeple-sheep';
 import { Vegetable } from '@/shared/resource/vegetable';
 import styled from '@emotion/styled';
-import * as Dialog from '@radix-ui/react-dialog';
-import { Cross1Icon } from '@radix-ui/react-icons';
 import { getCattleScore } from 'page-src/agricola/result-modal/utils/get-cattle-score';
 import { getFieldScore } from 'page-src/agricola/result-modal/utils/get-field-score';
 import { getGrainScore } from 'page-src/agricola/result-modal/utils/get-grain-score';
@@ -145,66 +144,47 @@ const ResultModal = () => {
   ];
 
   return (
-    <Dialog.Root open={resultModalOpen}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="DialogOverlay">
-          <Dialog.Content
-            className="DialogContent"
-            style={{
-              width: '600px',
-            }}
-          >
-            <div
-              onClick={() => {
-                setResultModalOpen(false);
-              }}
-              className="flex justify-end mb-[10px] cursor-pointer"
-            >
-              <Cross1Icon width={20} height={20} />
-            </div>
-            <div className="text-center pb-[10px]">3번 플레어이어가 1등입니다!!</div>
-            <div className="flex justify-center">
-              <StyledTable>
-                <StyledThead>
-                  <StyledTr>
-                    <StyledTh>분류</StyledTh>
-                    <StyledTh colSpan={2}>플레이어1</StyledTh>
-                    <StyledTh colSpan={2}>플레이어2</StyledTh>
-                    <StyledTh colSpan={2}>플레이어3</StyledTh>
-                    <StyledTh colSpan={2}>플레이어4</StyledTh>
-                  </StyledTr>
-                </StyledThead>
-                <tbody>
-                  {tableList.map(value => (
-                    <StyledTr key={value.name}>
-                      <StyledTd>{value.name}</StyledTd>
-                      {value.players.map(player => (
-                        <>
-                          <StyledFlexTd>
-                            <div>{player.count}</div>
-                            {player.Icon}
-                          </StyledFlexTd>
-                          <StyledTd>{player.score}점</StyledTd>
-                        </>
-                      ))}
-                    </StyledTr>
-                  ))}
-                  {/* 쭉 StyledTr 이어서 붙이다가 마지막에 결과 */}
-                  <StyledTr>
-                    <StyledTd>합계</StyledTd>
-                    {players.map(player => (
-                      <StyledTd colSpan={2} key={player.number}>
-                        10점
-                      </StyledTd>
-                    ))}
-                  </StyledTr>
-                </tbody>
-              </StyledTable>
-            </div>
-          </Dialog.Content>
-        </Dialog.Overlay>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <ModalContainer open={resultModalOpen} setOpen={setResultModalOpen} width={600}>
+      <div className="text-center pb-[10px]">3번 플레어이어가 1등입니다!!</div>
+      <div className="flex justify-center">
+        <StyledTable>
+          <StyledThead>
+            <StyledTr>
+              <StyledTh>분류</StyledTh>
+              <StyledTh colSpan={2}>플레이어1</StyledTh>
+              <StyledTh colSpan={2}>플레이어2</StyledTh>
+              <StyledTh colSpan={2}>플레이어3</StyledTh>
+              <StyledTh colSpan={2}>플레이어4</StyledTh>
+            </StyledTr>
+          </StyledThead>
+          <tbody>
+            {tableList.map(value => (
+              <StyledTr key={value.name}>
+                <StyledTd>{value.name}</StyledTd>
+                {value.players.map(player => (
+                  <>
+                    <StyledFlexTd>
+                      <div>{player.count}</div>
+                      {player.Icon}
+                    </StyledFlexTd>
+                    <StyledTd>{player.score}점</StyledTd>
+                  </>
+                ))}
+              </StyledTr>
+            ))}
+            {/* 쭉 StyledTr 이어서 붙이다가 마지막에 결과 */}
+            <StyledTr>
+              <StyledTd>합계</StyledTd>
+              {players.map(player => (
+                <StyledTd colSpan={2} key={player.number}>
+                  10점
+                </StyledTd>
+              ))}
+            </StyledTr>
+          </tbody>
+        </StyledTable>
+      </div>
+    </ModalContainer>
   );
 };
 
