@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { ReactNode } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 type Props = {
   width: number;
@@ -16,10 +16,10 @@ type Props = {
 };
 
 export const Field = ({ width, height, index, playerNumber, children }: Props) => {
-  const [players, setPlayers] = useRecoilState(playersState);
+  const players = useRecoilValue(playersState);
   const [action, setAction] = useRecoilState(currentActionState);
 
-  const { currentPlayer, nextPlayer } = useCurrentPlayer();
+  const { currentPlayer, nextPlayer, setPlayers } = useCurrentPlayer();
 
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const ownerIndex = players.findIndex(_player => _player.number === playerNumber);

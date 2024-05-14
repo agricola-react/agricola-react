@@ -18,7 +18,7 @@ const harvest_rounds = [5, 8, 10, 12, 14, 15];
 const AgricolaPage = () => {
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
-  const currentPlayerIndex = useRecoilValue(currentPlayerIndexState);
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
   const action = useRecoilValue(currentActionState);
 
   const homeFarmers = players.reduce((acc, cur) => {
@@ -34,6 +34,8 @@ const AgricolaPage = () => {
   }, [homeFarmers, action]);
 
   useEffect(() => {
+    const firstPlayerIndex = players.findIndex(player => player.isFirst);
+    setCurrentPlayerIndex(firstPlayerIndex);
     /**
      * 수확로직 (harvest_rounds로 넘어가기전 실행)
      * 1. 작물수확(TODO)

@@ -36,19 +36,6 @@ const initBoard: SlotValue[] = new Array(ROW * COL)
     return value;
   });
 
-type PlayerBoard = {
-  playerNumber: number;
-  slots: SlotValue[];
-};
-
-export const playerBoardsState = atom<PlayerBoard[]>({
-  key: 'playerBoards',
-  default: new Array(4).fill(0).map((_, index) => ({
-    playerNumber: index,
-    slots: initBoard,
-  })),
-});
-
 export type Player = {
   number: number;
   name: string;

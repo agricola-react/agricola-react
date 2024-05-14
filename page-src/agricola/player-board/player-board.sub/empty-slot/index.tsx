@@ -26,10 +26,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const ownerIndex = players.findIndex(_player => _player.number === playerNumber);
 
-  console.log(`[EmptySlot] currentIndex ${currentPlayerIndex}`);
-
   const handleAction = (action: PlayerAction) => {
-    console.log(`handleAction!`);
     switch (action) {
       case '농장 확장':
         if (isNearPosition(owner.slots, index, '방')) {
@@ -63,7 +60,6 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
               });
             })
           );
-          console.log('!!!');
           setAction(null);
           nextPlayer();
           break;
