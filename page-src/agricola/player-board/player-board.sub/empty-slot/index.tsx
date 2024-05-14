@@ -21,7 +21,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   const players = useRecoilValue(playersState);
   const [action, setAction] = useRecoilState(currentActionState);
 
-  const { currentPlayer, nextPlayer, currentPlayerIndex, setPlayers } = useCurrentPlayer();
+  const { currentPlayer, nextPlayer, setPlayers } = useCurrentPlayer();
 
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const ownerIndex = players.findIndex(_player => _player.number === playerNumber);

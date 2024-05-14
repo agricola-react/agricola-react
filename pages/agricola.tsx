@@ -9,6 +9,7 @@ import { CentralBoard } from 'page-src/agricola/central-board';
 import { Header } from 'page-src/agricola/header';
 import { PlayerSlots } from 'page-src/agricola/player-board';
 import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
+import { harvest } from 'page-src/agricola/shared/utils/harvest';
 import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -45,11 +46,14 @@ const AgricolaPage = () => {
     const isHarvestTime = harvest_rounds.includes(round);
 
     if (isHarvestTime) {
-      alert('가족먹여살리기 시간입니다.');
+      alert(`수확 및 가족 먹여살리기 시간입니다.`);
     }
 
     setPlayers(
-      players.map(player => {
+      players.map(_player => {
+        // 1. 수확
+        const player = isHarvestTime ? harvest(_player) : _player;
+        // 2. 가족 먹여 살리기
         const { newFood, newGrain, newVegetable, remainingFood } = calculateFeedingCount(player);
 
         return {

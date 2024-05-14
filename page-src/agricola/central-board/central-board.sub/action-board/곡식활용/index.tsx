@@ -4,6 +4,7 @@ import { MeepleSow } from '@/shared/resource/meeple-sow';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
+import { isExistEmptyField } from 'page-src/agricola/shared/utils/harvest';
 import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/validate-slot';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -34,11 +35,7 @@ export const 곡식활용 = () => {
       return;
     }
 
-    if (
-      !currentPlayer.slots.some(
-        slot => slot.type === '밭' && slot.resource === null && slot.count === 0
-      )
-    ) {
+    if (!isExistEmptyField(currentPlayer.slots)) {
       alert(`[곡식활용] 비어있는 농지가 없습니다.`);
       return;
     }
