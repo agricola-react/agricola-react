@@ -25,7 +25,7 @@ export const 서부채석장 = () => {
     if (isActive && selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
-          _players[currentPlayerIndex].sheep += currentStone;
+          _players[currentPlayerIndex].stone += currentStone;
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );

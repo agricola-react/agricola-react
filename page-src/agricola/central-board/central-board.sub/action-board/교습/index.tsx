@@ -37,28 +37,6 @@ export const 교습 = () => {
 
     setSelectedPlayerNumber(currentPlayer.number);
 
-    // 처음사용하면 토큰무료, 그 다음부턴 1토큰
-    if (usedPlayers.includes(currentPlayer.number)) {
-      if (currentPlayer.food >= 1) {
-        setPlayers(
-          produce(_players => {
-            _players[currentPlayerIndex].food -= 1;
-            _players[currentPlayerIndex].homeFarmer -= 1;
-          })
-        );
-      } else {
-        alert('음식이 부족합니다.');
-        return;
-      }
-    } else {
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
-      setUsedPlayers(prev => [...prev, currentPlayer.number]);
-    }
-
     setJobCard(true);
   };
 
@@ -69,6 +47,28 @@ export const 교습 = () => {
   // 직업카드를 선택한 후엥 nextPlayer() 호출
   useEffect(() => {
     if (isDone) {
+      // 처음사용하면 토큰무료, 그 다음부턴 1토큰
+      if (usedPlayers.includes(currentPlayer.number)) {
+        if (currentPlayer.food >= 1) {
+          setPlayers(
+            produce(_players => {
+              _players[currentPlayerIndex].food -= 1;
+              _players[currentPlayerIndex].homeFarmer -= 1;
+            })
+          );
+        } else {
+          alert('음식이 부족합니다.');
+          return;
+        }
+      } else {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+        setUsedPlayers(prev => [...prev, currentPlayer.number]);
+      }
+
       nextPlayer();
       setIsDone(false);
     }
