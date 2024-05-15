@@ -6,7 +6,7 @@ import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { isEmptyField } from 'page-src/agricola/shared/utils/harvest';
 import { ReactNode } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 type Props = {
   width: number;
@@ -18,9 +18,9 @@ type Props = {
 
 export const Field = ({ width, height, index, playerNumber, children }: Props) => {
   const players = useRecoilValue(playersState);
-  const [action, setAction] = useRecoilState(currentActionState);
+  const action = useRecoilValue(currentActionState);
 
-  const { currentPlayer, nextPlayer, setPlayers } = useCurrentPlayer();
+  const { currentPlayer, setPlayers } = useCurrentPlayer();
 
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const ownerIndex = players.findIndex(_player => _player.number === playerNumber);
@@ -36,7 +36,6 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
         if (isEmptyField(owner.slots, index)) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].homeFarmer -= 1;
               _players[ownerIndex].grain -= 1;
               _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
                 if (idx === index) return { type: '밭', resource: '곡식', count: 3 };
@@ -44,8 +43,6 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
               });
             })
           );
-          setAction(null);
-          nextPlayer();
           break;
         }
         alert('해당 위치에는 이미 다른 자원이 존재하므로, 씨를 뿌릴 수 없습니다.');
@@ -59,7 +56,6 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
         if (isEmptyField(owner.slots, index)) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].homeFarmer -= 1;
               _players[ownerIndex].vegetable -= 1;
               _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
                 if (idx === index) return { type: '밭', resource: '채소', count: 2 };
@@ -67,8 +63,6 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
               });
             })
           );
-          setAction(null);
-          nextPlayer();
           break;
         }
         alert('해당 위치에는 이미 다른 자원이 존재하므로, 씨를 뿌릴 수 없습니다.');
