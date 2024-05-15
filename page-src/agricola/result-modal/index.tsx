@@ -23,7 +23,7 @@ const ResultModal = () => {
     // 가축 점수
 
     const cattleScore = getCattleScore(player.cattle);
-    console.log(cattleScore, 'cattleScore');
+
     const sheepScore = getSheepScore(player.sheep);
     const pigScore = getSheepScore(player.sheep);
 
