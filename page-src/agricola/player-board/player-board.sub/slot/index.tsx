@@ -72,12 +72,12 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
       case '채소':
         return (
           <>
-            {count > 0 && (
-              <Row>
-                <ResourceComponent width={30} height={40} />
-                <p style={{ marginLeft: '5px', color: 'white' }}>X {count}</p>
-              </Row>
-            )}
+            <Row>
+              {new Array(count).fill(0).map((_, index) => (
+                <ResourceComponent key={index} width={30} height={40} />
+              ))}
+              {/* <p style={{ marginLeft: '5px', color: 'white' }}>X {count}</p> */}
+            </Row>
           </>
         );
       //* 외양간은 울타리 컴포넌트 안에서 그리는 걸로 .. (겹침)
@@ -106,7 +106,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
 
     case '밭':
       return (
-        <Field width={110} height={110} index={index}>
+        <Field width={110} height={110} index={index} playerNumber={playerNumber}>
           <ResourceContainer />
         </Field>
       );

@@ -17,7 +17,6 @@ export function getUpdatedSlots(
     //* 가족 구성원 수만큼 방 채우기
     case 'fill': {
       if (player === undefined) {
-        console.error(`[${type}] player 파라미터가 필요합니다.`);
         return [...playerSlots];
       }
       // 전체 방

@@ -1,6 +1,7 @@
 import { SlotValue } from '@/shared/recoil';
-import { COL, ROW, getTwoDimensionBoard } from './get-two-dimension-board';
+import { getTwoDimensionBoard } from './get-two-dimension-board';
 import { SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
+import { COL, ROW } from '@/shared/constants';
 
 const d = [
   { dr: -1, dc: 0 },

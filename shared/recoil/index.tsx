@@ -1,7 +1,7 @@
 import { RoomType } from 'page-src/agricola/player-board/player-board.sub/room';
 import { ResourceType, SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
-import { COL, ROW } from 'page-src/agricola/shared/utils/get-two-dimension-board';
 import { atom } from 'recoil';
+import { COL, ROW } from '../constants';
 
 export const resultModalOpenState = atom({
   key: 'resultModalOpenState',
@@ -255,7 +255,7 @@ export const playersState = atom<Player[]>({
   ],
 });
 
-export type PlayerAction = '농장 확장' | '농지';
+export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기';
 
 export const currentActionState = atom<PlayerAction | null>({
   key: 'currentActionState',

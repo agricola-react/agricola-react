@@ -1,5 +1,6 @@
 import {
   currentActionState,
+  currentPlayerIndexState,
   playersState,
   resultModalOpenState,
   roundState,
@@ -10,6 +11,7 @@ import { Header } from 'page-src/agricola/header';
 import { PlayerSlots } from 'page-src/agricola/player-board';
 import ResultModal from 'page-src/agricola/result-modal';
 import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
+import { harvest } from 'page-src/agricola/shared/utils/harvest';
 import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -21,6 +23,7 @@ const AgricolaPage = () => {
 
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
+  const [, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
   const action = useRecoilValue(currentActionState);
   const setResultModalOpenState = useSetRecoilState(resultModalOpenState);
 
@@ -37,6 +40,8 @@ const AgricolaPage = () => {
   }, [homeFarmers, action]);
 
   useEffect(() => {
+    const firstPlayerIndex = players.findIndex(player => player.isFirst);
+    setCurrentPlayerIndex(firstPlayerIndex);
     /**
      * 수확로직 (harvest_rounds로 넘어가기전 실행)
      * 1. 작물수확(TODO)
@@ -46,11 +51,14 @@ const AgricolaPage = () => {
     const isHarvestTime = harvest_rounds.includes(round);
 
     if (isHarvestTime) {
-      alert('가족먹여살리기 시간입니다.');
+      alert(`수확 및 가족 먹여살리기 시간입니다.`);
     }
 
     setPlayers(
-      players.map(player => {
+      players.map(_player => {
+        // 1. 수확
+        const player = isHarvestTime ? harvest(_player) : _player;
+        // 2. 가족 먹여 살리기
         const { newFood, newGrain, newVegetable, remainingFood } = calculateFeedingCount(player);
 
         return {

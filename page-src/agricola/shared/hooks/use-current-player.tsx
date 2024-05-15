@@ -1,11 +1,9 @@
-import { currentPlayerIndexState, playersState, roundState } from '@/shared/recoil';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentPlayerIndexState, playersState } from '@/shared/recoil';
+import { useRecoilState } from 'recoil';
 
 export const useCurrentPlayer = () => {
   const [players, setPlayers] = useRecoilState(playersState);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
-  const round = useRecoilValue(roundState);
 
   const currentPlayer = players[currentPlayerIndex];
 
@@ -30,12 +28,6 @@ export const useCurrentPlayer = () => {
       setPlayers(players.map(player => ({ ...player, homeFarmer: player.farmer })));
     }
   };
-
-  // 라운드 시작 시 첫 플레이어로 설정
-  useEffect(() => {
-    const firstPlayerIndex = players.findIndex(player => player.isFirst);
-    setCurrentPlayerIndex(firstPlayerIndex);
-  }, [round]);
 
   return {
     currentPlayer,

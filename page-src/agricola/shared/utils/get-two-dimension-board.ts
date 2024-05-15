@@ -1,7 +1,5 @@
+import { COL, ROW } from '@/shared/constants';
 import { SlotValue } from '@/shared/recoil';
-
-export const ROW = 3;
-export const COL = 5;
 
 /**
  * 일차원 배열 형태의 slots를 이차원 배열로 변환하는 메서드

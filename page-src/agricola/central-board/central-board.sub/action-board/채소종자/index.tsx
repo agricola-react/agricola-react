@@ -37,8 +37,8 @@ export const 채소종자 = () => {
   useEffect(() => {
     if (round >= 9) {
       setIsActive(true);
-      setSelectedPlayerNumber(undefined);
     }
+    setSelectedPlayerNumber(undefined);
   }, [round]);
 
   return (
