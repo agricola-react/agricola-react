@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
 import { Slot } from './player-board.sub/slot';
 import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/card/job-card-modal';
+import { useCurrentPlayer } from '../shared/hooks/use-current-player';
 
 type Props = {
   playerNumber: number;
