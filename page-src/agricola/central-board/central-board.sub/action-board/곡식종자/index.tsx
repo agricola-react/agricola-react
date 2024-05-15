@@ -18,17 +18,38 @@ export const 곡식종자 = () => {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
     }
-    // 현재턴인 플레이어의 곡식을 1 증가시킨다.
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].grain += 1;
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
+
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
     }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
+
+    // 현재턴인 플레이어의 곡식을 1 증가시킨다.
+    // 채소장수효과: 채소장수가 있을 경우, 채소도 1 증가시킨다.
+    const 채소장수가지고있는지 = currentPlayer.jobCards.find(
+      card => card.name === '채소장수' && card.isActive
+    );
+
+    if (채소장수가지고있는지) {
+      alert('채소장수카드가 발동하여 채소 +1 됩니다');
+    }
+
+    setPlayers(
+      produce(_players => {
+        _players[currentPlayerIndex].grain += 1;
+        _players[currentPlayerIndex].vegetable = 채소장수가지고있는지
+          ? _players[currentPlayerIndex].vegetable + 1
+          : _players[currentPlayerIndex].vegetable;
+        _players[currentPlayerIndex].homeFarmer -= 1;
+      })
+    );
+    setSelectedPlayerNumber(currentPlayer.number);
+    nextPlayer();
   };
 
   useEffect(() => {

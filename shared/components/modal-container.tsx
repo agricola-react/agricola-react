@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross1Icon } from '@radix-ui/react-icons';
 
@@ -8,9 +8,10 @@ type Props = {
   setOpen: (value: boolean) => void;
   children: ReactNode;
   width?: number;
+  style?: CSSProperties;
 };
 
-export const ModalContainer = ({ open, setOpen, children, width }: Props) => {
+export const ModalContainer = ({ open, setOpen, children, width, style }: Props) => {
   return (
     <Dialog.Root open={open}>
       <Dialog.Portal>
@@ -19,6 +20,7 @@ export const ModalContainer = ({ open, setOpen, children, width }: Props) => {
             className="DialogContent"
             style={{
               width,
+              ...style,
             }}
           >
             <div
