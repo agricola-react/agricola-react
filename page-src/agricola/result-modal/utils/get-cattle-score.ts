@@ -1,7 +1,6 @@
 export const getCattleScore = (cow: number) => {
   switch (cow) {
     case 0:
-      console.log(cow, 'cow');
       return -1;
     case 1:
       return 1;
