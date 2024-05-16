@@ -7,6 +7,12 @@ import {
 } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { CentralBoard } from 'page-src/agricola/central-board';
+import { Tutoring4 } from 'page-src/agricola/central-board/central-board.sub/action-board/교습(4인용추가판)';
+import { Bush } from 'page-src/agricola/central-board/central-board.sub/action-board/덤불';
+import { Thicket } from 'page-src/agricola/central-board/central-board.sub/action-board/수풀';
+import { TravelingTheater } from 'page-src/agricola/central-board/central-board.sub/action-board/유랑극단';
+import { ResourceMarket } from 'page-src/agricola/central-board/central-board.sub/action-board/자원시장';
+import { ClayQuarry } from 'page-src/agricola/central-board/central-board.sub/action-board/점토채굴장';
 import { Header } from 'page-src/agricola/header';
 import { PlayerSlots } from 'page-src/agricola/player-board';
 import ResultModal from 'page-src/agricola/result-modal';
@@ -87,10 +93,21 @@ const AgricolaPage = () => {
   return (
     <StyledBackground>
       <Header />
-      <BoardWrapper>
-        <CentralBoard />
-        <UserSection />
-      </BoardWrapper>
+      <div className="flex">
+        <div>
+          <Bush />
+          <Thicket />
+          <ResourceMarket />
+          <ClayQuarry />
+          <Tutoring4 />
+          <TravelingTheater />
+        </div>
+
+        <BoardWrapper className="ml-40">
+          <CentralBoard />
+          <UserSection />
+        </BoardWrapper>
+      </div>
       <PlayerBoardWrapper>
         {players.map(player => (
           <PlayerSlots key={player.number} playerNumber={player.number} />
