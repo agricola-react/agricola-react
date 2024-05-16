@@ -1,4 +1,4 @@
-import { Player, playersState } from '@/shared/recoil';
+import { Player, currentActionState, playersState } from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
 import { Slot } from './player-board.sub/slot';
 import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/card/job-card-modal';
+import { useCurrentPlayer } from '../shared/hooks/use-current-player';
 
 type Props = {
   playerNumber: number;
@@ -16,12 +17,25 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
   const [openJobCard, setOpenJobCard] = useState(false);
   const owner = players.find(player => player.number === playerNumber) as Player;
 
+  const [action, setAction] = useRecoilState(currentActionState);
+  const { currentPlayer, nextPlayer } = useCurrentPlayer();
+
   const playerSlots = owner.slots;
 
   const boardFarmers = owner.slots.reduce((sum, cur) => {
     if (cur.type === '방' && cur.resource === '사람') return sum + cur.count;
     return sum;
   }, 0);
+
+  const handleEndAction = () => {
+    setPlayers(
+      produce(_players => {
+        _players[playerNumber - 1].homeFarmer -= 1;
+      })
+    );
+    setAction(null);
+    nextPlayer();
+  };
 
   useEffect(() => {
     if (owner === undefined) return;
@@ -54,9 +68,16 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
   return (
     <Container>
-      <Title>
-        <h4>{owner?.name} 보드</h4>
-      </Title>
+      <TitleContainer>
+        <Title>
+          <h4>{owner?.name} 보드</h4>
+        </Title>
+        {currentPlayer.number === playerNumber && action === '씨뿌리기' && (
+          <ActionButton onClick={handleEndAction}>
+            <strong>[{action}]</strong> 액션 종료
+          </ActionButton>
+        )}
+      </TitleContainer>
       <Wrapper>
         {playerSlots.map((info, index) => (
           <Slot
@@ -92,11 +113,23 @@ const Container = styled.div`
   border: solid 1px black;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Title = styled.div`
-  display: inline-block;
   padding: 5px;
   background-color: hsla(0, 0%, 100%, 0.5);
   color: gray;
+`;
+
+const ActionButton = styled.button`
+  cursor: pointer;
+  padding: 5px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: solid 1px black;
 `;
 
 const Wrapper = styled.div`
