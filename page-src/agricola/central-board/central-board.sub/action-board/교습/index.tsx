@@ -39,7 +39,7 @@ export const 교습 = () => {
 
     setJobCard(true);
   };
-
+  //라운드가 변경되면 선택된 플레이어 넘버를 초기화?
   useEffect(() => {
     setSelectedPlayerNumber(undefined);
   }, [round]);
