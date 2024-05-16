@@ -24,7 +24,7 @@ export type SlotValue = {
   count: number;
 };
 
-export type JobType = {
+export type CardType = {
   name: string;
   isActive: boolean;
   src: string;
@@ -82,7 +82,9 @@ export type Player = {
   // 집 종류
   roomType: RoomType;
   // 직업 카드
-  jobCards: JobType[];
+  jobCards: CardType[];
+  // 보조카드
+  subCards: CardType[];
 };
 
 export const playersState = atom<Player[]>({
@@ -128,6 +130,23 @@ export const playersState = atom<Player[]>({
           src: '/job-card/채소장수.jpg',
         },
       ],
+      subCards: [
+        {
+          name: '부엌방',
+          isActive: false,
+          src: '/sub-card/부엌방.jpg',
+        },
+        {
+          name: '다진흙',
+          isActive: false,
+          src: '/sub-card/다진흙.jpg',
+        },
+        {
+          name: '물통',
+          isActive: false,
+          src: '/sub-card/물통.jpg',
+        },
+      ],
     },
     {
       number: 2,
@@ -169,6 +188,23 @@ export const playersState = atom<Player[]>({
           src: '/job-card/쟁기몰이꾼.jpg',
         },
       ],
+      subCards: [
+        {
+          name: '통나무배',
+          isActive: false,
+          src: '/sub-card/통나무배.jpg',
+        },
+        {
+          name: '네덜란드식풍차',
+          isActive: false,
+          src: '/sub-card/네덜란드식풍차.jpg',
+        },
+        {
+          name: '병',
+          isActive: false,
+          src: '/sub-card/병.jpg',
+        },
+      ],
     },
     {
       number: 3,
@@ -205,9 +241,26 @@ export const playersState = atom<Player[]>({
           src: '/job-card/지붕다지는사람.jpg',
         },
         {
-          name: '지붕다지는사람',
+          name: '가마떼는사람',
           isActive: false,
-          src: '/job-card/지붕다지는사람.jpg',
+          src: '/job-card/가마떼는사람.jpg',
+        },
+      ],
+      subCards: [
+        {
+          name: '채굴망치',
+          isActive: false,
+          src: '/sub-card/채굴망치.jpg',
+        },
+        {
+          name: '돌집게',
+          isActive: false,
+          src: '/sub-card/돌집게.jpg',
+        },
+        {
+          name: '목재소',
+          isActive: false,
+          src: '/sub-card/목재소.jpg',
         },
       ],
     },
@@ -249,6 +302,23 @@ export const playersState = atom<Player[]>({
           name: '재산관리인',
           isActive: false,
           src: '/job-card/재산관리인.jpg',
+        },
+      ],
+      subCards: [
+        {
+          name: '곡식용삽',
+          isActive: false,
+          src: '/sub-card/곡식용삽.jpg',
+        },
+        {
+          name: '버터제조기',
+          isActive: false,
+          src: '/sub-card/버터제조기.jpg',
+        },
+        {
+          name: '삽',
+          isActive: false,
+          src: '/sub-card/삽.jpg',
         },
       ],
     },
