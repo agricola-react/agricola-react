@@ -60,7 +60,7 @@ export const JobCardModal = ({ player, open, setOpen, isAction, setIsDone }: Pro
               }
             }}
           >
-            <img key={job.name} src={job.src} alt={job.name} className="rounded-[10px]" />
+            <img key={job.name} src={job.src} alt={job.name} className="rounded-[10px]  h-72" />
             {job.isActive && <div className="mt-[20px] font-bold">활성화</div>}
           </div>
         ))}

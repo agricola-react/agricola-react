@@ -20,8 +20,44 @@ export const 숲 = () => {
       return;
     }
 
-    // 현재턴인 플레이어의 나무 자원을 3 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
+    }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
+
+    const 버섯따는사람인경우 = currentPlayer.jobCards.find(
+      job => job.name === '버섯따는사람' && job.isActive
+    );
+
+    if (버섯따는사람인경우) {
+      const 버섯따는사람효과를사용했는지 = confirm(
+        '나무 누적 칸을 이용할때 나무 1개를 그 칸에 남겨 놓고 음식 2개를 대신 가져오시겠습니까?'
+      );
+
+      if (버섯따는사람효과를사용했는지) {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].wood += currentWood - 1;
+            _players[currentPlayerIndex].food += 2;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+        setCurrentWood(1);
+      } else {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].wood += currentWood;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+        setCurrentWood(0);
+      }
+    } else {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].wood += currentWood;
@@ -29,9 +65,10 @@ export const 숲 = () => {
         })
       );
       setCurrentWood(0);
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
     }
+
+    setSelectedPlayerNumber(currentPlayer.number);
+    nextPlayer();
   };
 
   useEffect(() => {
