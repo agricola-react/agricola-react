@@ -25,7 +25,7 @@ export const 소시장 = () => {
     if (isActive && selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
-          _players[currentPlayerIndex].sheep += currentCattle;
+          _players[currentPlayerIndex].cattle += currentCattle;
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
