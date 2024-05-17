@@ -9,7 +9,6 @@ import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-pla
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-// TODO: 직업카드 작업해야함
 export const Tutoring4 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
@@ -47,8 +46,10 @@ export const Tutoring4 = () => {
   // 직업카드를 선택한 후엥 nextPlayer() 호출
   useEffect(() => {
     if (isDone) {
-      // 처음사용하면 토큰무료, 그 다음부턴 1토큰
-      if (usedPlayers.includes(currentPlayer.number)) {
+      const isTwiceSelected =
+        usedPlayers.filter(value => value === currentPlayer.number).length <= 2;
+      // 두번째방문까지 토큰 하나이고 3번째부터 2개씩
+      if (isTwiceSelected) {
         if (currentPlayer.food >= 1) {
           setPlayers(
             produce(_players => {
@@ -64,10 +65,11 @@ export const Tutoring4 = () => {
         setPlayers(
           produce(_players => {
             _players[currentPlayerIndex].homeFarmer -= 1;
+            _players[currentPlayerIndex].food -= 2;
           })
         );
-        setUsedPlayers(prev => [...prev, currentPlayer.number]);
       }
+      setUsedPlayers(prev => [...prev, currentPlayer.number]);
 
       nextPlayer();
       setIsDone(false);
