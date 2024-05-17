@@ -8,6 +8,7 @@ import { Slot } from './player-board.sub/slot';
 import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/card/job-card-modal';
 import { useCurrentPlayer } from '../shared/hooks/use-current-player';
 import { SubCardModal } from './player-board.sub/card/sub-card-modal';
+import { MainCardModal } from '@/shared/components/main-card-modal';
 
 type Props = {
   playerNumber: number;
@@ -17,6 +18,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
   const [players, setPlayers] = useRecoilState(playersState);
   const [openJobCard, setOpenJobCard] = useState(false);
   const [openSubCard, setOpenSubCard] = useState(false);
+  const [openMainCard, setOpenMainCard] = useState(false);
   const owner = players.find(player => player.number === playerNumber) as Player;
 
   const [action, setAction] = useRecoilState(currentActionState);
@@ -101,13 +103,20 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
           <img className="w-16 mt-3" src="/sub-card/보조카드.jpg" alt="" />
           <div className="font-bold">보조설비</div>
         </CardContainer>
-        <CardContainer bgColor="red">
+        <CardContainer bgColor="red" onClick={() => setOpenMainCard(true)}>
           <img className="w-16 mt-3" src="/main-card/주요설비.jpg" alt="" />
           <div className="font-bold">주요설비</div>
         </CardContainer>
       </div>
       <JobCardModal open={openJobCard} setOpen={setOpenJobCard} player={owner} isAction={false} />
       <SubCardModal open={openSubCard} setOpen={setOpenSubCard} player={owner} isAction={false} />
+      <MainCardModal
+        open={openMainCard}
+        setOpen={setOpenMainCard}
+        player={owner}
+        isAction={false}
+        mainCards={owner.mainCards}
+      />
     </Container>
   );
 };

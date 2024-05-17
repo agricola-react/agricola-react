@@ -7,13 +7,15 @@ import { useEffect, useState } from 'react';
 import { produce } from 'immer';
 import { currentActionState, roundState } from '@/shared/recoil';
 import { useRecoilValue } from 'recoil';
+import { SubCardModal } from 'page-src/agricola/player-board/player-board.sub/card/sub-card-modal';
 
-// TODO: 보조설비 작업 필요
 export const 회합장소 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const round = useRecoilValue(roundState);
   const action = useRecoilValue(currentActionState);
+  const [subCardOpen, setSubCardOpen] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const handleClick = () => {
     if (action !== null) {
@@ -21,25 +23,41 @@ export const 회합장소 = () => {
       return;
     }
 
-    // 현재턴인 플레이어의 갈대 자원을 3 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
+    }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
+
+    setSelectedPlayerNumber(currentPlayer.number);
+    setSubCardOpen(true);
+  };
+
+  useEffect(() => {
+    setSelectedPlayerNumber(undefined);
+  }, [round]);
+
+  // 보조카드를 선택한 후엥 nextPlayer() 호출
+  useEffect(() => {
+    if (isDone) {
       setPlayers(players =>
         players.map((player, index) => ({ ...player, isFirst: index === currentPlayerIndex }))
       );
+
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
 
-      setSelectedPlayerNumber(currentPlayer.number);
       nextPlayer();
+      setIsDone(false);
     }
-  };
-
-  useEffect(() => {
-    setSelectedPlayerNumber(undefined);
-  }, [round]);
+  }, [isDone]);
 
   return (
     <>
@@ -57,6 +75,13 @@ export const 회합장소 = () => {
         <Plus>+1</Plus>
         <MeepleMinor width={15} height={10} />
       </ActionContainer>
+      <SubCardModal
+        open={subCardOpen}
+        setOpen={setSubCardOpen}
+        player={currentPlayer}
+        setIsDone={setIsDone}
+        isAction={true}
+      />
     </>
   );
 };

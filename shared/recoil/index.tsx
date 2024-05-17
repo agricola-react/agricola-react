@@ -85,6 +85,8 @@ export type Player = {
   jobCards: CardType[];
   // 보조카드
   subCards: CardType[];
+  // 주요카드
+  mainCards: CardType[];
 };
 
 export const playersState = atom<Player[]>({
@@ -147,6 +149,7 @@ export const playersState = atom<Player[]>({
           src: '/sub-card/물통.jpg',
         },
       ],
+      mainCards: [],
     },
     {
       number: 2,
@@ -205,6 +208,7 @@ export const playersState = atom<Player[]>({
           src: '/sub-card/병.jpg',
         },
       ],
+      mainCards: [],
     },
     {
       number: 3,
@@ -263,6 +267,7 @@ export const playersState = atom<Player[]>({
           src: '/sub-card/목재소.jpg',
         },
       ],
+      mainCards: [],
     },
     {
       number: 4,
@@ -321,6 +326,7 @@ export const playersState = atom<Player[]>({
           src: '/sub-card/삽.jpg',
         },
       ],
+      mainCards: [],
     },
   ],
 });
@@ -330,4 +336,60 @@ export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기';
 export const currentActionState = atom<PlayerAction | null>({
   key: 'currentActionState',
   default: null,
+});
+
+export const remainMainCardsState = atom<CardType[]>({
+  key: 'remainMainCardsState',
+  default: [
+    {
+      name: '가구제작소',
+      src: '/main-card/가구제작소.jpg',
+      isActive: true,
+    },
+    {
+      name: '그릇제작소',
+      src: '/main-card/그릇제작소.jpg',
+      isActive: true,
+    },
+    {
+      name: '돌가마',
+      src: '/main-card/돌가마.jpg',
+      isActive: true,
+    },
+    {
+      name: '바구니제작소',
+      src: '/main-card/바구니제작소.jpg',
+      isActive: true,
+    },
+    {
+      name: '우물',
+      src: '/main-card/우물.jpg',
+      isActive: true,
+    },
+    {
+      name: '화덕',
+      src: '/main-card/화덕.jpg',
+      isActive: true,
+    },
+    {
+      name: '화덕5',
+      src: '/main-card/화덕5.jpg',
+      isActive: true,
+    },
+    {
+      name: '화로',
+      src: '/main-card/화로.jpg',
+      isActive: true,
+    },
+    {
+      name: '화로2',
+      src: '/main-card/화로2.jpg',
+      isActive: true,
+    },
+    {
+      name: '흙가마',
+      src: '/main-card/흙가마.jpg',
+      isActive: true,
+    },
+  ],
 });

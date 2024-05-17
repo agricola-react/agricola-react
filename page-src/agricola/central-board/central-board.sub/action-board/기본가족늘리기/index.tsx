@@ -7,6 +7,7 @@ import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-pla
 import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { produce } from 'immer';
+import { SubCardModal } from 'page-src/agricola/player-board/player-board.sub/card/sub-card-modal';
 
 // TODO: 보조설비 사용기능 추가
 export const 기본가족늘리기 = () => {
@@ -15,6 +16,8 @@ export const 기본가족늘리기 = () => {
   const [isActive, setIsActive] = useState(false);
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const action = useRecoilValue(currentActionState);
+  const [subCardOpen, setSubCardOpen] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const handleClick = () => {
     if (action !== null) {
@@ -22,6 +25,16 @@ export const 기본가족늘리기 = () => {
       return;
     }
     if (!isActive) return;
+
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
+    }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
 
     const isEmptyRoom = currentPlayer.slots.some(
       slot => slot.resource === null && slot.type === '방'
@@ -31,16 +44,8 @@ export const 기본가족늘리기 = () => {
       return;
     }
 
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].baby += 1;
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
-    }
+    setSelectedPlayerNumber(currentPlayer.number);
+    setSubCardOpen(true);
   };
 
   useEffect(() => {
@@ -50,29 +55,53 @@ export const 기본가족늘리기 = () => {
     }
   }, [round]);
 
+  // 보조카드를 선택한 후엥 nextPlayer() 호출
+  useEffect(() => {
+    if (isDone) {
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayerIndex].baby += 1;
+          _players[currentPlayerIndex].homeFarmer -= 1;
+        })
+      );
+
+      nextPlayer();
+      setIsDone(false);
+    }
+  }, [isDone]);
+
   return (
-    <ActionContainer
-      width={140}
-      height={140}
-      top={156}
-      left={493}
-      backNumber={2}
-      isActive={isActive}
-      title="기본가족늘리기"
-      onClick={handleClick}
-      userNumber={selectedPlayerNumber}
-    >
-      <ContentWrapper>
-        <Wrapper>
-          <ContentWrapper>
-            <MeepleChild width={30} height={35} />
-            <div className="font-bold">▷</div>
-            <div className="font-bold">1</div>
-            <MeepleMinor width={30} height={20} />
-          </ContentWrapper>
-        </Wrapper>
-      </ContentWrapper>
-    </ActionContainer>
+    <>
+      <ActionContainer
+        width={140}
+        height={140}
+        top={156}
+        left={493}
+        backNumber={2}
+        isActive={isActive}
+        title="기본가족늘리기"
+        onClick={handleClick}
+        userNumber={selectedPlayerNumber}
+      >
+        <ContentWrapper>
+          <Wrapper>
+            <ContentWrapper>
+              <MeepleChild width={30} height={35} />
+              <div className="font-bold">▷</div>
+              <div className="font-bold">1</div>
+              <MeepleMinor width={30} height={20} />
+            </ContentWrapper>
+          </Wrapper>
+        </ContentWrapper>
+      </ActionContainer>
+      <SubCardModal
+        open={subCardOpen}
+        setOpen={setSubCardOpen}
+        player={currentPlayer}
+        setIsDone={setIsDone}
+        isAction={true}
+      />
+    </>
   );
 };
 
