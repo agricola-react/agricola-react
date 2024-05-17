@@ -21,7 +21,9 @@ export const TravelingTheater = () => {
     }
 
     // 있으면 나무 1개와 곡식1개 추가로 가져옴
-    const 마술사가있는지 = currentPlayer.jobCards.find(job => job.name === '마술사');
+    const 마술사가있는지 = currentPlayer.jobCards.find(
+      job => job.name === '마술사' && job.isActive
+    );
 
     // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
