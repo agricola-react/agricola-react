@@ -21,18 +21,35 @@ export const 서부채석장 = () => {
       return;
     }
 
-    // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
-    if (isActive && selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].stone += currentStone;
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
-      setCurrentStone(0);
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
+    if (!isActive) return;
+
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
     }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
+
+    const 돌집게가지고있는지 = currentPlayer.subCards.find(
+      card => card.name === '돌집게' && card.isActive
+    );
+
+    if (돌집게가지고있는지) {
+      alert('돌집게카드가 발동하여 돌을 +1 합니다.');
+    }
+
+    setPlayers(
+      produce(_players => {
+        _players[currentPlayerIndex].stone += 돌집게가지고있는지 ? currentStone + 1 : currentStone;
+        _players[currentPlayerIndex].homeFarmer -= 1;
+      })
+    );
+    setCurrentStone(0);
+    setSelectedPlayerNumber(currentPlayer.number);
+    nextPlayer();
   };
 
   useEffect(() => {
