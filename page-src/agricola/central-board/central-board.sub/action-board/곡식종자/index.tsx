@@ -35,13 +35,23 @@ export const 곡식종자 = () => {
       card => card.name === '채소장수' && card.isActive
     );
 
+    const 곡식용삽가지고있는지 = currentPlayer.subCards.find(
+      card => card.name === '곡식용삽' && card.isActive
+    );
+
     if (채소장수가지고있는지) {
       alert('채소장수카드가 발동하여 채소 +1 됩니다');
     }
 
+    if (곡식용삽가지고있는지) {
+      alert('곡식용삽카드가 발동하여 곡식을 +1 합니다.');
+    }
+
     setPlayers(
       produce(_players => {
-        _players[currentPlayerIndex].grain += 1;
+        _players[currentPlayerIndex].grain = 곡식용삽가지고있는지
+          ? _players[currentPlayerIndex].grain + 2
+          : _players[currentPlayerIndex].grain + 1;
         _players[currentPlayerIndex].vegetable = 채소장수가지고있는지
           ? _players[currentPlayerIndex].vegetable + 1
           : _players[currentPlayerIndex].vegetable;

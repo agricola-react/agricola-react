@@ -43,6 +43,83 @@ export const SubCardModal = ({ player, open, setOpen, isAction, setIsDone }: Pro
                 return;
               }
 
+              // 보조설비를 가져올때 지불해야할 자원 로직
+              if (sub.name === '곡식용삽' || sub.name === '돌집게') {
+                if (player.wood < 1) {
+                  alert('나무기 부족합니다.');
+                  return;
+                }
+
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].wood -= 1;
+                  })
+                );
+              }
+
+              if (sub.name === '물통') {
+                if (player.clay < 1) {
+                  alert('흙이 부족합니다.');
+                  return;
+                }
+
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].clay -= 1;
+                  })
+                );
+              }
+
+              if (sub.name === '병') {
+                const farmersCount = player.farmer;
+
+                if (player.clay < farmersCount || player.food < farmersCount) {
+                  alert('흙이나 음식이 부족합니다.');
+                  return;
+                }
+
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].clay -= farmersCount;
+                    _players[player.number - 1].food -= farmersCount;
+                  })
+                );
+              }
+
+              // 요거는 없앨까 고민중,,
+              if (sub.name === '부엌박') {
+                if (player.wood < 1 || player.clay < 1) {
+                  alert('나무나 흙이 부족합니다.');
+                  return;
+                }
+
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].wood -= 1;
+                    _players[player.number - 1].clay -= 1;
+                  })
+                );
+              }
+
+              if (sub.name === '통나무배') {
+                if (player.wood < 2) {
+                  alert('나무기 부족합니다.');
+                  return;
+                }
+
+                if (player.jobCards.filter(value => value.isActive).length === 1) {
+                  alert('직업카드가 1개일때만 가능합니다.');
+                  return;
+                }
+
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].wood -= 2;
+                  })
+                );
+              }
+
+              // 보조설비 활성화 로직
               setPlayers(
                 produce(_players => {
                   _players[player.number - 1].subCards = _players[player.number - 1].subCards.map(

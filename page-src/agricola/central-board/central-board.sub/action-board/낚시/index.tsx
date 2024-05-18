@@ -20,18 +20,36 @@ export const 낚시 = () => {
       return;
     }
 
-    // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayerIndex].food += currentFood;
-          _players[currentPlayerIndex].homeFarmer -= 1;
-        })
-      );
-      setCurrentFood(0);
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
     }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
+
+    const 통나무배가있는지 = currentPlayer.subCards.find(
+      card => card.name === '통나무배' && card.isActive
+    );
+
+    if (통나무배가있는지) {
+      alert('통나무배가 있어서 음식 + 1, 갈대 + 1 됩니다.');
+    }
+
+    setPlayers(
+      produce(_players => {
+        _players[currentPlayerIndex].food += 통나무배가있는지 ? currentFood + 1 : currentFood;
+        _players[currentPlayerIndex].reed += 통나무배가있는지
+          ? _players[currentPlayerIndex].reed + 1
+          : _players[currentPlayerIndex].reed;
+        _players[currentPlayerIndex].homeFarmer -= 1;
+      })
+    );
+    setCurrentFood(0);
+    setSelectedPlayerNumber(currentPlayer.number);
+    nextPlayer();
   };
 
   // 누적
