@@ -60,7 +60,7 @@ describe('수확하기 진행 테스트', () => {
   test('주기 변화에 따른 수확 기능 테스트', () => {
     // given
     const spy = jest.spyOn(window, 'alert').mockImplementation(() => null);
-    const WANT = [
+    const RESULTS = [
       {
         period: 1,
         grain: 1,
@@ -85,7 +85,7 @@ describe('수확하기 진행 테스트', () => {
 
     // when
     let harvestedPlayer = player;
-    WANT.forEach(result => {
+    RESULTS.forEach(result => {
       const _harvestedPlayer = harvest(harvestedPlayer);
       // then
       expect(spy).toHaveBeenCalledWith(
