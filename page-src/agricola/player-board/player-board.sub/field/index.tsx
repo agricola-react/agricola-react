@@ -1,3 +1,4 @@
+import { INIT_GRAIN, INIT_VEGETABLE } from '@/shared/constants/field';
 import { Player, currentActionState, playersState } from '@/shared/recoil';
 import { Grain } from '@/shared/resource/grain';
 import { Vegetable } from '@/shared/resource/vegetable';
@@ -38,7 +39,7 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
             produce(_players => {
               _players[ownerIndex].grain -= 1;
               _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
-                if (idx === index) return { type: '밭', resource: '곡식', count: 3 };
+                if (idx === index) return INIT_GRAIN;
                 return slot;
               });
             })
@@ -58,7 +59,7 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
             produce(_players => {
               _players[ownerIndex].vegetable -= 1;
               _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
-                if (idx === index) return { type: '밭', resource: '채소', count: 2 };
+                if (idx === index) return INIT_VEGETABLE;
                 return slot;
               });
             })
