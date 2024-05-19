@@ -1,3 +1,4 @@
+import { getHarvestAlertMsg } from '@/shared/constants/alert';
 import { Player, SlotValue } from '@/shared/recoil';
 
 export function isEmptyField(slots: SlotValue[], index: number) {
@@ -51,9 +52,7 @@ export function harvest(player: Player): Player {
     return acc;
   }, player.vegetable);
 
-  alert(
-    `[수확] ${player.name}\n채소 - ${vegetable - player.vegetable}개\n곡식 - ${grain - player.grain}개`
-  );
+  alert(getHarvestAlertMsg(player.name, grain - player.grain, vegetable - player.vegetable));
 
   const harvestedSlots = player.slots.map(slot => getHarvestedSlot(slot));
 

@@ -30,7 +30,7 @@ export type CardType = {
   src: string;
 };
 
-const initBoard: SlotValue[] = new Array(ROW * COL)
+export const initBoard: SlotValue[] = new Array(ROW * COL)
   .fill({
     type: null,
     resource: null,
@@ -46,6 +46,34 @@ const initBoard: SlotValue[] = new Array(ROW * COL)
     }
     return value;
   });
+
+export const INIT_PLAYER: Player = {
+  number: 0,
+  name: '',
+  color: '',
+  isFirst: false,
+  wood: 0,
+  clay: 0,
+  stone: 0,
+  reed: 0,
+  grain: 0,
+  vegetable: 0,
+  sheep: 0,
+  pig: 0,
+  cattle: 0,
+  food: 0,
+  farmer: 2,
+  fence: 0,
+  barn: 0,
+  homeFarmer: 2,
+  baby: 0,
+  bagging: 0,
+  slots: initBoard,
+  roomType: 'wood',
+  jobCards: [],
+  subCards: [],
+  mainCards: [],
+} as const;
 
 export type Player = {
   number: number;
