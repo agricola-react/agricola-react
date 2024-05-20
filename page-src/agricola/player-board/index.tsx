@@ -22,7 +22,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
   const owner = players.find(player => player.number === playerNumber) as Player;
 
   const [action, setAction] = useRecoilState(currentActionState);
-  const { currentPlayer, nextPlayer } = useCurrentPlayer();
+  const { currentPlayer } = useCurrentPlayer();
 
   const playerSlots = owner.slots;
 
@@ -32,13 +32,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
   }, 0);
 
   const handleEndAction = () => {
-    setPlayers(
-      produce(_players => {
-        _players[playerNumber - 1].homeFarmer -= 1;
-      })
-    );
-    setAction(null);
-    nextPlayer();
+    setAction({ type: '씨뿌리기', isDone: true });
   };
 
   useEffect(() => {
@@ -76,9 +70,9 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         <Title>
           <h4>{owner?.name} 보드</h4>
         </Title>
-        {currentPlayer.number === playerNumber && action === '씨뿌리기' && (
+        {currentPlayer.number === playerNumber && action?.type === '씨뿌리기' && (
           <ActionButton onClick={handleEndAction}>
-            <strong>[{action}]</strong> 액션 종료
+            <strong>[{action?.type}]</strong> 액션 종료
           </ActionButton>
         )}
       </TitleContainer>

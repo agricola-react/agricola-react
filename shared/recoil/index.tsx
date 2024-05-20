@@ -286,9 +286,19 @@ export const playersState = atom<Player[]>({
 
 export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기' | '빵굽기';
 
-export const currentActionState = atom<PlayerAction | null>({
+export type PlayerActionType = {
+  type: PlayerAction;
+  isDone: boolean;
+};
+
+export const currentActionState = atom<PlayerActionType | null>({
   key: 'currentActionState',
   default: null,
+});
+
+export const currentRoundNameState = atom<string>({
+  key: 'currentRoundNameState',
+  default: '',
 });
 
 export const remainMainCardsState = atom<CardType[]>({

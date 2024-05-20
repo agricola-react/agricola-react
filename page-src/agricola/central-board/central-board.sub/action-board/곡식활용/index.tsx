@@ -1,4 +1,4 @@
-import { currentActionState, roundState } from '@/shared/recoil';
+import { currentActionState, currentRoundNameState, roundState } from '@/shared/recoil';
 import { MeepleBread } from '@/shared/resource/meeple-bread';
 import { MeepleSow } from '@/shared/resource/meeple-sow';
 import styled from '@emotion/styled';
@@ -15,8 +15,9 @@ export const 곡식활용 = () => {
   const [isActive, setIsActive] = useState(false);
 
   const [action, setAction] = useRecoilState(currentActionState);
-  const { currentPlayer, setPlayers } = useCurrentPlayer();
+  const { currentPlayer, setPlayers, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
+  const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
 
   const handleClick = () => {
     if (action !== null) {
@@ -25,6 +26,8 @@ export const 곡식활용 = () => {
     }
 
     if (selectedPlayerNumber !== undefined) return;
+
+    setCurrentRoundName('곡식활용');
 
     const 곡식활용하는지 = confirm(`[곡식활용] 곡식활용을 하시겠습니까?`);
 
@@ -46,23 +49,9 @@ export const 곡식활용 = () => {
       }
 
       if (isValid) {
-        setAction('씨뿌리기');
+        setAction({ type: '씨뿌리기', isDone: false });
         setSelectedPlayerNumber(currentPlayer.number);
       }
-
-      // if (action === null) {
-      //   const 빵굽기할수있는지 = currentPlayer.mainCards.some(
-      //     card => card.name === '돌가마' || card.name === '흙가마'
-      //   );
-
-      //   if (빵굽기할수있는지) {
-      //     const 빵굽기하는지 = confirm(`빵을 굽겠습니까?`);
-
-      //     if (빵굽기하는지) {
-      //       setAction('빵굽기');
-      //     }
-      //   }
-      // }
     }
   };
 
@@ -74,7 +63,11 @@ export const 곡식활용 = () => {
   }, [round]);
 
   useEffect(() => {
-    if (action === '빵굽기') {
+    if (action?.type === '씨뿌리기' && action.isDone && currentRoundName === '곡식활용') {
+      setAction({ type: '빵굽기', isDone: false });
+    }
+
+    if (action?.type === '빵굽기') {
       const 돌가마인지 = currentPlayer.mainCards.find(card => card.name === '돌가마');
       const 흙가마인지 = currentPlayer.mainCards.find(card => card.name === '흙가마');
 
@@ -108,7 +101,14 @@ export const 곡식활용 = () => {
         );
       }
 
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayer.number - 1].homeFarmer -= 1;
+        })
+      );
+
       setAction(null);
+      nextPlayer();
     }
   }, [action]);
 
