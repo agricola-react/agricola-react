@@ -19,7 +19,19 @@ export const 설비 = () => {
 
   const handleClick = () => {
     if (!isActive) return;
+
+    if (selectedPlayerNumber !== undefined) {
+      alert('이미 선택한 플레이어입니다!!');
+      return;
+    }
+
+    if (currentPlayer.homeFarmer === 0) {
+      alert('홈파머가 부족합니다.');
+      return;
+    }
+
     setSelectedPlayerNumber(currentPlayer.number);
+
     setSelectModal(true);
   };
 

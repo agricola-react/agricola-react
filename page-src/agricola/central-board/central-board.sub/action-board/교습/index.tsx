@@ -35,6 +35,13 @@ export const 교습 = () => {
       return;
     }
 
+    if (usedPlayers.includes(currentPlayer.number)) {
+      if (currentPlayer.food < 1) {
+        alert('2번째 방문부터는 음식 1개가 필요합니다.');
+        return;
+      }
+    }
+
     setSelectedPlayerNumber(currentPlayer.number);
 
     setJobCard(true);
