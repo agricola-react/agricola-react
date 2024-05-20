@@ -14,6 +14,8 @@ type Props = {
   mainCards: CardType[];
 };
 
+const demoActiveCardNames = ['가구제작소', '돌가마', '바구니제작소', '흙가마'];
+
 export const MainCardModal = ({ mainCards, player, open, setOpen, isAction, setIsDone }: Props) => {
   const [remainMainCards, setRemainMainCards] = useRecoilState(remainMainCardsState);
   const setPlayers = useSetRecoilState(playersState);
@@ -38,6 +40,76 @@ export const MainCardModal = ({ mainCards, player, open, setOpen, isAction, setI
               if (!isAction) {
                 alert('액션칸에서만 활성화 가능합니다.');
                 return;
+              }
+
+              if (!demoActiveCardNames.includes(main.name)) {
+                alert('데모버전에선 지원하지 않습니다! 곧 찾아뵐게요!');
+                return;
+              }
+
+              if (main.name === '가구제작소') {
+                if (player.wood < 2 || player.stone < 2) {
+                  alert('나무2개 돌2개가 필요합니다.');
+                  return;
+                }
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].wood -= 2;
+                    _players[player.number - 1].stone -= 2;
+                  })
+                );
+              }
+
+              if (main.name === '가구제작소') {
+                if (player.clay < 2 || player.stone < 2) {
+                  alert('흙2개 돌2개가 필요합니다.');
+                  return;
+                }
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].clay -= 2;
+                    _players[player.number - 1].stone -= 2;
+                  })
+                );
+              }
+
+              if (main.name === '돌가마') {
+                if (player.clay < 1 || player.stone < 3) {
+                  alert('흙1개 돌3개가 필요합니다.');
+                  return;
+                }
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].clay -= 1;
+                    _players[player.number - 1].stone -= 3;
+                  })
+                );
+              }
+
+              if (main.name === '바구니제작소') {
+                if (player.reed < 2 || player.stone < 2) {
+                  alert('갈대2개 돌2개가 필요합니다.');
+                  return;
+                }
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].reed -= 2;
+                    _players[player.number - 1].stone -= 2;
+                  })
+                );
+              }
+
+              if (main.name === '흙가마') {
+                if (player.clay < 3 || player.stone < 1) {
+                  alert('갈대2개 돌2개가 필요합니다.');
+                  return;
+                }
+                setPlayers(
+                  produce(_players => {
+                    _players[player.number - 1].clay -= 3;
+                    _players[player.number - 1].stone -= 1;
+                  })
+                );
               }
 
               setPlayers(

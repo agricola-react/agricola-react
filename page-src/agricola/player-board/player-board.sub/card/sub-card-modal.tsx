@@ -13,6 +13,8 @@ type Props = {
   setIsDone?: (isDone: boolean) => void;
 };
 
+const demoActiveCardNames = ['곡식용삽', '돌집게', '물통', '병', '부엌방', '통나무배'];
+
 export const SubCardModal = ({ player, open, setOpen, isAction, setIsDone }: Props) => {
   const setPlayers = useSetRecoilState(playersState);
 
@@ -43,7 +45,11 @@ export const SubCardModal = ({ player, open, setOpen, isAction, setIsDone }: Pro
                 return;
               }
 
-              // 보조설비를 가져올때 지불해야할 자원 로직
+              if (!demoActiveCardNames.includes(sub.name)) {
+                alert('데모버전에선 지원하지 않습니다! 곧 찾아뵐게요!');
+                return;
+              }
+
               if (sub.name === '곡식용삽' || sub.name === '돌집게') {
                 if (player.wood < 1) {
                   alert('나무기 부족합니다.');
@@ -87,7 +93,7 @@ export const SubCardModal = ({ player, open, setOpen, isAction, setIsDone }: Pro
               }
 
               // 요거는 없앨까 고민중,,
-              if (sub.name === '부엌박') {
+              if (sub.name === '부엌방') {
                 if (player.wood < 1 || player.clay < 1) {
                   alert('나무나 흙이 부족합니다.');
                   return;

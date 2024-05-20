@@ -2,6 +2,7 @@ import { currentActionState, roundState } from '@/shared/recoil';
 import { MeepleBread } from '@/shared/resource/meeple-bread';
 import { MeepleSow } from '@/shared/resource/meeple-sow';
 import styled from '@emotion/styled';
+import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { isExistEmptyField } from 'page-src/agricola/shared/utils/harvest';
@@ -14,7 +15,7 @@ export const 곡식활용 = () => {
   const [isActive, setIsActive] = useState(false);
 
   const [action, setAction] = useRecoilState(currentActionState);
-  const { currentPlayer } = useCurrentPlayer();
+  const { currentPlayer, setPlayers } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
 
   const handleClick = () => {
@@ -25,23 +26,44 @@ export const 곡식활용 = () => {
 
     if (selectedPlayerNumber !== undefined) return;
 
-    if (!isExistAtLeastOne(currentPlayer.slots, '밭')) {
-      alert(`[곡식활용] 씨앗을 뿌리기 위해서는 농지가 필요합니다.`);
-      return;
-    }
+    const 곡식활용하는지 = confirm(`[곡식활용] 곡식활용을 하시겠습니까?`);
 
-    if (currentPlayer.grain === 0 && currentPlayer.vegetable === 0) {
-      alert(`[곡식활용] 곡식 혹은 채소가 적어도 하나는 있어야 합니다.`);
-      return;
-    }
+    if (곡식활용하는지) {
+      let isValid = true;
+      if (!isExistAtLeastOne(currentPlayer.slots, '밭')) {
+        alert(`[곡식활용] 씨앗을 뿌리기 위해서는 농지가 필요합니다.`);
+        isValid = false;
+      }
 
-    if (!isExistEmptyField(currentPlayer.slots)) {
-      alert(`[곡식활용] 비어있는 농지가 없습니다.`);
-      return;
-    }
+      if (currentPlayer.grain === 0 && currentPlayer.vegetable === 0) {
+        alert(`[곡식활용] 곡식 혹은 채소가 적어도 하나는 있어야 합니다.`);
+        isValid = false;
+      }
 
-    setAction('씨뿌리기');
-    setSelectedPlayerNumber(currentPlayer.number);
+      if (!isExistEmptyField(currentPlayer.slots)) {
+        alert(`[곡식활용] 비어있는 농지가 없습니다.`);
+        isValid = false;
+      }
+
+      if (isValid) {
+        setAction('씨뿌리기');
+        setSelectedPlayerNumber(currentPlayer.number);
+      }
+
+      // if (action === null) {
+      //   const 빵굽기할수있는지 = currentPlayer.mainCards.some(
+      //     card => card.name === '돌가마' || card.name === '흙가마'
+      //   );
+
+      //   if (빵굽기할수있는지) {
+      //     const 빵굽기하는지 = confirm(`빵을 굽겠습니까?`);
+
+      //     if (빵굽기하는지) {
+      //       setAction('빵굽기');
+      //     }
+      //   }
+      // }
+    }
   };
 
   useEffect(() => {
@@ -50,6 +72,45 @@ export const 곡식활용 = () => {
     }
     setSelectedPlayerNumber(undefined);
   }, [round]);
+
+  useEffect(() => {
+    if (action === '빵굽기') {
+      const 돌가마인지 = currentPlayer.mainCards.find(card => card.name === '돌가마');
+      const 흙가마인지 = currentPlayer.mainCards.find(card => card.name === '흙가마');
+
+      if (돌가마인지) {
+        const grainNumber = Number(prompt('곡식 몇개를 사용하시겠습니까?(2개당 음식 4개)'));
+
+        if (grainNumber > currentPlayer.grain) {
+          alert('곡식이 부족합니다.');
+          return;
+        }
+
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayer.number - 1].food += grainNumber * 2;
+            _players[currentPlayer.number - 1].grain -= grainNumber;
+          })
+        );
+      } else if (흙가마인지) {
+        const grainNumber = Number(prompt('곡식 몇개를 사용하시겠습니까?(1개당 음식 5개)'));
+
+        if (grainNumber > currentPlayer.grain) {
+          alert('곡식이 부족합니다.');
+          return;
+        }
+
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayer.number - 1].food += grainNumber * 5;
+            _players[currentPlayer.number - 1].grain -= grainNumber;
+          })
+        );
+      }
+
+      setAction(null);
+    }
+  }, [action]);
 
   return (
     <ActionContainer
