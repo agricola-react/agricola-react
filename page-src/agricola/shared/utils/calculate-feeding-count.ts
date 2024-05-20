@@ -1,7 +1,12 @@
-import { Player } from '@/shared/recoil';
+interface Props {
+  farmer: number;
+  food: number;
+  grain: number;
+  vegetable: number;
+  baby: number;
+}
 
-export const calculateFeedingCount = (player: Player) => {
-  const { farmer, food, grain, vegetable, baby } = player;
+export const calculateFeedingCount = ({ farmer, food, grain, vegetable, baby }: Props) => {
   const feedingFoodCount = farmer * 2 + baby;
 
   let remainingFood = feedingFoodCount;
