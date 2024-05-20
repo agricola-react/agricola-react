@@ -18,6 +18,9 @@ export const Tutoring4 = () => {
   const round = useRecoilValue(roundState);
   const action = useRecoilValue(currentActionState);
 
+  const isLessTwiceSelected =
+    usedPlayers.filter(value => value === currentPlayer.number).length <= 2;
+
   // eslint-disable-next-line no-undef
   const handleClick = () => {
     if (action !== null) {
@@ -34,6 +37,18 @@ export const Tutoring4 = () => {
       return;
     }
 
+    if (isLessTwiceSelected) {
+      if (currentPlayer.food < 1) {
+        alert('음식 1개가 필요합니다.');
+        return;
+      }
+    } else {
+      if (currentPlayer.food < 2) {
+        alert('음식 2개가 필요합니다.');
+        return;
+      }
+    }
+
     setSelectedPlayerNumber(currentPlayer.number);
 
     setJobCard(true);
@@ -46,21 +61,14 @@ export const Tutoring4 = () => {
   // 직업카드를 선택한 후엥 nextPlayer() 호출
   useEffect(() => {
     if (isDone) {
-      const isTwiceSelected =
-        usedPlayers.filter(value => value === currentPlayer.number).length <= 2;
       // 두번째방문까지 토큰 하나이고 3번째부터 2개씩
-      if (isTwiceSelected) {
-        if (currentPlayer.food >= 1) {
-          setPlayers(
-            produce(_players => {
-              _players[currentPlayerIndex].food -= 1;
-              _players[currentPlayerIndex].homeFarmer -= 1;
-            })
-          );
-        } else {
-          alert('음식이 부족합니다.');
-          return;
-        }
+      if (isLessTwiceSelected) {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].food -= 1;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
       } else {
         setPlayers(
           produce(_players => {
