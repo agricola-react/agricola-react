@@ -21,7 +21,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   const players = useRecoilValue(playersState);
   const [action, setAction] = useRecoilState(currentActionState);
 
-  const { currentPlayer, nextPlayer, setPlayers } = useCurrentPlayer();
+  const { currentPlayer, setPlayers } = useCurrentPlayer();
 
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const ownerIndex = players.findIndex(_player => _player.number === playerNumber);
@@ -32,7 +32,6 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         if (isNearPosition(owner.slots, index, '방')) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].homeFarmer -= 1;
               _players[ownerIndex].reed -= COUNT * 2;
               _players[ownerIndex][_players[ownerIndex].roomType] -= COUNT * 5;
               _players[ownerIndex].slots = owner.slots.map((value, idx) => {
@@ -42,8 +41,10 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
             })
           );
 
-          setAction(null);
-          nextPlayer();
+          setAction({
+            type: '농장 확장',
+            isDone: true,
+          });
           break;
         }
         alert('[농장 확장] 새로운 농장은 기존 농장과 인접한 곳에만 설치할 수 있습니다.');
@@ -53,15 +54,16 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         if (!isExistAtLeastOne(owner.slots, '밭') || isNearPosition(owner.slots, index, '밭')) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].homeFarmer -= 1;
               _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
                 if (idx === index) return { type: '밭', resource: null, count: 0 };
                 return slot;
               });
             })
           );
-          setAction(null);
-          nextPlayer();
+          setAction({
+            type: '농지',
+            isDone: true,
+          });
           break;
         }
         alert('[농지] 농지가 이미 존재하는 경우, 기존 농지와 인접한 곳에만 설치할 수 있습니다.');
@@ -83,7 +85,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       return;
     }
 
-    handleAction(action);
+    handleAction(action.type);
   }, [action, currentPlayer]);
 
   return (

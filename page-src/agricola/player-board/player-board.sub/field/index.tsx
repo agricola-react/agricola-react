@@ -73,7 +73,7 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
     }
   };
 
-  const isActive = action === '씨뿌리기' && currentPlayer.number === playerNumber;
+  const isActive = action?.type === '씨뿌리기' && currentPlayer.number === playerNumber;
 
   return (
     <Container width={width} height={height}>

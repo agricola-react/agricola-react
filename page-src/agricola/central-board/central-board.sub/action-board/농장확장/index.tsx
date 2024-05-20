@@ -1,5 +1,10 @@
 import { SpaceHeight } from '@/shared/components/space-height';
-import { PlayerAction, currentActionState, roundState } from '@/shared/recoil';
+import {
+  PlayerAction,
+  currentActionState,
+  currentRoundNameState,
+  roundState,
+} from '@/shared/recoil';
 import { Arrow } from '@/shared/resource/arrow';
 import { Barn } from '@/shared/resource/barn';
 import { Clay } from '@/shared/resource/clay';
@@ -25,6 +30,7 @@ export const 농장확장 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
+  const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
 
   const handleClick = useCallback(() => {
     if (action !== null) {
@@ -34,11 +40,13 @@ export const 농장확장 = () => {
 
     if (selectedPlayerNumber !== undefined) return;
 
+    setCurrentRoundName('농장 확장');
+
     const isValid =
       currentPlayer[currentPlayer.roomType] >= COUNT * 5 && currentPlayer.reed >= COUNT * 2;
 
     if (isValid) {
-      setAction(ACTION_TITLE);
+      setAction({ type: ACTION_TITLE, isDone: false });
       setSelectedPlayerNumber(currentPlayer.number);
       return;
     }
@@ -49,6 +57,15 @@ export const 농장확장 = () => {
   useEffect(() => {
     setSelectedPlayerNumber(undefined);
   }, [round]);
+
+  useEffect(() => {
+    if (action?.type === '농장 확장' && action.isDone && currentRoundName === '농장 확장') {
+      // 여기에 외양간 로직
+      const 외양간설치할지 = confirm('외양간을 설치하시겠습니까?');
+
+      setAction(null);
+    }
+  }, [action]);
 
   return (
     <ActionContainer
