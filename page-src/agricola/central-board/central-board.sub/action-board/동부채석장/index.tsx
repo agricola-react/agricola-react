@@ -78,7 +78,7 @@ export const 동부채석장 = () => {
           <Stone width={20} height={25} />
         </Wrapper>
         <Wrapper>
-          <div>누적 n개</div>
+          <div>누적 {currentStone}개</div>
         </Wrapper>
       </ContentWrapper>
     </ActionContainer>
