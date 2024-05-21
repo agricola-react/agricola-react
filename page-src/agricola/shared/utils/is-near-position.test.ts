@@ -1,9 +1,9 @@
 import { EMPTY } from '@/shared/constants/empty';
 import { ROOM } from '@/shared/constants/room';
 import { INIT_PLAYER, initBoard } from '@/shared/recoil';
-import { isNearPosition } from './validate-slot';
 import { COL } from '@/shared/constants';
 import { FIELD } from '@/shared/constants/field';
+import { isNearPosition } from './is-near-position';
 
 describe('인접 슬롯 검증 - 방', () => {
   // given
