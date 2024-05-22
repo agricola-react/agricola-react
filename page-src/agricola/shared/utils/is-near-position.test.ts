@@ -4,12 +4,12 @@ import { INIT_PLAYER, initBoard } from '@/shared/recoil';
 import { COL } from '@/shared/constants';
 import { FIELD } from '@/shared/constants/field';
 import { isNearPosition } from './is-near-position';
-import { WRONG_POSITION } from '@/shared/constants/messages/select-slot-error';
+import { MESSAGES } from '@/shared/constants/messages';
 
 const roomPositions = [COL, 2 * COL]; // 좌측 맨 끝
 const fieldPosition = [COL - 1, 2 * COL - 1]; // 우측 맨 끝
 
-describe('isNearPosition', () => {
+describe('isNearPosition - 예외 케이스', () => {
   it('입력 위치에 이미 동일한 땅이 존재하는 경우 에러가 발생합니다.', () => {
     // given
     const player = INIT_PLAYER;
@@ -25,14 +25,14 @@ describe('isNearPosition', () => {
       // then
       expect(() => {
         isNearPosition(player.slots, index, '방');
-      }).toThrow(new Error(WRONG_POSITION));
+      }).toThrow(new Error(MESSAGES.WRONG_POSITION));
     });
 
     fieldPosition.forEach(index => {
       // then
       expect(() => {
         isNearPosition(player.slots, index, '밭');
-      }).toThrow(new Error(WRONG_POSITION));
+      }).toThrow(new Error(MESSAGES.WRONG_POSITION));
     });
   });
 });
