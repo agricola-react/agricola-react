@@ -3,18 +3,19 @@
  */
 
 import { INIT_GRAIN, INIT_VEGETABLE } from '@/shared/constants/field';
-import { INIT_PLAYER, initBoard } from '@/shared/recoil';
+import { INIT_PLAYER, Player, initBoard } from '@/shared/recoil';
 import { harvest } from './harvest';
 import { getHarvestAlertMsg } from '@/shared/constants/alert';
 
-describe('수확하기 기능 테스트', () => {
+describe('harvest', () => {
   // given
-  const player = INIT_PLAYER;
+  let player: Player;
   beforeEach(() => {
+    player = INIT_PLAYER;
     player.slots = initBoard;
   });
 
-  test('수확할 농작물이 존재하는 경우', () => {
+  it('수확할 농작물이 존재하는 경우 수확이 진행되고 플레이어 자원이 업데이트 되어야 합니다.', () => {
     // given
     player.slots = player.slots.map((slot, index) => {
       if (index === 3) return INIT_GRAIN;
@@ -32,7 +33,7 @@ describe('수확하기 기능 테스트', () => {
     expect(harvestedPlayer.vegetable).toEqual(1);
   });
 
-  test('수확할 농작물이 존재하지 않는 경우', () => {
+  it('수확할 농작물이 존재하지 않는 경우 수확이 진행되지 않고 플레이어 자원이 업데이트 되면 안됩니다.', () => {
     // given
     const spy = jest.spyOn(window, 'alert').mockImplementation(() => null);
 
@@ -44,21 +45,15 @@ describe('수확하기 기능 테스트', () => {
     expect(harvestedPlayer.grain).toEqual(0);
     expect(harvestedPlayer.vegetable).toEqual(0);
   });
-});
 
-describe('수확하기 진행 테스트', () => {
-  // given
-  const player = INIT_PLAYER;
-  beforeEach(() => {
+  it('주기에 따라 밭에 남은 농작물 수와 수확량이 바뀌어야 합니다.', () => {
+    // given
     player.slots = player.slots.map((slot, index) => {
       if (index === 3) return INIT_GRAIN;
       if (index === 4) return INIT_VEGETABLE;
       return slot;
     });
-  });
 
-  test('주기 변화에 따른 수확 기능 테스트', () => {
-    // given
     const spy = jest.spyOn(window, 'alert').mockImplementation(() => null);
     const PERIOD_RESULTS = [
       {
