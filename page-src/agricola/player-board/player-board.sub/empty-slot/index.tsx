@@ -70,6 +70,15 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         alert('[농지] 농지가 이미 존재하는 경우, 기존 농지와 인접한 곳에만 설치할 수 있습니다.');
         break;
 
+      case '외양간 설치':
+        //TODO
+        alert('외양간 설치 완료');
+        setAction({
+          type: '외양간 설치',
+          isDone: true,
+        });
+        break;
+
       default:
         break;
     }
@@ -86,7 +95,10 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       return;
     }
 
-    handleAction(action.type);
+    if (!action.isDone) {
+      handleAction(action.type);
+      return;
+    }
   }, [action, currentPlayer]);
 
   return (
