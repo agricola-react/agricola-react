@@ -68,7 +68,7 @@ export const INIT_PLAYER: Player = {
   homeFarmer: 2,
   baby: 0,
   bagging: 0,
-  slots: initBoard,
+  slots: [...initBoard],
   roomType: 'wood',
   jobCards: [],
   subCards: [],

@@ -10,6 +10,8 @@ import { getHarvestAlertMsg } from '@/shared/constants/alert';
 describe('harvest', () => {
   // given
   let player: Player;
+
+  // setup
   beforeEach(() => {
     player = INIT_PLAYER;
     player.slots = initBoard;

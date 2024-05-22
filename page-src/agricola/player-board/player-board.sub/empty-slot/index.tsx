@@ -4,8 +4,6 @@ import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { 농장확장action } from 'page-src/agricola/shared/utils/do-action/농장확장action';
 import { 농지설치action } from 'page-src/agricola/shared/utils/do-action/농지설치action';
-import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/is-exist-at-least-one';
-import { isNearPosition } from 'page-src/agricola/shared/utils/is-near-position';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -31,36 +29,37 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   const handleAction = (action: PlayerAction) => {
     switch (action) {
       case '농장 확장':
-        if (isNearPosition(owner.slots, index, '방')) {
+        // eslint-disable-next-line no-case-declarations
+        const updatedPlayer = 농장확장action(owner, index);
+
+        if (updatedPlayer !== null) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex] = 농장확장action(owner, index);
+              _players[ownerIndex] = updatedPlayer;
             })
           );
-
           setAction({
             type: '농장 확장',
             isDone: true,
           });
-          break;
         }
-        alert('[농장 확장] 새로운 농장은 기존 농장과 인접한 곳에만 설치할 수 있습니다.');
         break;
 
       case '농지':
-        if (!isExistAtLeastOne(owner.slots, '밭') || isNearPosition(owner.slots, index, '밭')) {
+        // eslint-disable-next-line no-case-declarations
+        const updatedPlayer2 = 농지설치action(owner, index);
+
+        if (updatedPlayer2 !== null) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex] = 농지설치action(owner, index);
+              _players[ownerIndex] = updatedPlayer2;
             })
           );
           setAction({
             type: '농지',
             isDone: true,
           });
-          break;
         }
-        alert('[농지] 농지가 이미 존재하는 경우, 기존 농지와 인접한 곳에만 설치할 수 있습니다.');
         break;
 
       case '외양간 설치':
