@@ -2,6 +2,7 @@ import { COL, ROW } from '@/shared/constants';
 import { getTwoDimensionBoard } from './get-two-dimension-board';
 import { SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
 import { SlotValue } from '@/shared/recoil';
+import { WRONG_POSITION } from '@/shared/constants/messages/select-slot-error';
 
 const d = [
   { dr: -1, dc: 0 },
@@ -20,6 +21,10 @@ function validatePosition(row: number, col: number) {
  * @param slotType - 선택한 슬롯의 타입
  */
 export function isNearPosition(slots: SlotValue[], slotIndex: number, slotType: SlotType) {
+  if (slots[slotIndex].type === slotType) {
+    throw new Error(WRONG_POSITION);
+  }
+
   const board = getTwoDimensionBoard(slots);
   const slotRow = Math.floor(slotIndex / COL);
   const slotCol = slotIndex % COL;

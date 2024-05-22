@@ -4,11 +4,42 @@ import { INIT_PLAYER, initBoard } from '@/shared/recoil';
 import { COL } from '@/shared/constants';
 import { FIELD } from '@/shared/constants/field';
 import { isNearPosition } from './is-near-position';
+import { WRONG_POSITION } from '@/shared/constants/messages/select-slot-error';
+
+const roomPositions = [COL, 2 * COL]; // 좌측 맨 끝
+const fieldPosition = [COL - 1, 2 * COL - 1]; // 우측 맨 끝
+
+describe('isNearPosition', () => {
+  it('입력 위치에 이미 동일한 땅이 존재하는 경우 에러가 발생합니다.', () => {
+    // given
+    const player = INIT_PLAYER;
+
+    player.slots = initBoard.map((_, index) => {
+      if (roomPositions.includes(index)) return ROOM;
+      if (fieldPosition.includes(index)) return FIELD;
+      return EMPTY;
+    });
+
+    // when
+    roomPositions.forEach(index => {
+      // then
+      expect(() => {
+        isNearPosition(player.slots, index, '방');
+      }).toThrow(new Error(WRONG_POSITION));
+    });
+
+    fieldPosition.forEach(index => {
+      // then
+      expect(() => {
+        isNearPosition(player.slots, index, '밭');
+      }).toThrow(new Error(WRONG_POSITION));
+    });
+  });
+});
 
 describe('isNearPosition(방)', () => {
   // given
   const player = INIT_PLAYER;
-  const roomPositions = [COL, 2 * COL]; // 좌측 맨 끝
 
   beforeEach(() => {
     player.slots = initBoard.map((_, index) => {
@@ -43,7 +74,6 @@ describe('isNearPosition(방)', () => {
 describe('isNearPosition(밭)', () => {
   // given
   const player = INIT_PLAYER;
-  const fieldPosition = [COL - 1, 2 * COL - 1]; // 우측 맨 끝
 
   beforeEach(() => {
     player.slots = initBoard.map((_, index) => {
