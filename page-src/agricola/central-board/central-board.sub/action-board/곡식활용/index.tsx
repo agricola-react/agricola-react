@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { isExistEmptyField } from 'page-src/agricola/shared/utils/harvest';
-import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/validate-slot';
+import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/is-exist-at-least-one';
+import { isExistEmptyField } from 'page-src/agricola/shared/utils/is-exist-empty-field';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 

@@ -60,40 +60,36 @@ describe('수확하기 진행 테스트', () => {
   test('주기 변화에 따른 수확 기능 테스트', () => {
     // given
     const spy = jest.spyOn(window, 'alert').mockImplementation(() => null);
-    const RESULTS = [
+    const PERIOD_RESULTS = [
       {
-        period: 1,
         grain: 1,
         vegetable: 1,
       },
       {
-        period: 2,
         grain: 1,
         vegetable: 1,
       },
       {
-        period: 3,
         grain: 1,
         vegetable: 0,
       },
       {
-        period: 4,
         grain: 0,
         vegetable: 0,
       },
     ] as const;
 
     // when
-    let harvestedPlayer = player;
-    RESULTS.forEach(result => {
-      const _harvestedPlayer = harvest(harvestedPlayer);
+    let harvestingPlayer = player;
+    PERIOD_RESULTS.forEach(result => {
+      const harvestedPlayer = harvest(harvestingPlayer);
       // then
       expect(spy).toHaveBeenCalledWith(
         getHarvestAlertMsg(player.name, result.grain, result.vegetable)
       );
-      expect(_harvestedPlayer.grain).toEqual(harvestedPlayer.grain + result.grain);
-      expect(_harvestedPlayer.vegetable).toEqual(harvestedPlayer.vegetable + result.vegetable);
-      harvestedPlayer = _harvestedPlayer;
+      expect(harvestedPlayer.grain).toEqual(harvestingPlayer.grain + result.grain);
+      expect(harvestedPlayer.vegetable).toEqual(harvestingPlayer.vegetable + result.vegetable);
+      harvestingPlayer = harvestedPlayer;
     });
   });
 });

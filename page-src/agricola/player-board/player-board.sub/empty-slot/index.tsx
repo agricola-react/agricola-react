@@ -2,7 +2,8 @@ import { Player, PlayerAction, currentActionState, playersState } from '@/shared
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { isExistAtLeastOne, isNearPosition } from 'page-src/agricola/shared/utils/validate-slot';
+import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/is-exist-at-least-one';
+import { isNearPosition } from 'page-src/agricola/shared/utils/is-near-position';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
