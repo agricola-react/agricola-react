@@ -2,13 +2,14 @@ import { Player, PlayerAction, currentActionState, playersState } from '@/shared
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
+import { 농장확장action } from 'page-src/agricola/shared/utils/do-action/농장확장action';
+import { 농지설치action } from 'page-src/agricola/shared/utils/do-action/농지설치action';
 import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/is-exist-at-least-one';
 import { isNearPosition } from 'page-src/agricola/shared/utils/is-near-position';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 // TODO: 확장 수 플레이어 지정으로 변경
-const COUNT = 1;
 
 type Props = {
   width: number;
@@ -33,12 +34,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         if (isNearPosition(owner.slots, index, '방')) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].reed -= COUNT * 2;
-              _players[ownerIndex][_players[ownerIndex].roomType] -= COUNT * 5;
-              _players[ownerIndex].slots = owner.slots.map((value, idx) => {
-                if (idx === index) return { type: '방', resource: null, count: 0 };
-                return value;
-              });
+              _players[ownerIndex] = 농장확장action(owner, index);
             })
           );
 
@@ -55,10 +51,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         if (!isExistAtLeastOne(owner.slots, '밭') || isNearPosition(owner.slots, index, '밭')) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
-                if (idx === index) return { type: '밭', resource: null, count: 0 };
-                return slot;
-              });
+              _players[ownerIndex] = 농지설치action(owner, index);
             })
           );
           setAction({

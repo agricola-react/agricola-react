@@ -1,12 +1,6 @@
 import { Player, SlotValue } from '@/shared/recoil';
-
-function isOwnersRoom(slot: SlotValue) {
-  return slot.type === '방' && slot.resource === '사람';
-}
-
-function isEmptyRoom(slot: SlotValue) {
-  return slot.type === '방' && slot.resource === null;
-}
+import { isOwnersRoom } from './is-owner-room';
+import { isEmptyRoom } from './is-empty-room';
 
 export function getUpdatedSlots(
   playerSlots: SlotValue[],
@@ -19,16 +13,6 @@ export function getUpdatedSlots(
       if (player === undefined) {
         return [...playerSlots];
       }
-      // 전체 방
-      // const totalRoomCnt = playerSlots.reduce((acc, cur) => {
-      //   if (cur.type === '방') return acc + 1;
-      //   return acc;
-      // }, 0);
-
-      // if (totalRoomCnt < player.farmer) {
-      //   console.error(`[${type}] 가족 구성원 수가 방 개수보다 많습니다.`);
-      //   return [...playerSlots];
-      // }
 
       let cnt = 0;
       //* 1. 주인 있는 방 먼저 채우기
