@@ -5,7 +5,8 @@ import { Vegetable } from '@/shared/resource/vegetable';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { isEmptyField } from 'page-src/agricola/shared/utils/harvest';
+import { isEmptyField } from 'page-src/agricola/shared/utils/is-empty-field';
+
 import { ReactNode } from 'react';
 import { useRecoilValue } from 'recoil';
 
