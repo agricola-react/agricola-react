@@ -10,7 +10,7 @@ export const resultModalOpenState = atom({
 
 export const roundState = atom({
   key: 'roundState',
-  default: 11,
+  default: 1,
 });
 
 export const currentPlayerIndexState = atom({
@@ -52,11 +52,11 @@ export const INIT_PLAYER: Player = {
   name: '',
   color: '',
   isFirst: false,
-  wood: 10,
-  clay: 10,
-  stone: 10,
-  reed: 10,
-  grain: 10,
+  wood: 0,
+  clay: 0,
+  stone: 0,
+  reed: 0,
+  grain: 0,
   vegetable: 0,
   sheep: 0,
   pig: 0,
