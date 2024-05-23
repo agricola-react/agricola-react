@@ -2,12 +2,12 @@ import { Player, PlayerAction, currentActionState, playersState } from '@/shared
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { isExistAtLeastOne, isNearPosition } from 'page-src/agricola/shared/utils/validate-slot';
+import { 농장확장action } from 'page-src/agricola/shared/utils/do-action/농장확장action';
+import { 농지설치action } from 'page-src/agricola/shared/utils/do-action/농지설치action';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 // TODO: 확장 수 플레이어 지정으로 변경
-const COUNT = 1;
 
 type Props = {
   width: number;
@@ -29,44 +29,46 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   const handleAction = (action: PlayerAction) => {
     switch (action) {
       case '농장 확장':
-        if (isNearPosition(owner.slots, index, '방')) {
+        // eslint-disable-next-line no-case-declarations
+        const updatedPlayer = 농장확장action(owner, index);
+
+        if (updatedPlayer !== null) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].reed -= COUNT * 2;
-              _players[ownerIndex][_players[ownerIndex].roomType] -= COUNT * 5;
-              _players[ownerIndex].slots = owner.slots.map((value, idx) => {
-                if (idx === index) return { type: '방', resource: null, count: 0 };
-                return value;
-              });
+              _players[ownerIndex] = updatedPlayer;
             })
           );
-
           setAction({
             type: '농장 확장',
             isDone: true,
           });
-          break;
         }
-        alert('[농장 확장] 새로운 농장은 기존 농장과 인접한 곳에만 설치할 수 있습니다.');
         break;
 
       case '농지':
-        if (!isExistAtLeastOne(owner.slots, '밭') || isNearPosition(owner.slots, index, '밭')) {
+        // eslint-disable-next-line no-case-declarations
+        const updatedPlayer2 = 농지설치action(owner, index);
+
+        if (updatedPlayer2 !== null) {
           setPlayers(
             produce(_players => {
-              _players[ownerIndex].slots = owner.slots.map((slot, idx) => {
-                if (idx === index) return { type: '밭', resource: null, count: 0 };
-                return slot;
-              });
+              _players[ownerIndex] = updatedPlayer2;
             })
           );
           setAction({
             type: '농지',
             isDone: true,
           });
-          break;
         }
-        alert('[농지] 농지가 이미 존재하는 경우, 기존 농지와 인접한 곳에만 설치할 수 있습니다.');
+        break;
+
+      case '외양간 설치':
+        //TODO
+        alert('외양간 설치 완료');
+        setAction({
+          type: '외양간 설치',
+          isDone: true,
+        });
         break;
 
       default:
@@ -85,7 +87,10 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       return;
     }
 
-    handleAction(action.type);
+    if (!action.isDone) {
+      handleAction(action.type);
+      return;
+    }
   }, [action, currentPlayer]);
 
   return (

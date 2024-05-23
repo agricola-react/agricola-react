@@ -1,19 +1,6 @@
 import { getHarvestAlertMsg } from '@/shared/constants/alert';
 import { Player, SlotValue } from '@/shared/recoil';
 
-export function isEmptyField(slots: SlotValue[], index: number) {
-  return slots[index].type === '밭' && slots[index].resource === null && slots[index].count === 0;
-}
-
-/**
- * 플레이어 보드에 비어있는 밭이 하나라도 존재하는지 검증하는 메서드
- * @param slots - 플레이어 보드
- * @returns
- */
-export function isExistEmptyField(slots: SlotValue[]) {
-  return slots.some((_, index) => isEmptyField(slots, index));
-}
-
 function canHarvestField(slot: SlotValue) {
   return (
     slot.type === '밭' && (slot.resource === '곡식' || slot.resource === '채소') && slot.count > 0

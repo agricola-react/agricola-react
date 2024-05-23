@@ -68,7 +68,7 @@ export const INIT_PLAYER: Player = {
   homeFarmer: 2,
   baby: 0,
   bagging: 0,
-  slots: initBoard,
+  slots: [...initBoard],
   roomType: 'wood',
   jobCards: [],
   subCards: [],
@@ -218,9 +218,9 @@ export const playersState = atom<Player[]>({
           src: '/job-card/지붕다지는사람.jpg',
         },
         {
-          name: '가마떼는사람',
+          name: '가마때는사람',
           isActive: false,
-          src: '/job-card/가마떼는사람.jpg',
+          src: '/job-card/가마때는사람.jpg',
         },
       ],
       subCards: [
@@ -284,7 +284,7 @@ export const playersState = atom<Player[]>({
   ],
 });
 
-export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기' | '빵굽기';
+export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기' | '빵굽기' | '외양간 설치';
 
 export type PlayerActionType = {
   type: PlayerAction;

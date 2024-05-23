@@ -5,8 +5,10 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { isExistEmptyField } from 'page-src/agricola/shared/utils/harvest';
-import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/validate-slot';
+
+import { isExistAtLeastOne } from 'page-src/agricola/shared/utils/is-exist-at-least-one';
+import { isExistEmptyField } from 'page-src/agricola/shared/utils/is-exist-empty-field';
+
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -28,8 +30,15 @@ export const 곡식활용 = () => {
     if (selectedPlayerNumber !== undefined) return;
 
     setCurrentRoundName('곡식활용');
+    setSelectedPlayerNumber(currentPlayer.number);
 
-    const 곡식활용하는지 = confirm(`[곡식활용] 곡식활용을 하시겠습니까?`);
+    setPlayers(
+      produce(_players => {
+        _players[currentPlayer.number - 1].homeFarmer -= 1;
+      })
+    );
+
+    const 곡식활용하는지 = confirm(`[곡식활용] 씨뿌리기를 하시겠습니까?`);
 
     if (곡식활용하는지) {
       let isValid = true;
@@ -50,8 +59,9 @@ export const 곡식활용 = () => {
 
       if (isValid) {
         setAction({ type: '씨뿌리기', isDone: false });
-        setSelectedPlayerNumber(currentPlayer.number);
       }
+    } else {
+      setAction({ type: '씨뿌리기', isDone: true });
     }
   };
 
@@ -64,7 +74,10 @@ export const 곡식활용 = () => {
 
   useEffect(() => {
     if (action?.type === '씨뿌리기' && action.isDone && currentRoundName === '곡식활용') {
-      setAction({ type: '빵굽기', isDone: false });
+      const 빵굽기할건지 = confirm(`[곡식활용] 빵을 굽겠습니까?`);
+      if (빵굽기할건지) {
+        setAction({ type: '빵굽기', isDone: false });
+      }
     }
 
     if (action?.type === '빵굽기') {

@@ -15,12 +15,17 @@ import { RoomWood } from '@/shared/resource/room-wood';
 import { Stone } from '@/shared/resource/stone';
 import { Wood } from '@/shared/resource/wood';
 import styled from '@emotion/styled';
+import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
+import { can농장확장 } from 'page-src/agricola/shared/utils/validate-action/can농장확장';
+import { can외양간설치 } from 'page-src/agricola/shared/utils/validate-action/can외양간설치';
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-const ACTION_TITLE: PlayerAction = '농장 확장';
+const ROUND_NAME = '농장 확장';
+const FIRST_ACTION: PlayerAction = '농장 확장';
+const SECOND_ACTION: PlayerAction = '외양간 설치';
 
 // TODO: 확장 방 수 (사용자 입력으로 처리해야 함)
 const COUNT = 1;
@@ -31,6 +36,7 @@ export const 농장확장 = () => {
   const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
   const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
+  const { setPlayers, nextPlayer } = useCurrentPlayer();
 
   const handleClick = useCallback(() => {
     if (action !== null) {
@@ -40,13 +46,20 @@ export const 농장확장 = () => {
 
     if (selectedPlayerNumber !== undefined) return;
 
-    setCurrentRoundName('농장 확장');
+    setCurrentRoundName(ROUND_NAME);
 
-    const isValid =
-      currentPlayer[currentPlayer.roomType] >= COUNT * 5 && currentPlayer.reed >= COUNT * 2;
+    if (can농장확장(currentPlayer, COUNT)) {
+      const 농장확장확정 = confirm(`[방 확장] 방을 확장하시겠습니까?`);
 
-    if (isValid) {
-      setAction({ type: ACTION_TITLE, isDone: false });
+      if (농장확장확정) {
+        setAction({ type: FIRST_ACTION, isDone: false });
+        setSelectedPlayerNumber(currentPlayer.number);
+        return;
+      }
+    }
+
+    if (can외양간설치(currentPlayer)) {
+      setAction({ type: SECOND_ACTION, isDone: false });
       setSelectedPlayerNumber(currentPlayer.number);
       return;
     }
@@ -59,11 +72,28 @@ export const 농장확장 = () => {
   }, [round]);
 
   useEffect(() => {
-    if (action?.type === '농장 확장' && action.isDone && currentRoundName === '농장 확장') {
+    let isDone = action?.type === SECOND_ACTION && action.isDone && currentRoundName === ROUND_NAME;
+
+    if (action?.type === FIRST_ACTION && action.isDone && currentRoundName === ROUND_NAME) {
       // 여기에 외양간 로직
       const 외양간설치할지 = confirm('외양간을 설치하시겠습니까?');
 
+      if (외양간설치할지) {
+        setAction({ type: SECOND_ACTION, isDone: false });
+        return;
+      }
+
+      isDone = true;
+    }
+
+    if (isDone) {
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayer.number - 1].homeFarmer -= 1;
+        })
+      );
       setAction(null);
+      nextPlayer();
     }
   }, [action]);
 
@@ -76,7 +106,7 @@ export const 농장확장 = () => {
       contentHeight={100}
       descriptionHeight={155}
       isActive
-      title={ACTION_TITLE}
+      title={ROUND_NAME}
       onClick={handleClick}
       userNumber={selectedPlayerNumber}
     >
