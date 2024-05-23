@@ -10,7 +10,7 @@ export const resultModalOpenState = atom({
 
 export const roundState = atom({
   key: 'roundState',
-  default: 1,
+  default: 14,
 });
 
 export const currentPlayerIndexState = atom({
@@ -68,7 +68,7 @@ export const INIT_PLAYER: Player = {
   homeFarmer: 2,
   baby: 0,
   bagging: 0,
-  slots: [...initBoard],
+  slots: initBoard,
   roomType: 'wood',
   jobCards: [],
   subCards: [],
@@ -284,7 +284,7 @@ export const playersState = atom<Player[]>({
   ],
 });
 
-export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기' | '빵굽기' | '외양간 설치';
+export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기' | '빵굽기';
 
 export type PlayerActionType = {
   type: PlayerAction;
