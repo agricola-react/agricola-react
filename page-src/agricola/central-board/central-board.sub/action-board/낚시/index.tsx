@@ -38,18 +38,33 @@ export const 낚시 = () => {
       alert('통나무배가 있어서 음식 + 1, 갈대 + 1 됩니다.');
     }
 
-    setPlayers(
-      produce(_players => {
-        _players[currentPlayerIndex].food += 통나무배가있는지 ? currentFood + 1 : currentFood;
-        _players[currentPlayerIndex].reed += 통나무배가있는지
-          ? _players[currentPlayerIndex].reed + 1
-          : _players[currentPlayerIndex].reed;
-        _players[currentPlayerIndex].homeFarmer -= 1;
-      })
+    const 작살꾼소유여부 = currentPlayer.jobCards.find(
+      card => card.name === '작살꾼' && card.isActive
     );
-    setCurrentFood(0);
-    setSelectedPlayerNumber(currentPlayer.number);
-    nextPlayer();
+
+    if (작살꾼소유여부) {
+      alert(
+        '작살꾼카드가 발동하여 나무 1개를 내고 가족 수만큼의 음식과 갈대 1개를 가져올 수 있습니다.'
+      );
+    }
+
+    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayerIndex].food += 통나무배가있는지 ? currentFood + 1 : currentFood;
+          _players[currentPlayerIndex].reed += 통나무배가있는지
+            ? _players[currentPlayerIndex].reed + 1
+            : _players[currentPlayerIndex].reed;
+          _players[currentPlayerIndex].wood -= 작살꾼소유여부 ? 1 : 0;
+          _players[currentPlayerIndex].food += 작살꾼소유여부 ? currentPlayer.farmer : 0;
+          _players[currentPlayerIndex].reed += 작살꾼소유여부 ? 1 : 0;
+          _players[currentPlayerIndex].homeFarmer -= 1;
+        })
+      );
+      setCurrentFood(0);
+      setSelectedPlayerNumber(currentPlayer.number);
+      nextPlayer();
+    }
   };
 
   // 누적
