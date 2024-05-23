@@ -218,9 +218,9 @@ export const playersState = atom<Player[]>({
           src: '/job-card/지붕다지는사람.jpg',
         },
         {
-          name: '가마떼는사람',
+          name: '가마때는사람',
           isActive: false,
-          src: '/job-card/가마떼는사람.jpg',
+          src: '/job-card/가마때는사람.jpg',
         },
       ],
       subCards: [
