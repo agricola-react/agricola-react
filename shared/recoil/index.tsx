@@ -10,7 +10,7 @@ export const resultModalOpenState = atom({
 
 export const roundState = atom({
   key: 'roundState',
-  default: 1,
+  default: 11,
 });
 
 export const currentPlayerIndexState = atom({
@@ -52,11 +52,11 @@ export const INIT_PLAYER: Player = {
   name: '',
   color: '',
   isFirst: false,
-  wood: 0,
-  clay: 0,
-  stone: 0,
-  reed: 0,
-  grain: 0,
+  wood: 10,
+  clay: 10,
+  stone: 10,
+  reed: 10,
+  grain: 10,
   vegetable: 0,
   sheep: 0,
   pig: 0,
@@ -218,9 +218,9 @@ export const playersState = atom<Player[]>({
           src: '/job-card/지붕다지는사람.jpg',
         },
         {
-          name: '가마떼는사람',
+          name: '가마때는사람',
           isActive: false,
-          src: '/job-card/가마떼는사람.jpg',
+          src: '/job-card/가마때는사람.jpg',
         },
       ],
       subCards: [

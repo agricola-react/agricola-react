@@ -2,6 +2,7 @@ import { roundState } from '@/shared/recoil';
 import { MeepleMajor } from '@/shared/resource/meeple-major';
 import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import styled from '@emotion/styled';
+import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { SelectModal } from 'page-src/agricola/central-board/central-board.sub/action-board/설비/설비.sub/select-modal';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
@@ -10,7 +11,7 @@ import { useRecoilValue } from 'recoil';
 
 export const 설비 = () => {
   const round = useRecoilValue(roundState);
-  const { currentPlayer, nextPlayer } = useCurrentPlayer();
+  const { currentPlayer, nextPlayer, setPlayers } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [openSelectModal, setSelectModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -31,6 +32,12 @@ export const 설비 = () => {
     }
 
     setSelectedPlayerNumber(currentPlayer.number);
+
+    setPlayers(
+      produce(_players => {
+        _players[currentPlayer.number - 1].homeFarmer -= 1;
+      })
+    );
 
     setSelectModal(true);
   };

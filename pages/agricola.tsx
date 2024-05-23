@@ -141,7 +141,7 @@ const AgricolaPage = () => {
           vegetable: isHarvestTime ? newVegetable : player.vegetable,
           bagging: isHarvestTime
             ? remainingFood > 0
-              ? remainingFood
+              ? player.bagging + remainingFood
               : player.bagging
             : player.bagging,
         };

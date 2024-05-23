@@ -5,6 +5,7 @@ import { MeepleUpgrade } from '@/shared/resource/meeple-upgrade';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { SelectModal } from 'page-src/agricola/central-board/central-board.sub/action-board/설비/설비.sub/select-modal';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useState, useEffect, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -15,6 +16,9 @@ export const 집개조 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const round = useRecoilValue(roundState);
+  const [openSelectModal, setSelectModal] = useState(false);
+
+  const [isDone, setIsDone] = useState(false);
 
   const validate = useCallback(
     (player: Player, roomCnt: number) => {
@@ -63,7 +67,7 @@ export const 집개조 = () => {
         })
       );
       setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
+      setSelectModal(true);
       return;
     }
     alert('자원이 부족합니다.');
@@ -75,6 +79,13 @@ export const 집개조 = () => {
     }
     setSelectedPlayerNumber(undefined);
   }, [round]);
+
+  useEffect(() => {
+    if (isDone) {
+      nextPlayer();
+      setIsDone(false);
+    }
+  }, [isDone]);
 
   return (
     <ActionContainer
@@ -99,6 +110,7 @@ export const 집개조 = () => {
           <MeepleMinor width={30} height={20} />
         </ContentWrapper>
       </Wrapper>
+      <SelectModal open={openSelectModal} setOpen={setSelectModal} setIsDone={setIsDone} />
     </ActionContainer>
   );
 };

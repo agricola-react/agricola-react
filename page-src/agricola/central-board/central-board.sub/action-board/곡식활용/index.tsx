@@ -30,8 +30,15 @@ export const 곡식활용 = () => {
     if (selectedPlayerNumber !== undefined) return;
 
     setCurrentRoundName('곡식활용');
+    setSelectedPlayerNumber(currentPlayer.number);
 
-    const 곡식활용하는지 = confirm(`[곡식활용] 곡식활용을 하시겠습니까?`);
+    setPlayers(
+      produce(_players => {
+        _players[currentPlayer.number - 1].homeFarmer -= 1;
+      })
+    );
+
+    const 곡식활용하는지 = confirm(`[곡식활용] 씨뿌리기를 하시겠습니까?`);
 
     if (곡식활용하는지) {
       let isValid = true;
@@ -52,8 +59,9 @@ export const 곡식활용 = () => {
 
       if (isValid) {
         setAction({ type: '씨뿌리기', isDone: false });
-        setSelectedPlayerNumber(currentPlayer.number);
       }
+    } else {
+      setAction({ type: '씨뿌리기', isDone: true });
     }
   };
 
@@ -66,7 +74,10 @@ export const 곡식활용 = () => {
 
   useEffect(() => {
     if (action?.type === '씨뿌리기' && action.isDone && currentRoundName === '곡식활용') {
-      setAction({ type: '빵굽기', isDone: false });
+      const 빵굽기할건지 = confirm(`[곡식활용] 빵을 굽겠습니까?`);
+      if (빵굽기할건지) {
+        setAction({ type: '빵굽기', isDone: false });
+      }
     }
 
     if (action?.type === '빵굽기') {

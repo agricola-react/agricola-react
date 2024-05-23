@@ -101,7 +101,7 @@ export const MainCardModal = ({ mainCards, player, open, setOpen, isAction, setI
 
               if (main.name === '흙가마') {
                 if (player.clay < 3 || player.stone < 1) {
-                  alert('갈대2개 돌2개가 필요합니다.');
+                  alert('흙2개 돌1개가 필요합니다.');
                   return;
                 }
                 setPlayers(
