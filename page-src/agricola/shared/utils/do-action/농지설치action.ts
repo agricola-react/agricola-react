@@ -2,7 +2,7 @@ import { FIELD } from '@/shared/constants/field';
 import { Player } from '@/shared/recoil';
 import { isExistAtLeastOne } from '../is-exist-at-least-one';
 import { isNearPosition } from '../is-near-position';
-import { get농지설치AlertMsg } from '@/shared/constants/alert';
+import { 농지예외Alert } from '@/shared/constants/alert';
 import { MESSAGES } from '@/shared/constants/messages';
 
 /**
@@ -25,6 +25,6 @@ export function 농지설치action(player: Player, index: number): Player | null
       }),
     };
   }
-  alert(get농지설치AlertMsg());
+  alert(농지예외Alert);
   return null;
 }
