@@ -8,6 +8,7 @@ import { 농지설치action } from './농지설치action';
 import { get농지설치AlertMsg } from '@/shared/constants/alert';
 import { EMPTY } from '@/shared/constants/empty';
 import { COL, ROW } from '@/shared/constants';
+import { MESSAGES } from '@/shared/constants/messages';
 
 const EMPTY_BOARD = new Array(ROW * COL).fill({
   type: null,
@@ -20,13 +21,19 @@ const NEAR_INDEX = FILED_INDEX - 1;
 const NOT_NEAR_INDEX = FILED_INDEX + 1;
 
 describe('농지설치action - 예외', () => {
-  it('농지가 이미 존재하는 경우 기존 농지와 인접하지 않은 위치에는 설치할 수 없습니다.', () => {
-    // given
-    const player = { ...INIT_PLAYER };
+  let player: Player;
+
+  // setup & reset
+  beforeEach(() => {
+    player = { ...INIT_PLAYER };
     player.slots = player.slots.map((_, index) => {
       if (index === FILED_INDEX) return FIELD;
       return EMPTY;
     });
+  });
+
+  it('농지가 이미 존재하는 경우 기존 농지와 인접하지 않은 위치에는 설치할 수 없습니다.', () => {
+    // given
     const spy = jest.spyOn(window, 'alert').mockImplementation(() => null);
 
     // when
@@ -35,6 +42,14 @@ describe('농지설치action - 예외', () => {
     // then
     expect(resultPlayer).toBeNull();
     expect(spy).toHaveBeenCalledWith(get농지설치AlertMsg());
+  });
+
+  it('농지가 이미 존재하는 위치에는 농지를 설치할 수 없습니다.', () => {
+    // given
+    // when & then
+    expect(() => {
+      농지설치action(player, FILED_INDEX);
+    }).toThrow(new Error(MESSAGES.WRONG_POSITION));
   });
 });
 
