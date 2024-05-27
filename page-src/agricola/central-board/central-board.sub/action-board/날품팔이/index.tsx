@@ -1,17 +1,24 @@
-import { currentActionState, roundState } from '@/shared/recoil';
+import {
+  PlayerAction,
+  currentActionState,
+  currentRoundNameState,
+  roundState,
+} from '@/shared/recoil';
 import { MeepleFood } from '@/shared/resource/meeple-food';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+const ACTION_TITLE: PlayerAction = '농지';
 
 export const 날품팔이 = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const round = useRecoilValue(roundState);
-  const action = useRecoilValue(currentActionState);
+  const [action, setAction] = useRecoilState(currentActionState);
+  const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
 
   const handleClick = () => {
     if (action !== null) {
@@ -27,11 +34,39 @@ export const 날품팔이 = () => {
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
-      setSelectedPlayerNumber(currentPlayer.number);
+      const 보조경작자소유여부 = currentPlayer.jobCards.find(
+        card => card.name === '보조경작자' && card.isActive
+      );
+
+      if (보조경작자소유여부) {
+        const 보조경작자사용여부 = confirm('밭 1개를 일굴 수 있습니다.');
+        if (보조경작자사용여부) {
+          setCurrentRoundName('농지');
+
+          const isValid = currentPlayer.slots.some(slot => {
+            if (slot.type === null) return true;
+            return false;
+          });
+
+          if (isValid) {
+            setAction({ type: ACTION_TITLE, isDone: false });
+            setSelectedPlayerNumber(currentPlayer.number);
+            return;
+          }
+          alert('농지를 설치할 수 있는 칸이 없습니다.');
+        }
+      }
+      // setSelectedPlayerNumber(currentPlayer.number);
       nextPlayer();
     }
   };
 
+  useEffect(() => {
+    if (action?.type === '농지' && action?.isDone && currentRoundName === '날품팔이') {
+      setSelectedPlayerNumber(currentPlayer.number);
+      nextPlayer();
+    }
+  }, [action]);
   useEffect(() => {
     setSelectedPlayerNumber(undefined);
   }, [round]);

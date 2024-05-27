@@ -42,22 +42,27 @@ export const 낚시 = () => {
       card => card.name === '작살꾼' && card.isActive
     );
 
-    if (작살꾼소유여부) {
-      alert(
-        '작살꾼카드가 발동하여 나무 1개를 내고 가족 수만큼의 음식과 갈대 1개를 가져올 수 있습니다.'
-      );
-    }
-
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+      if (작살꾼소유여부) {
+        const 작살꾼효과사용했는지 = confirm(
+          '낚시칸을 이용할 때 나무 1개를 내고 가족수만큼 음식을 가져오고 갈대 1개를 가져오겠습니까?'
+        );
+        if (작살꾼효과사용했는지) {
+          setPlayers(
+            produce(_players => {
+              _players[currentPlayerIndex].wood -= 1;
+              _players[currentPlayerIndex].food += currentPlayer.farmer;
+              _players[currentPlayerIndex].reed += 1;
+            })
+          );
+        }
+      }
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].food += 통나무배가있는지 ? currentFood + 1 : currentFood;
           _players[currentPlayerIndex].reed += 통나무배가있는지
             ? _players[currentPlayerIndex].reed + 1
             : _players[currentPlayerIndex].reed;
-          _players[currentPlayerIndex].wood -= 작살꾼소유여부 ? 1 : 0;
-          _players[currentPlayerIndex].food += 작살꾼소유여부 ? currentPlayer.farmer : 0;
-          _players[currentPlayerIndex].reed += 작살꾼소유여부 ? 1 : 0;
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );

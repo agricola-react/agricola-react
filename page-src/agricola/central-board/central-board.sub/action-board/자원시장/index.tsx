@@ -34,9 +34,6 @@ export const ResourceMarket = () => {
     const 창고관리인소유여부 = currentPlayer.jobCards.find(
       job => job.name === '창고관리인' && job.isActive
     );
-    if (창고관리인소유여부) {
-      alert('창고관리인카드가 발동하여 흙 1개나 곡식 1개를 추가로 가져올 수 있습니다.');
-    }
 
     if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
       setPlayers(
@@ -44,9 +41,16 @@ export const ResourceMarket = () => {
           _players[currentPlayerIndex].food += 1;
           _players[currentPlayerIndex].stone += 1;
           _players[currentPlayerIndex].reed += 1;
+          let 선택한자원 = null;
+          if (창고관리인소유여부) {
+            const 선택 = confirm(
+              '창고관리인카드가 발동하여 흙 1개 추가로 가져오시겠습니까?(취소 버튼 시 곡식 1개를 가져옵니다.)'
+            );
+            선택한자원 = 선택 ? 'clay' : 'grain';
+            _players[currentPlayerIndex].clay += 선택한자원 === 'clay' ? 1 : 0;
+            _players[currentPlayerIndex].grain += 선택한자원 === 'grain' ? 1 : 0;
+          }
 
-          _players[currentPlayerIndex].clay += 창고관리인소유여부 ? 1 : 0;
-          _players[currentPlayerIndex].grain += 창고관리인소유여부 ? 1 : 0;
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
