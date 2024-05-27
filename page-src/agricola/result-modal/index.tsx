@@ -62,8 +62,14 @@ const ResultModal = () => {
 
     // 카드점수
 
-    // const 작살꾼 = player.jobCards.find(job => job. ==='작살꾼'){
+    let jobCardScore;
+    // const 카드판별기 = () => (
+    //   player.jobCards.find(
+    //     jobCard => jobCard.name === '작살꾼' && jobCard.isActive
+    //   );
+    // );
 
+    // if()
     // }
     // 추가점수
 
