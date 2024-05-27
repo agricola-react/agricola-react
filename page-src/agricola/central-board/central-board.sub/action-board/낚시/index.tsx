@@ -15,6 +15,8 @@ export const 낚시 = () => {
   const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
+    // let NextFood = currentPlayer.food;
+
     if (action !== null) {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
@@ -48,6 +50,7 @@ export const 낚시 = () => {
           '낚시칸을 이용할 때 나무 1개를 내고 가족수만큼 음식을 가져오고 갈대 1개를 가져오겠습니까?'
         );
         if (작살꾼효과사용했는지) {
+          // NextFood += currentPlayer.food;
           setPlayers(
             produce(_players => {
               _players[currentPlayerIndex].wood -= 1;
