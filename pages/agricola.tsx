@@ -134,6 +134,12 @@ const AgricolaPage = () => {
 
         const resultFood = 부엌방가지고있고나무집에살고있는지 ? newFood + 1 : newFood;
 
+        const food = isHarvestTime
+          ? resultFood
+          : 부엌방가지고있고나무집에살고있는지
+            ? player.food + 1
+            : player.food;
+
         return {
           ...player,
           farmer: player.farmer + player.baby,
@@ -142,11 +148,7 @@ const AgricolaPage = () => {
           wood: player.wood + addWood,
           clay: player.clay + addClay,
           reed: player.reed + addReed,
-          food: isHarvestTime
-            ? resultFood
-            : 부엌방가지고있고나무집에살고있는지
-              ? player.food + 1
-              : player.food,
+          food,
           grain: isHarvestTime ? newGrain : player.grain,
           vegetable: isHarvestTime ? newVegetable : player.vegetable,
           bagging: isHarvestTime
