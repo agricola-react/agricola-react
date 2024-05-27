@@ -2,7 +2,8 @@ import { FIELD } from '@/shared/constants/field';
 import { Player } from '@/shared/recoil';
 import { isExistAtLeastOne } from '../is-exist-at-least-one';
 import { isNearPosition } from '../is-near-position';
-import { get농지설치AlertMsg } from '@/shared/constants/alert';
+import { 농지예외Alert } from '@/shared/constants/alert';
+import { MESSAGES } from '@/shared/constants/messages';
 
 /**
  * 농지 설치 액션을 완료한 플레이어를 리턴하는 메서드
@@ -11,6 +12,10 @@ import { get농지설치AlertMsg } from '@/shared/constants/alert';
  * @returns
  */
 export function 농지설치action(player: Player, index: number): Player | null {
+  if (player.slots[index].type === '밭') {
+    throw new Error(MESSAGES.WRONG_POSITION);
+  }
+
   if (!isExistAtLeastOne(player.slots, '밭') || isNearPosition(player.slots, index, '밭')) {
     return {
       ...player,
@@ -20,6 +25,6 @@ export function 농지설치action(player: Player, index: number): Player | null
       }),
     };
   }
-  alert(get농지설치AlertMsg());
+  alert(농지예외Alert);
   return null;
 }
