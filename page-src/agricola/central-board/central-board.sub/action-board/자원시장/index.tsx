@@ -31,16 +31,32 @@ export const ResourceMarket = () => {
       return;
     }
 
-    setPlayers(
-      produce(_players => {
-        _players[currentPlayerIndex].food += 1;
-        _players[currentPlayerIndex].stone += 1;
-        _players[currentPlayerIndex].reed += 1;
-        _players[currentPlayerIndex].homeFarmer -= 1;
-      })
+    const 창고관리인소유여부 = currentPlayer.jobCards.find(
+      job => job.name === '창고관리인' && job.isActive
     );
-    setSelectedPlayerNumber(currentPlayer.number);
-    nextPlayer();
+
+    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayerIndex].food += 1;
+          _players[currentPlayerIndex].stone += 1;
+          _players[currentPlayerIndex].reed += 1;
+          let 선택한자원 = null;
+          if (창고관리인소유여부) {
+            const 선택 = confirm(
+              '창고관리인카드가 발동하여 흙 1개 추가로 가져오시겠습니까?(취소 버튼 시 곡식 1개를 가져옵니다.)'
+            );
+            선택한자원 = 선택 ? 'clay' : 'grain';
+            _players[currentPlayerIndex].clay += 선택한자원 === 'clay' ? 1 : 0;
+            _players[currentPlayerIndex].grain += 선택한자원 === 'grain' ? 1 : 0;
+          }
+
+          _players[currentPlayerIndex].homeFarmer -= 1;
+        })
+      );
+      setSelectedPlayerNumber(currentPlayer.number);
+      nextPlayer();
+    }
   };
 
   useEffect(() => {
