@@ -231,7 +231,7 @@ export const playersState = atom<Player[]>({
           name: '지붕다지는사람',
           isActive: false,
           src: '/job-card/지붕다지는사람.jpg',
-          score: 1,
+          score: 15,
         },
         {
           name: '가마때는사람',
@@ -277,7 +277,7 @@ export const playersState = atom<Player[]>({
           name: '작살꾼',
           isActive: false,
           src: '/job-card/작살꾼.jpg',
-          score: 1,
+          score: 20,
         },
         {
           name: '재산관리인',
