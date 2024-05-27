@@ -61,7 +61,7 @@ export const INIT_PLAYER: Player = {
   sheep: 0,
   pig: 0,
   cattle: 0,
-  food: 0,
+  food: 3,
   farmer: 2,
   fence: 0,
   barn: 0,
@@ -123,6 +123,7 @@ export const playersState = atom<Player[]>({
     {
       ...INIT_PLAYER,
       number: 1,
+      food: 2,
       name: '플레이어 1',
       color: 'red',
       isFirst: true,
