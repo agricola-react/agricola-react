@@ -52,7 +52,8 @@ const ResultModal = () => {
     const clayRoomScore =
       player.roomType === 'clay' ? player.slots.filter(slot => slot.type === '방').length : 0;
     //돌집방
-
+    const stoneRoomScore =
+      player.roomType === 'stone' ? player.slots.filter(slot => slot.type === '방').length : 0;
     // 사람점수
     const farmerScore = player.farmer * 3 - 6;
 
