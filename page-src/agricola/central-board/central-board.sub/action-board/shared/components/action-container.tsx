@@ -38,7 +38,7 @@ export const ActionContainer = ({
   return (
     <Container width={width} height={height} top={top} left={left} onClick={onClick}>
       {!isActive && <BackNumber backNumber={backNumber} />}
-      {isActive && (
+      {true && (
         <Wrapper>
           <Title>{title}</Title>
           <DescriptionWrapper contentHeight={contentHeight} descriptionHeight={descriptionHeight}>
@@ -47,7 +47,7 @@ export const ActionContainer = ({
           <Footer />
         </Wrapper>
       )}
-      {isActive && userNumber && (
+      {true && userNumber && (
         <UserContainer>
           <Farmer width={30} height={40} userNumber={userNumber} />
           {isFamily && (

@@ -9,7 +9,7 @@ import { MeeplePig } from '@/shared/resource/meeple-pig';
 import { MeepleSheep } from '@/shared/resource/meeple-sheep';
 import { Vegetable } from '@/shared/resource/vegetable';
 import styled from '@emotion/styled';
-import { FrameIcon } from '@radix-ui/react-icons';
+import { CardStackIcon, CardStackPlusIcon, FrameIcon, IdCardIcon } from '@radix-ui/react-icons';
 import { getCattleScore } from 'page-src/agricola/result-modal/utils/get-cattle-score';
 import { getFieldScore } from 'page-src/agricola/result-modal/utils/get-field-score';
 import { getGrainScore } from 'page-src/agricola/result-modal/utils/get-grain-score';
@@ -60,29 +60,76 @@ const ResultModal = () => {
     // 구걸카드
     const baggingScore = player.bagging * 3;
 
-    // 직업카드점수
+    // 직업카드점수 / 보조설비 + 주요설비
 
     const 활성된직업카드 = player.jobCards.find(jobCard => jobCard.isActive);
 
     let 직업카드점수: number = 0;
+    let 보조설비점수: number = 0;
+    let 주요설비점수: number = 0;
 
     if (활성된직업카드) {
       const 작살꾼찾기 = player.jobCards.find(jobCard => jobCard.name === '작살꾼');
       const 지붕다지는사람찾기 = player.jobCards.find(jobCard => jobCard.name === '지붕다지는사람');
-      if (작살꾼찾기) {
-        // const 작살꾼점수 = player.jobCards.find(jobCard => jobCard.score);
-        // 직업카드점수 = 작살꾼점수;
-        // return 직업카드점수;
-        직업카드점수 = 작살꾼찾기.score;
-      } else if (지붕다지는사람찾기) {
-        직업카드점수 = 지붕다지는사람찾기.score;
+      const 곡식용삽찾기 = player.subCards.find(subCard => subCard.name === '곡식용삽');
+      const 화로찾기 = player.mainCards.find(maincard => maincard.name === '화로');
+      const 흙가마찾기 = player.mainCards.find(maincard => maincard.name === '흙가마');
+      console.log(흙가마찾기);
+      console.log(화로찾기);
+      // if (작살꾼찾기) {
+      //   // const 작살꾼점수 = player.jobCards.find(jobCard => jobCard.score);
+      //   // 직업카드점수 = 작살꾼점수;
+      //   // return 직업카드점수;
+      //   직업카드점수 = 작살꾼찾기.score;
+      // } else if (지붕다지는사람찾기) {
+      //   직업카드점수 = 지붕다지는사람찾기.score;
+      // }
+      //직업카드찾기
+      switch (true) {
+        case 작살꾼찾기 !== undefined:
+          직업카드점수 = 작살꾼찾기.score;
+          break;
+        case 지붕다지는사람찾기 !== undefined:
+          직업카드점수 = 지붕다지는사람찾기.score;
+
+          break;
+
+        default:
+          직업카드점수 = 0;
+
+          break;
+      }
+      //보조설비카드
+      switch (true) {
+        case 곡식용삽찾기 !== undefined:
+          보조설비점수 = 곡식용삽찾기.score;
+          console.log(보조설비점수);
+          break;
+        default:
+          보조설비점수 = 0;
+          break;
+      }
+      //주요설비카드
+      switch (true) {
+        case 화로찾기 !== undefined:
+          주요설비점수 = 화로찾기.score;
+          break;
+        case 흙가마찾기 !== undefined:
+          주요설비점수 = 흙가마찾기.score;
+          console.log(1);
+          console.log(2);
+          console.log(주요설비점수);
+          break;
+        default:
+          주요설비점수 = 0;
+          break;
       }
     }
 
-    // 보조설비점수
-
     // 주요설비점수
+
     // 추가점수
+    let bonusScore = 보조설비점수 + 주요설비점수;
 
     const totalScore =
       cattleScore +
@@ -94,7 +141,8 @@ const ResultModal = () => {
       barnScore +
       farmerScore -
       baggingScore +
-      직업카드점수;
+      직업카드점수 +
+      bonusScore;
 
     return {
       ...player,
@@ -110,6 +158,7 @@ const ResultModal = () => {
       baggingScore,
       totalScore,
       직업카드점수,
+      bonusScore,
     };
   });
 
@@ -228,9 +277,8 @@ const ResultModal = () => {
     {
       name: '추가점수',
       players: playersWithCore.map(player => ({
-        count: player.farmer,
-        score: player.farmerScore,
-        Icon: <Farmer width={15} height={20} />,
+        score: player.bonusScore,
+        Icon: <CardStackPlusIcon width={15} height={20} />,
       })),
     },
   ];
