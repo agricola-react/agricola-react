@@ -36,6 +36,15 @@ const LocalStorageTest = () => {
         <>
           <p>Current Round: {round}</p>
           <button onClick={increaseRound}>Increase Round</button>
+          <br />
+          <button
+            onClick={() => {
+              localStorage.removeItem('round');
+              setRound(0);
+            }}
+          >
+            reset
+          </button>
         </>
       )}
     </div>
