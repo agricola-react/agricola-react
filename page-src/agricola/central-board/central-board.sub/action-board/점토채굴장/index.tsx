@@ -20,8 +20,10 @@ export const ClayQuarry = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+
     // 현재턴인 플레이어의 점토자원을 누적된 점토만큼 +
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].clay += currentClay;

@@ -19,8 +19,11 @@ export const 갈대밭 = () => {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
     }
+
+    if (selectedPlayerNumber !== undefined) return;
+
     // 현재턴인 플레이어의 갈대 자원을 3 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].reed += currentReed;

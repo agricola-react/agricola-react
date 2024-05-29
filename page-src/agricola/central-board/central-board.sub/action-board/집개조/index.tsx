@@ -1,4 +1,4 @@
-import { Player, roundState } from '@/shared/recoil';
+import { Player, currentActionState, roundState } from '@/shared/recoil';
 import { MeepleMajor } from '@/shared/resource/meeple-major';
 import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import { MeepleUpgrade } from '@/shared/resource/meeple-upgrade';
@@ -14,6 +14,7 @@ export const 집개조 = () => {
   const [isActive, setIsActive] = useState(false);
 
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
+  const action = useRecoilValue(currentActionState);
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const round = useRecoilValue(roundState);
   const [openSelectModal, setSelectModal] = useState(false);
@@ -54,6 +55,11 @@ export const 집개조 = () => {
   );
 
   const handleClick = useCallback(() => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     if (selectedPlayerNumber !== undefined) return;
 
     const roomCnt = currentPlayer.slots.filter(slot => slot.type === '방').length;
@@ -71,7 +77,7 @@ export const 집개조 = () => {
       return;
     }
     alert('자원이 부족합니다.');
-  }, [currentPlayer, selectedPlayerNumber]);
+  }, [action, currentPlayer, selectedPlayerNumber]);
 
   useEffect(() => {
     if (round >= 7) {
