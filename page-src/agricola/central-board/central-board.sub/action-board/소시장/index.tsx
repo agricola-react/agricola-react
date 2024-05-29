@@ -21,8 +21,10 @@ export const 소시장 = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+
     // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
-    if (isActive && selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (isActive && currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].cattle += currentCattle;

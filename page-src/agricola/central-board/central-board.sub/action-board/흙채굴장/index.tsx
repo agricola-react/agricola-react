@@ -20,8 +20,10 @@ export const 흙채굴장 = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+
     // 현재턴인 플레이어의 흙 자원을 3 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].clay += currentClay;

@@ -1,4 +1,4 @@
-import { roundState } from '@/shared/recoil';
+import { currentActionState, roundState } from '@/shared/recoil';
 import { MeepleMajor } from '@/shared/resource/meeple-major';
 import { MeepleMinor } from '@/shared/resource/meeple-minor';
 import styled from '@emotion/styled';
@@ -15,16 +15,19 @@ export const 설비 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [openSelectModal, setSelectModal] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const action = useRecoilValue(currentActionState);
 
   const [isDone, setIsDone] = useState(false);
 
   const handleClick = () => {
     if (!isActive) return;
 
-    if (selectedPlayerNumber !== undefined) {
-      alert('이미 선택한 플레이어입니다!!');
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
     }
+
+    if (selectedPlayerNumber !== undefined) return;
 
     if (currentPlayer.homeFarmer === 0) {
       alert('홈파머가 부족합니다.');

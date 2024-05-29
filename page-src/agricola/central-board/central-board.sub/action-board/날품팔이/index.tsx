@@ -26,8 +26,10 @@ export const 날품팔이 = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+
     // 현재턴인 플레이어의 음식을 2 증가시킨다.
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].food += 2;

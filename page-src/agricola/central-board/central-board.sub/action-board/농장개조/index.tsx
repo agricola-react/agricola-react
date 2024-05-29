@@ -1,4 +1,4 @@
-import { Player, roundState } from '@/shared/recoil';
+import { Player, currentActionState, roundState } from '@/shared/recoil';
 import { Arrow } from '@/shared/resource/arrow';
 import { MeepleFence } from '@/shared/resource/meeple-fence';
 import { MeepleUpgrade } from '@/shared/resource/meeple-upgrade';
@@ -14,6 +14,7 @@ export const 농장개조 = () => {
   const [isActive, setIsActive] = useState(false);
 
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
+  const action = useRecoilValue(currentActionState);
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const round = useRecoilValue(roundState);
 
@@ -53,6 +54,11 @@ export const 농장개조 = () => {
   );
 
   const handleClick = useCallback(() => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     if (selectedPlayerNumber !== undefined) return;
 
     const roomCnt = currentPlayer.slots.filter(slot => slot.type === '방').length;
@@ -72,7 +78,7 @@ export const 농장개조 = () => {
       return;
     }
     alert('자원이 부족합니다.');
-  }, [currentPlayer, selectedPlayerNumber]);
+  }, [action, currentPlayer, selectedPlayerNumber]);
 
   useEffect(() => {
     if (isDone) {

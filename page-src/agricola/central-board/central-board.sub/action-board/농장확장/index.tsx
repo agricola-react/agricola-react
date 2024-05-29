@@ -59,6 +59,7 @@ export const 농장확장 = () => {
     }
 
     if (can외양간설치(currentPlayer)) {
+      alert(`[농장확장] 외양간 설치를 진행합니다.`);
       setAction({ type: SECOND_ACTION, isDone: false });
       setSelectedPlayerNumber(currentPlayer.number);
       return;

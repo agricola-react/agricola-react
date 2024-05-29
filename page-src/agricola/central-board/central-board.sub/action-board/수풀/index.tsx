@@ -20,6 +20,8 @@ export const Thicket = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+
     const 나무꾼소유여부 = currentPlayer.jobCards.find(
       card => card.name === '나무꾼' && card.isActive
     );
@@ -28,7 +30,7 @@ export const Thicket = () => {
       alert('나무꾼카드가 발동하여 나무 +1 됩니다.');
     }
     // 현재턴인 플레이어의 나무 자원을 3 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].wood += 나무꾼소유여부 ? 1 + currentWood : currentWood;
