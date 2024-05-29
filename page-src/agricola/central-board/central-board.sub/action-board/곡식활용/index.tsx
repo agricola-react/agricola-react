@@ -77,6 +77,9 @@ export const 곡식활용 = () => {
       const 빵굽기할건지 = confirm(`[곡식활용] 빵을 굽겠습니까?`);
       if (빵굽기할건지) {
         setAction({ type: '빵굽기', isDone: false });
+      } else {
+        setAction(null);
+        nextPlayer();
       }
     }
 
@@ -113,12 +116,6 @@ export const 곡식활용 = () => {
           })
         );
       }
-
-      setPlayers(
-        produce(_players => {
-          _players[currentPlayer.number - 1].homeFarmer -= 1;
-        })
-      );
 
       setAction(null);
       nextPlayer();
