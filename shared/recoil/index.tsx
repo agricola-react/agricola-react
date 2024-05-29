@@ -337,7 +337,13 @@ export const playersState = atom<Player[]>({
   ],
 });
 
-export type PlayerAction = '농장 확장' | '농지' | '씨뿌리기' | '빵굽기' | '외양간 설치';
+export type PlayerAction =
+  | '농장 확장'
+  | '농지'
+  | '씨뿌리기'
+  | '빵굽기'
+  | '외양간 설치'
+  | '울타리 설치';
 
 export type PlayerActionType = {
   type: PlayerAction;

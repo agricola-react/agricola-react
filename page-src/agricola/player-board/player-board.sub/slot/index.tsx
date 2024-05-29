@@ -10,6 +10,7 @@ import { Grain } from '@/shared/resource/grain';
 import { Vegetable } from '@/shared/resource/vegetable';
 import { useRecoilValue } from 'recoil';
 import { Player, playersState } from '@/shared/recoil';
+import { Farm } from '../farm';
 
 export type SlotType = '방' | '밭' | '울타리' | null;
 export type Crops = '곡식' | '채소';
@@ -52,8 +53,9 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
           <>
             {count > 0 && (
               <Row>
-                <ResourceComponent width={30} height={30} />
-                <p style={{ marginLeft: '5px' }}>X {count}</p>
+                {new Array(count).fill(0).map((_, index) => (
+                  <ResourceComponent key={index} width={30} height={30} />
+                ))}
               </Row>
             )}
           </>
@@ -89,6 +91,8 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
 
   //* 빈 땅인 경우
   if (type === null) {
+    if (resourceType === '외양간')
+      return <Farm width={110} height={110} index={index} playerNumber={playerNumber} />;
     return (
       <EmptySlot width={110} height={110} index={index} playerNumber={playerNumber}>
         <ResourceContainer />
@@ -112,11 +116,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
       );
 
     case '울타리':
-      return (
-        <EmptySlot width={110} height={110} index={index} playerNumber={playerNumber}>
-          <ResourceContainer />
-        </EmptySlot>
-      );
+      return <Farm width={110} height={110} index={index} playerNumber={playerNumber} />;
     default:
       return <></>;
   }

@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { 농장확장action } from 'page-src/agricola/shared/utils/do-action/농장확장action';
 import { 농지설치action } from 'page-src/agricola/shared/utils/do-action/농지설치action';
+import { 외양간설치action } from 'page-src/agricola/shared/utils/do-action/외양간설치action';
 import { ReactNode, useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -63,12 +64,21 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         break;
 
       case '외양간 설치':
-        //TODO
-        alert('외양간 설치 완료');
-        setAction({
-          type: '외양간 설치',
-          isDone: true,
-        });
+        // eslint-disable-next-line no-case-declarations
+        const updatedPlayer3 = 외양간설치action(owner, index);
+
+        if (updatedPlayer3 !== null) {
+          setPlayers(
+            produce(_players => {
+              _players[playerNumber - 1] = updatedPlayer3;
+            })
+          );
+
+          setAction({
+            type: '외양간 설치',
+            isDone: true,
+          });
+        }
         break;
 
       default:
