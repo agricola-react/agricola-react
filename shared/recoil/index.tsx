@@ -52,6 +52,7 @@ export type CardType = {
   name: string;
   isActive: boolean;
   src: string;
+  score: number;
 };
 
 export const initBoard: SlotValue[] = new Array(ROW * COL)
@@ -85,7 +86,7 @@ export const INIT_PLAYER: Player = {
   sheep: 0,
   pig: 0,
   cattle: 0,
-  food: 0,
+  food: 3,
   farmer: 2,
   fence: 0,
   barn: 0,
@@ -150,6 +151,7 @@ export const playersState = atom<Player[]>({
     {
       ...INIT_PLAYER,
       number: 1,
+      food: 2,
       name: '플레이어 1',
       color: 'red',
       isFirst: true,
@@ -158,16 +160,19 @@ export const playersState = atom<Player[]>({
           name: '마술사',
           isActive: false,
           src: '/job-card/마술사.jpg',
+          score: 1,
         },
         {
           name: '창고관리인',
           isActive: false,
           src: '/job-card/창고관리인.jpg',
+          score: 1,
         },
         {
           name: '채소장수',
           isActive: false,
           src: '/job-card/채소장수.jpg',
+          score: 1,
         },
       ],
       subCards: [
@@ -175,16 +180,19 @@ export const playersState = atom<Player[]>({
           name: '부엌방',
           isActive: false,
           src: '/sub-card/부엌방.jpg',
+          score: 1,
         },
         {
           name: '다진흙',
           isActive: false,
           src: '/sub-card/다진흙.jpg',
+          score: 1,
         },
         {
           name: '물통',
           isActive: false,
           src: '/sub-card/물통.jpg',
+          score: 1,
         },
       ],
     },
@@ -198,16 +206,19 @@ export const playersState = atom<Player[]>({
           name: '나무꾼',
           isActive: false,
           src: '/job-card/나무꾼.jpg',
+          score: 1,
         },
         {
           name: '보조경작자',
           isActive: false,
           src: '/job-card/보조경작자.jpg',
+          score: 1,
         },
         {
           name: '쟁기몰이꾼',
           isActive: false,
           src: '/job-card/쟁기몰이꾼.jpg',
+          score: 1,
         },
       ],
       subCards: [
@@ -215,16 +226,19 @@ export const playersState = atom<Player[]>({
           name: '통나무배',
           isActive: false,
           src: '/sub-card/통나무배.jpg',
+          score: 1,
         },
         {
           name: '네덜란드식풍차',
           isActive: false,
           src: '/sub-card/네덜란드식풍차.jpg',
+          score: 1,
         },
         {
           name: '병',
           isActive: false,
           src: '/sub-card/병.jpg',
+          score: 1,
         },
       ],
     },
@@ -238,16 +252,19 @@ export const playersState = atom<Player[]>({
           name: '버섯따는사람',
           isActive: false,
           src: '/job-card/버섯따는사람.jpg',
+          score: 1,
         },
         {
           name: '지붕다지는사람',
           isActive: false,
           src: '/job-card/지붕다지는사람.jpg',
+          score: 15,
         },
         {
           name: '가마때는사람',
           isActive: false,
           src: '/job-card/가마때는사람.jpg',
+          score: 1,
         },
       ],
       subCards: [
@@ -255,16 +272,19 @@ export const playersState = atom<Player[]>({
           name: '채굴망치',
           isActive: false,
           src: '/sub-card/채굴망치.jpg',
+          score: 1,
         },
         {
           name: '돌집게',
           isActive: false,
           src: '/sub-card/돌집게.jpg',
+          score: 1,
         },
         {
           name: '목재소',
           isActive: false,
           src: '/sub-card/목재소.jpg',
+          score: 1,
         },
       ],
     },
@@ -278,16 +298,19 @@ export const playersState = atom<Player[]>({
           name: '소규모농부',
           isActive: false,
           src: '/job-card/소규모농부.jpg',
+          score: 1,
         },
         {
           name: '작살꾼',
           isActive: false,
           src: '/job-card/작살꾼.jpg',
+          score: 20,
         },
         {
           name: '재산관리인',
           isActive: false,
           src: '/job-card/재산관리인.jpg',
+          score: 1,
         },
       ],
       subCards: [
@@ -295,16 +318,19 @@ export const playersState = atom<Player[]>({
           name: '곡식용삽',
           isActive: false,
           src: '/sub-card/곡식용삽.jpg',
+          score: 1,
         },
         {
           name: '버터제조기',
           isActive: false,
           src: '/sub-card/버터제조기.jpg',
+          score: 1,
         },
         {
           name: '삽',
           isActive: false,
           src: '/sub-card/삽.jpg',
+          score: 1,
         },
       ],
     },
@@ -335,51 +361,61 @@ export const remainMainCardsState = atom<CardType[]>({
       name: '가구제작소',
       src: '/main-card/가구제작소.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '그릇제작소',
       src: '/main-card/그릇제작소.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '돌가마',
       src: '/main-card/돌가마.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '바구니제작소',
       src: '/main-card/바구니제작소.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '우물',
       src: '/main-card/우물.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '화덕',
       src: '/main-card/화덕.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '화덕5',
       src: '/main-card/화덕5.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '화로',
       src: '/main-card/화로.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '화로2',
       src: '/main-card/화로2.jpg',
       isActive: true,
+      score: 1,
     },
     {
       name: '흙가마',
       src: '/main-card/흙가마.jpg',
       isActive: true,
+      score: 1,
     },
   ],
 });

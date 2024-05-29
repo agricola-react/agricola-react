@@ -15,6 +15,8 @@ export const 낚시 = () => {
   const action = useRecoilValue(currentActionState);
 
   const handleClick = () => {
+    // let NextFood = currentPlayer.food;
+
     if (action !== null) {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
@@ -38,18 +40,39 @@ export const 낚시 = () => {
       alert('통나무배가 있어서 음식 + 1, 갈대 + 1 됩니다.');
     }
 
-    setPlayers(
-      produce(_players => {
-        _players[currentPlayerIndex].food += 통나무배가있는지 ? currentFood + 1 : currentFood;
-        _players[currentPlayerIndex].reed += 통나무배가있는지
-          ? _players[currentPlayerIndex].reed + 1
-          : _players[currentPlayerIndex].reed;
-        _players[currentPlayerIndex].homeFarmer -= 1;
-      })
+    const 작살꾼소유여부 = currentPlayer.jobCards.find(
+      card => card.name === '작살꾼' && card.isActive
     );
-    setCurrentFood(0);
-    setSelectedPlayerNumber(currentPlayer.number);
-    nextPlayer();
+
+    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+      if (작살꾼소유여부) {
+        const 작살꾼효과사용했는지 = confirm(
+          '낚시칸을 이용할 때 나무 1개를 내고 가족수만큼 음식을 가져오고 갈대 1개를 가져오겠습니까?'
+        );
+        if (작살꾼효과사용했는지) {
+          // NextFood += currentPlayer.food;
+          setPlayers(
+            produce(_players => {
+              _players[currentPlayerIndex].wood -= 1;
+              _players[currentPlayerIndex].food += currentPlayer.farmer;
+              _players[currentPlayerIndex].reed += 1;
+            })
+          );
+        }
+      }
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayerIndex].food += 통나무배가있는지 ? currentFood + 1 : currentFood;
+          _players[currentPlayerIndex].reed += 통나무배가있는지
+            ? _players[currentPlayerIndex].reed + 1
+            : _players[currentPlayerIndex].reed;
+          _players[currentPlayerIndex].homeFarmer -= 1;
+        })
+      );
+      setCurrentFood(0);
+      setSelectedPlayerNumber(currentPlayer.number);
+      nextPlayer();
+    }
   };
 
   // 누적

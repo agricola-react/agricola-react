@@ -1,6 +1,7 @@
 import { ModalContainer } from '@/shared/components/modal-container';
 import { playersState, resultModalOpenState } from '@/shared/recoil';
 import { Barn } from '@/shared/resource/barn';
+import { Farmer } from '@/shared/resource/farmer';
 import { Grain } from '@/shared/resource/grain';
 import { MeepleCattle } from '@/shared/resource/meeple-cattle';
 import { MeepleField } from '@/shared/resource/meeple-field';
@@ -8,6 +9,7 @@ import { MeeplePig } from '@/shared/resource/meeple-pig';
 import { MeepleSheep } from '@/shared/resource/meeple-sheep';
 import { Vegetable } from '@/shared/resource/vegetable';
 import styled from '@emotion/styled';
+import { FrameIcon } from '@radix-ui/react-icons';
 import { getCattleScore } from 'page-src/agricola/result-modal/utils/get-cattle-score';
 import { getFieldScore } from 'page-src/agricola/result-modal/utils/get-field-score';
 import { getGrainScore } from 'page-src/agricola/result-modal/utils/get-grain-score';
@@ -20,20 +22,25 @@ const ResultModal = () => {
   const players = useRecoilValue(playersState);
 
   const playersWithCore = players.map(player => {
-    // 가축 점수
-
-    const cattleScore = getCattleScore(player.cattle);
-
-    const sheepScore = getSheepScore(player.sheep);
-    const pigScore = getSheepScore(player.sheep);
-
-    // 음식점수
-    const grainScore = getGrainScore(player.grain);
-    const vegetableScore = getVegetableScore(player.vegetable);
-
     // 농지 점수
     const fieldScore = getFieldScore(player.slots.filter(slot => slot.type === '밭').length);
+
     // 울타리 추가해야함
+
+    // 곡식점수
+    const grainScore = getGrainScore(player.grain);
+
+    //채소점수
+    const vegetableScore = getVegetableScore(player.vegetable);
+
+    // 양 점수
+    const sheepScore = getSheepScore(player.sheep);
+
+    //돼지
+    const pigScore = getSheepScore(player.pig);
+
+    //소
+    const cattleScore = getCattleScore(player.cattle);
 
     // 비어있는 밭 점수
     const emptySlotScore = player.slots.filter(slot => slot.type == null).length;
@@ -41,13 +48,41 @@ const ResultModal = () => {
     // 외양간점수
     const barnScore = player.barn;
 
+    //흙집방
+    const clayRoomScore =
+      player.roomType === 'clay' ? player.slots.filter(slot => slot.type === '방').length : 0;
+    //돌집방
+    const stoneRoomScore =
+      player.roomType === 'stone' ? player.slots.filter(slot => slot.type === '방').length : 0;
     // 사람점수
-    const farmerScore = player.farmer * 3;
+    const farmerScore = player.farmer * 3 - 6;
 
     // 구걸카드
     const baggingScore = player.bagging * 3;
 
-    // 흙방점수 등등
+    // 직업카드점수
+
+    const 활성된직업카드 = player.jobCards.find(jobCard => jobCard.isActive);
+
+    let 직업카드점수: number = 0;
+
+    if (활성된직업카드) {
+      const 작살꾼찾기 = player.jobCards.find(jobCard => jobCard.name === '작살꾼');
+      const 지붕다지는사람찾기 = player.jobCards.find(jobCard => jobCard.name === '지붕다지는사람');
+      if (작살꾼찾기) {
+        // const 작살꾼점수 = player.jobCards.find(jobCard => jobCard.score);
+        // 직업카드점수 = 작살꾼점수;
+        // return 직업카드점수;
+        직업카드점수 = 작살꾼찾기.score;
+      } else if (지붕다지는사람찾기) {
+        직업카드점수 = 지붕다지는사람찾기.score;
+      }
+    }
+
+    // 보조설비점수
+
+    // 주요설비점수
+    // 추가점수
 
     const totalScore =
       cattleScore +
@@ -58,7 +93,8 @@ const ResultModal = () => {
       emptySlotScore +
       barnScore +
       farmerScore -
-      baggingScore;
+      baggingScore +
+      직업카드점수;
 
     return {
       ...player,
@@ -73,32 +109,25 @@ const ResultModal = () => {
       fieldScore,
       baggingScore,
       totalScore,
+      직업카드점수,
     };
   });
 
   const tableList = [
     {
-      name: '소',
+      name: '밭',
       players: playersWithCore.map(player => ({
-        count: player.cattle,
-        score: player.cattleScore,
-        Icon: <MeepleCattle width={20} height={20} />,
+        count: player.slots.filter(slot => slot.type === '밭').length,
+        score: player.fieldScore,
+        Icon: <MeepleField width={25} height={15} />,
       })),
     },
     {
-      name: '돼지',
+      name: '울타리',
       players: playersWithCore.map(player => ({
-        count: player.pig,
-        score: player.pigScore,
-        Icon: <MeeplePig width={20} height={20} />,
-      })),
-    },
-    {
-      name: '양',
-      players: playersWithCore.map(player => ({
-        count: player.sheep,
-        score: player.sheepScore,
-        Icon: <MeepleSheep width={20} height={20} />,
+        count: player.slots.filter(slot => slot.type === '밭').length,
+        score: player.fieldScore,
+        Icon: <FrameIcon width={25} height={15} />,
       })),
     },
     {
@@ -109,22 +138,38 @@ const ResultModal = () => {
         Icon: <Grain width={20} height={20} />,
       })),
     },
-    {
-      name: '채소',
-      players: playersWithCore.map(player => ({
-        count: player.grain,
-        score: player.grainScore,
-        Icon: <Vegetable width={20} height={20} />,
-      })),
-    },
-    {
-      name: '밭',
-      players: playersWithCore.map(player => ({
-        count: player.slots.filter(slot => slot.type === '밭').length,
-        score: player.fieldScore,
-        Icon: <MeepleField width={25} height={15} />,
-      })),
-    },
+    // {
+    //   name: '채소',
+    //   players: playersWithCore.map(player => ({
+    //     count: player.grain,
+    //     score: player.grainScore,
+    //     Icon: <Vegetable width={20} height={20} />,
+    //   })),
+    // },
+    // {
+    //   name: '양',
+    //   players: playersWithCore.map(player => ({
+    //     count: player.sheep,
+    //     score: player.sheepScore,
+    //     Icon: <MeepleSheep width={20} height={20} />,
+    //   })),
+    // },
+    // {
+    //   name: '돼지',
+    //   players: playersWithCore.map(player => ({
+    //     count: player.pig,
+    //     score: player.pigScore,
+    //     Icon: <MeeplePig width={20} height={20} />,
+    //   })),
+    // },
+    // {
+    //   name: '소',
+    //   players: playersWithCore.map(player => ({
+    //     count: player.cattle,
+    //     score: player.cattleScore,
+    //     Icon: <MeepleCattle width={20} height={20} />,
+    //   })),
+    // },
     {
       name: '빈칸',
       players: playersWithCore.map(player => ({
@@ -139,6 +184,53 @@ const ResultModal = () => {
         count: player.barn,
         score: player.barnScore,
         Icon: <Barn width={20} height={20} />,
+      })),
+    },
+    {
+      name: '흙집방',
+      players: playersWithCore.map(player => ({
+        count: player.farmer,
+        score: player.farmerScore,
+        Icon: <Farmer width={15} height={20} />,
+      })),
+    },
+    {
+      name: '돌집방',
+      players: playersWithCore.map(player => ({
+        count: player.farmer,
+        score: player.farmerScore,
+        Icon: <Farmer width={15} height={20} />,
+      })),
+    },
+    {
+      name: '가족수',
+      players: playersWithCore.map(player => ({
+        count: player.farmer,
+        score: player.farmerScore,
+        Icon: <Farmer width={15} height={20} />,
+      })),
+    },
+    {
+      name: '구걸카드',
+      players: playersWithCore.map(player => ({
+        count: player.farmer,
+        score: player.farmerScore,
+        Icon: <Farmer width={15} height={20} />,
+      })),
+    },
+    {
+      name: '카드 점수',
+      players: playersWithCore.map(player => ({
+        score: player.직업카드점수,
+        Icon: <Farmer width={15} height={20} />,
+      })),
+    },
+    {
+      name: '추가점수',
+      players: playersWithCore.map(player => ({
+        count: player.farmer,
+        score: player.farmerScore,
+        Icon: <Farmer width={15} height={20} />,
       })),
     },
   ];

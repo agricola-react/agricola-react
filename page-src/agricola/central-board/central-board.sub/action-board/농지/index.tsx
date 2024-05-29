@@ -39,7 +39,9 @@ export const 농지 = () => {
     });
 
     if (isValid) {
+      //농지선택 할 수 있게 활성화
       setAction({ type: ACTION_TITLE, isDone: false });
+      //액션칸 플레이어 위에 올려주기
       setSelectedPlayerNumber(currentPlayer.number);
       return;
     }

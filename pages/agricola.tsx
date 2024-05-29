@@ -68,6 +68,10 @@ const AgricolaPage = () => {
         let addReed = 0;
         let addFood = 0;
 
+        const 부엌방가지고있고나무집에살고있는지 =
+          _player.subCards.find(card => card.name === '부엌방' && card.isActive) &&
+          _player.roomType === 'wood';
+
         // 주요설비 카드 사용여부 확인
         const 가구제작소가지고있는지 = _player.mainCards.some(card => card.name === '가구제작소');
         if (가구제작소가지고있는지) {
@@ -128,6 +132,14 @@ const AgricolaPage = () => {
           );
         }
 
+        const resultFood = 부엌방가지고있고나무집에살고있는지 ? newFood + 1 : newFood;
+
+        const food = isHarvestTime
+          ? resultFood
+          : 부엌방가지고있고나무집에살고있는지
+            ? player.food + 1
+            : player.food;
+
         return {
           ...player,
           farmer: player.farmer + player.baby,
@@ -136,7 +148,7 @@ const AgricolaPage = () => {
           wood: player.wood + addWood,
           clay: player.clay + addClay,
           reed: player.reed + addReed,
-          food: isHarvestTime ? newFood : player.food,
+          food,
           grain: isHarvestTime ? newGrain : player.grain,
           vegetable: isHarvestTime ? newVegetable : player.vegetable,
           bagging: isHarvestTime
