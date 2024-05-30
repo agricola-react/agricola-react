@@ -26,6 +26,10 @@ export function Farm({ width, height, index, playerNumber }: Props) {
         alert(`울타리 설치하기`);
         break;
 
+      case '가축 추가':
+        alert(`가축 추가`);
+        break;
+
       default:
         break;
     }

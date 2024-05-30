@@ -7,6 +7,11 @@ import {
 import { atom } from 'recoil';
 import { COL, ROW } from '../constants';
 
+export const tempSelectedFenceIndexState = atom<number[]>({
+  key: 'tempSelectedFenceIndexState',
+  default: [],
+});
+
 export const resultModalOpenState = atom({
   key: 'resultModalOpenState',
   default: false,
@@ -22,6 +27,8 @@ export const currentPlayerIndexState = atom({
   default: 0,
 });
 
+export type Position = 0 | 1 | 2 | 3; // 0: 상, 1: 하, 2: 좌, 3: 우
+
 export type SlotValue = {
   type: SlotType;
   resource: ResourceType;
@@ -29,6 +36,7 @@ export type SlotValue = {
   // 울타리 슬롯인 경우에만 존재하는 필드 값
   fenceId?: number;
   barn?: number;
+  emptyFenceDirections?: Position[];
 };
 
 // slot 하나에 적용되는 타입
@@ -77,7 +85,7 @@ export const INIT_PLAYER: Player = {
   name: '',
   color: '',
   isFirst: false,
-  wood: 0,
+  wood: 10,
   clay: 0,
   stone: 0,
   reed: 0,

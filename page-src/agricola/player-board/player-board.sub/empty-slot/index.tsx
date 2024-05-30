@@ -1,4 +1,10 @@
-import { Player, PlayerAction, currentActionState, playersState } from '@/shared/recoil';
+import {
+  Player,
+  PlayerAction,
+  currentActionState,
+  playersState,
+  tempSelectedFenceIndexState,
+} from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
@@ -21,6 +27,9 @@ type Props = {
 export const EmptySlot = ({ width, height, index, playerNumber, children }: Props) => {
   const players = useRecoilValue(playersState);
   const [action, setAction] = useRecoilState(currentActionState);
+  const [tempSelectedFenceIndex, setTempSelectedFenceIndexState] = useRecoilState(
+    tempSelectedFenceIndexState
+  );
 
   const { currentPlayer, setPlayers } = useCurrentPlayer();
 
@@ -80,7 +89,9 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
           });
         }
         break;
-
+      case '울타리 설치':
+        setTempSelectedFenceIndexState(prev => [...prev, index]);
+        break;
       default:
         break;
     }
@@ -104,13 +115,25 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
   }, [action, currentPlayer]);
 
   return (
-    <Container width={width} height={height} onClick={handleClick} color={owner.color}>
+    <Container
+      width={width}
+      height={height}
+      onClick={handleClick}
+      color={owner.color}
+      isSelected={tempSelectedFenceIndex.includes(index)}
+    >
       {children}
+      <div>{owner.slots[index].emptyFenceDirections}</div>
     </Container>
   );
 };
 
-const Container = styled.div<{ width: number; height: number; color: string }>`
+const Container = styled.div<{
+  width: number;
+  height: number;
+  color: string;
+  isSelected?: boolean;
+}>`
   background-image: url('/empty_slot.png');
   background-repeat: no-repeat;
   background-size: 100%;
@@ -120,4 +143,5 @@ const Container = styled.div<{ width: number; height: number; color: string }>`
   &:hover {
     background-color: ${props => props.color};
   }
+  background-color: ${props => (props.isSelected ? props.color : 'transparent')};
 `;

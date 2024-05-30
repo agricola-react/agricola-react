@@ -4,14 +4,14 @@ import { SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
 import { SlotValue } from '@/shared/recoil';
 import { MESSAGES } from '@/shared/constants/messages';
 
-const d = [
+export const d = [
   { dr: -1, dc: 0 },
   { dr: 1, dc: 0 },
   { dr: 0, dc: -1 },
   { dr: 0, dc: 1 },
 ];
 
-function validatePosition(row: number, col: number) {
+export function validatePosition(row: number, col: number) {
   return row >= 0 && row < ROW && col >= 0 && col < COL;
 }
 /**
