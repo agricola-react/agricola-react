@@ -52,7 +52,7 @@ export type SlotValue = {
 export type FenceType = {
   id: number;
   totalBarn: number;
-  animalType: LiveStock;
+  animalType: LiveStock | null;
   totalCount: number;
 };
 

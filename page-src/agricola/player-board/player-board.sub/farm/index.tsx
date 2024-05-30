@@ -1,4 +1,10 @@
-import { Player, PlayerAction, currentActionState, playersState } from '@/shared/recoil';
+import {
+  Player,
+  PlayerAction,
+  currentActionState,
+  playersState,
+  tempSelectedFenceIndexState,
+} from '@/shared/recoil';
 import { Barn } from '@/shared/resource/barn';
 import styled from '@emotion/styled';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
@@ -16,6 +22,9 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   const players = useRecoilValue(playersState);
   const { currentPlayer } = useCurrentPlayer();
   const [action, setAction] = useRecoilState(currentActionState);
+  const [tempSelectedFenceIndex, setTempSelectedFenceIndexState] = useRecoilState(
+    tempSelectedFenceIndexState
+  );
 
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const slotValue = owner.slots[index];
@@ -23,7 +32,7 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   const handleAction = useCallback((actionType: PlayerAction) => {
     switch (actionType) {
       case '울타리 설치':
-        alert(`울타리 설치하기`);
+        setTempSelectedFenceIndexState(prev => [...prev, index]);
         break;
 
       case '가축 추가':
@@ -36,8 +45,6 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   }, []);
 
   const handleClick = useCallback(() => {
-    alert(`Farm 슬롯 클릭`);
-
     if (currentPlayer.number !== playerNumber) {
       alert(`'${currentPlayer.name}'님의 차례입니다.`);
       return;
@@ -67,6 +74,7 @@ export function Farm({ width, height, index, playerNumber }: Props) {
         borderLeftWidth: slotValue.emptyFenceDirections?.includes(2) ? 0 : `6px`,
         borderRightWidth: slotValue.emptyFenceDirections?.includes(3) ? 0 : `6px`,
       }}
+      isSelected={tempSelectedFenceIndex.includes(index)}
     >
       {/* //* 외양간 영역 */}
       {slotValue.resource === '외양간' && <Barn width={28} height={35} userNumber={playerNumber} />}
@@ -76,13 +84,23 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   );
 }
 
-const Container = styled.div<{ width: number; height: number; color: string; isFence?: boolean }>`
+const Container = styled.div<{
+  width: number;
+  height: number;
+  color: string;
+  isFence?: boolean;
+  isSelected?: boolean;
+}>`
   background-image: url('/empty_slot.png');
   background-repeat: no-repeat;
   background-size: 100%;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
   cursor: pointer;
+  &:hover {
+    background-color: ${props => props.color};
+  }
+  background-color: ${props => (props.isSelected ? props.color : 'transparent')};
 
   display: flex;
   flex-direction: column;
