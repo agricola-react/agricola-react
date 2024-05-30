@@ -7,6 +7,11 @@ import {
 import { atom } from 'recoil';
 import { COL, ROW } from '../constants';
 
+export const tempSelectedFenceIndexState = atom<number[]>({
+  key: 'tempSelectedFenceIndexState',
+  default: [],
+});
+
 export const resultModalOpenState = atom({
   key: 'resultModalOpenState',
   default: false,

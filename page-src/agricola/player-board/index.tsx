@@ -1,8 +1,14 @@
-import { Player, currentActionState, playersState } from '@/shared/recoil';
+import {
+  Player,
+  PlayerAction,
+  currentActionState,
+  playersState,
+  tempSelectedFenceIndexState,
+} from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
 import { Slot } from './player-board.sub/slot';
 import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/card/job-card-modal';
@@ -23,6 +29,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
   const [action, setAction] = useRecoilState(currentActionState);
   const { currentPlayer } = useCurrentPlayer();
+  const setTempSelectedFenceIndexState = useSetRecoilState(tempSelectedFenceIndexState);
 
   const playerSlots = owner.slots;
 
@@ -31,8 +38,18 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
     return sum;
   }, 0);
 
-  const handleEndAction = () => {
-    setAction({ type: '씨뿌리기', isDone: true });
+  const handleEndAction = (type: PlayerAction) => {
+    switch (type) {
+      case '씨뿌리기':
+        setAction({ type: '씨뿌리기', isDone: true });
+        break;
+      case '울타리 설치':
+        // setTempSelectedFenceIndexState([]);
+        break;
+
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
@@ -74,6 +91,16 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
           <ActionButton onClick={handleEndAction}>
             <strong>[{action?.type}]</strong> 액션 종료
           </ActionButton>
+        )}
+        {currentPlayer.number === playerNumber && action?.type === '울타리 설치' && (
+          <div>
+            <ActionButton onClick={handleEndAction}>
+              <strong>[{action?.type}]</strong> 완료
+            </ActionButton>
+            <ActionButton onClick={handleEndAction}>
+              <strong>[{action?.type}]</strong> 액션 종료
+            </ActionButton>
+          </div>
         )}
       </TitleContainer>
       <Wrapper>
@@ -151,6 +178,7 @@ const CardContainer = styled.div<{ bgColor: string }>`
   &:hover {
     background-color: ${props => props.bgColor};
   }
+
   cursor: pointer;
   width: 5rem; /* Tailwind w-20 */
   display: flex;
