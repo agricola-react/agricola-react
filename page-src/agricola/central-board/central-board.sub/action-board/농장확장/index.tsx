@@ -31,12 +31,11 @@ const SECOND_ACTION: PlayerAction = '외양간 설치';
 const COUNT = 1;
 
 export const 농장확장 = () => {
-  const { currentPlayer } = useCurrentPlayer();
+  const { currentPlayer, setPlayers, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
   const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
-  const { setPlayers, nextPlayer } = useCurrentPlayer();
 
   const handleClick = useCallback(() => {
     if (action !== null) {

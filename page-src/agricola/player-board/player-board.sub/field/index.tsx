@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { isEmptyField } from 'page-src/agricola/shared/utils/is-empty-field';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
 
 type Props = {
@@ -73,16 +73,37 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
     }
   };
 
-  const isActive = action?.type === '씨뿌리기' && currentPlayer.number === playerNumber;
+  const isActive =
+    action?.type === '씨뿌리기' && !action.isDone && currentPlayer.number === playerNumber;
+
+  const handleClick = useCallback(
+    (type: 'grain' | 'vegetable') => {
+      if (currentPlayer.number !== playerNumber) {
+        alert(`'${currentPlayer.name}'님의 차례입니다.`);
+        return;
+      }
+
+      if (action === null) {
+        alert(`액션을 선택해주세요.`);
+        return;
+      }
+
+      if (!action.isDone) {
+        handleSeedClick(type);
+        return;
+      }
+    },
+    [action, currentPlayer]
+  );
 
   return (
     <Container width={width} height={height}>
       {isActive && (
         <SelectorContainer>
-          <SelectorButton onClick={() => handleSeedClick('grain')}>
+          <SelectorButton onClick={() => handleClick('grain')}>
             <Grain width={30} height={30} />
           </SelectorButton>
-          <SelectorButton onClick={() => handleSeedClick('vegetable')}>
+          <SelectorButton onClick={() => handleClick('vegetable')}>
             <Vegetable width={30} height={30} />
           </SelectorButton>
         </SelectorContainer>

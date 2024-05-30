@@ -42,7 +42,6 @@ describe('농지설치action - 예외', () => {
   it('농지가 이미 존재하는 경우 기존 농지와 인접하지 않은 위치에는 설치할 수 없습니다.', () => {
     // given
     const spy = jest.spyOn(window, 'alert').mockImplementation(() => null);
-
     isExistAtLeastOne.isExistAtLeastOne = jest.fn().mockReturnValue(true);
     isNearPosition.isNearPosition = jest.fn().mockReturnValue(false);
 
