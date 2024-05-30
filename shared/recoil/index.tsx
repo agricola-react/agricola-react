@@ -343,7 +343,8 @@ export type PlayerAction =
   | '씨뿌리기'
   | '빵굽기'
   | '외양간 설치'
-  | '울타리 설치';
+  | '울타리 설치'
+  | '가축 추가';
 
 export type PlayerActionType = {
   type: PlayerAction;
