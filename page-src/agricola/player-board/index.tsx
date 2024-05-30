@@ -9,7 +9,7 @@ import {
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { getUpdatedSlots } from '../shared/utils/get-updated-slots';
 import { Slot } from './player-board.sub/slot';
 import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/card/job-card-modal';
@@ -17,7 +17,7 @@ import { useCurrentPlayer } from '../shared/hooks/use-current-player';
 import { SubCardModal } from './player-board.sub/card/sub-card-modal';
 import { MainCardModal } from '@/shared/components/main-card-modal';
 import { getTwoDimensionBoard } from '../shared/utils/get-two-dimension-board';
-import { COL, ROW } from '@/shared/constants';
+import { COL } from '@/shared/constants';
 import { d, validatePosition } from '../shared/utils/is-near-position';
 
 type Props = {
@@ -44,7 +44,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
     return sum;
   }, 0);
 
-  const handleEndAction = (type: PlayerAction) => {
+  const handleAction = (type: PlayerAction) => {
     switch (type) {
       case '씨뿌리기':
         setAction({ type: '씨뿌리기', isDone: true });
@@ -92,6 +92,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
           tempSlots[position] = {
             ...tempSlots[position],
+            type: '울타리',
             fenceId,
             emptyFenceDirections: emptyDirections,
           };
@@ -100,6 +101,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         //? 4. 검증2 - 자원개수
         if (owner.wood < totalFence) {
           alert(`[울타리 설치] 울타리가 부족합니다.`);
+          setTempSelectedFenceIndexState([]);
           //TODO: 다시 선택할 수 있도록
           break;
         }
@@ -118,6 +120,15 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
       default:
         break;
+    }
+  };
+
+  const handleEndAction = (type: PlayerAction) => {
+    if (type === '울타리 설치') {
+      setAction({
+        type: '울타리 설치',
+        isDone: true,
+      });
     }
   };
 
@@ -157,13 +168,13 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
           <h4>{owner?.name} 보드</h4>
         </Title>
         {currentPlayer.number === playerNumber && action?.type === '씨뿌리기' && (
-          <ActionButton onClick={() => handleEndAction(action.type)}>
+          <ActionButton onClick={() => handleAction(action.type)}>
             <strong>[{action?.type}]</strong> 액션 종료
           </ActionButton>
         )}
         {currentPlayer.number === playerNumber && action?.type === '울타리 설치' && (
           <div>
-            <ActionButton onClick={() => handleEndAction(action.type)}>
+            <ActionButton onClick={() => handleAction(action.type)}>
               <strong>[{action?.type}]</strong> 완료
             </ActionButton>
             <ActionButton onClick={() => handleEndAction(action.type)}>
