@@ -1,7 +1,6 @@
 import {
   Player,
   PlayerAction,
-  Position,
   currentActionState,
   playersState,
   tempSelectedFenceIndexState,
@@ -72,7 +71,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         tempSelectedFenceIndex.forEach(position => {
           const row = Math.floor(position / COL);
           const col = position % COL;
-          const emptyDirections: Position[] = []; // 비어있는 위치
+          const emptyDirections: number[] = []; // 비어있는 위치
           d.forEach(({ dr, dc }, i) => {
             const next_row = row + dr;
             const next_col = col + dc;

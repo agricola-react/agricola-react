@@ -27,7 +27,7 @@ export const currentPlayerIndexState = atom({
   default: 0,
 });
 
-export type Position = 0 | 1 | 2 | 3; // 0: 상, 1: 하, 2: 좌, 3: 우
+// export type Position = 0 | 1 | 2 | 3; // 0: 상, 1: 하, 2: 좌, 3: 우
 
 export type SlotValue = {
   type: SlotType;
@@ -36,7 +36,7 @@ export type SlotValue = {
   // 울타리 슬롯인 경우에만 존재하는 필드 값
   fenceId?: number;
   barn?: number;
-  emptyFenceDirections?: Position[];
+  emptyFenceDirections?: number[];
 };
 
 // slot 하나에 적용되는 타입
