@@ -2,7 +2,6 @@ import {
   Player,
   PlayerAction,
   Position,
-  SlotValue,
   currentActionState,
   playersState,
   tempSelectedFenceIndexState,
