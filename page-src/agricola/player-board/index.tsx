@@ -55,7 +55,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         // eslint-disable-next-line no-case-declarations
         const fenceId =
           owner.slots.reduce((acc, cur) => {
-            if (cur.fenceId) return max(acc, cur.fenceId);
+            if (cur.fenceId) return Math.max(acc, cur.fenceId);
             return acc;
           }, 0) + 1;
 
@@ -69,21 +69,17 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         // eslint-disable-next-line no-case-declarations
         const tempSlots = [...playerSlots];
 
-        console.log(tempSelectedFenceIndex);
-
         tempSelectedFenceIndex.forEach(position => {
-          const row = Math.floor(position / ROW);
-          const col = position % ROW;
+          const row = Math.floor(position / COL);
+          const col = position % COL;
           const emptyDirections: Position[] = []; // 비어있는 위치
           d.forEach(({ dr, dc }, i) => {
             const next_row = row + dr;
             const next_col = col + dc;
             if (validatePosition(next_row, next_col)) {
               const slot = slotBoard[next_row][next_col];
-              console.log(`[${next_row}] [${next_col}] fenceId >>>`, slot.fenceId);
               //? 필요한 개수 계산하기
               const next_index = next_row * COL + next_col;
-              console.log(`[${next_row}] [${next_col}] next_index >>>`, next_index);
               if (slot.fenceId === undefined && !tempSelectedFenceIndex.includes(next_index)) {
                 ++totalFence;
               } else {
@@ -108,7 +104,6 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
           break;
         }
 
-        console.log(`tempSlots >>>`, tempSlots);
         //? setPlayers
         setPlayers(
           produce(_players => {
