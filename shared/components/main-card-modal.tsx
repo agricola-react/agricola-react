@@ -117,9 +117,7 @@ export const MainCardModal = ({ mainCards, player, open, setOpen, isAction, setI
                   _players[player.number - 1].mainCards = [
                     ..._players[player.number - 1].mainCards,
                     {
-                      name: main.name,
-                      src: main.src,
-                      isActive: true,
+                      ...main,
                     },
                   ];
                 })
