@@ -42,11 +42,11 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   ) as FenceType;
 
   const Animal =
-    fenceInfo?.animalType === '양'
+    fenceInfo?.animalType === '양' || slotValue.resource === '양'
       ? () => MeepleSheep({ width: 28, height: 22 })
-      : fenceInfo?.animalType === '돼지'
+      : fenceInfo?.animalType === '돼지' || slotValue.resource === '돼지'
         ? () => MeeplePig({ width: 32, height: 22 })
-        : fenceInfo?.animalType === '소'
+        : fenceInfo?.animalType === '소' || slotValue.resource === '소'
           ? () => MeepleCattle({ width: 31, height: 23 })
           : null;
 
