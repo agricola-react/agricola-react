@@ -111,6 +111,166 @@ export const Header = () => {
         left={80}
         onClick={() => {
           // 게임 상태 정의
+          setTimeout(() => {
+            setRound(9);
+          }, 0);
+          setPlayers([
+            {
+              ...players[0],
+              isFirst: false,
+              clay: 8,
+              wood: 7,
+              reed: 2,
+              food: 3,
+              grain: 2,
+              slots: players[0].slots.map((slot, index) => {
+                if (index === 0) {
+                  return { ...slot, type: '방' };
+                }
+
+                if (index === 3) {
+                  return { ...slot, type: '밭', resource: '곡식', count: 2 };
+                }
+                if (index === 4) {
+                  return { ...slot, type: '밭', resource: '곡식', count: 1 };
+                }
+                return slot;
+              }),
+              jobCards: players[0].jobCards.map(card => {
+                if (card.name === '작살꾼') {
+                  return {
+                    ...card,
+                    isActive: true,
+                  };
+                }
+
+                return card;
+              }),
+            },
+            {
+              ...players[1],
+              wood: 5,
+              stone: 1,
+              reed: 5,
+              clay: 10,
+              food: 7,
+              grain: 8,
+              slots: players[1].slots.map((slot, index) => {
+                if (index === 3) {
+                  return { ...slot, type: '밭', resource: '곡식', count: 2 };
+                }
+                if (index === 4) {
+                  return { ...slot, type: '밭', resource: '곡식', count: 1 };
+                }
+                return slot;
+              }),
+              jobCards: players[1].jobCards.map(card => {
+                if (card.name === '마술사') {
+                  return {
+                    ...card,
+                    isActive: true,
+                  };
+                }
+
+                return card;
+              }),
+            },
+            {
+              ...players[2],
+              reed: 1,
+              wood: 11,
+              food: 4,
+              farmer: 3,
+              grain: 1,
+              slots: players[2].slots.map((slot, index) => {
+                if (index === 0) {
+                  return { ...slot, type: '방' };
+                }
+
+                if (index === 4) {
+                  return { ...slot, type: '밭' };
+                }
+
+                //12.13.14
+
+                if (index === 12) {
+                  return { ...slot, type: '울타리', fenceId: 1, emptyFenceDirections: [3] };
+                }
+
+                if (index === 13) {
+                  return { ...slot, type: '울타리', fenceId: 1, emptyFenceDirections: [2, 3] };
+                }
+
+                if (index === 14) {
+                  return { ...slot, type: '울타리', fenceId: 1, emptyFenceDirections: [2] };
+                }
+
+                return slot;
+              }),
+              jobCards: players[2].jobCards.map(card => {
+                if (card.name === '버섯따는사람') {
+                  return {
+                    ...card,
+                    isActive: true,
+                  };
+                }
+
+                return card;
+              }),
+              subCards: players[2].subCards.map(card => {
+                if (card.name === '채굴망치') {
+                  return {
+                    ...card,
+                    isActive: true,
+                  };
+                }
+                return card;
+              }),
+            },
+            {
+              ...players[3],
+              isFirst: true,
+              wood: 5,
+              stone: 2,
+              clay: 2,
+              food: 1,
+              grain: 0,
+              slots: players[3].slots.map((slot, index) => {
+                if (index === 0) {
+                  return { ...slot, type: '방' };
+                }
+
+                if (index === 1) {
+                  return { ...slot, type: '밭', resource: '곡식', count: 3 };
+                }
+
+                if (index === 2 || index === 3 || index === 4) {
+                  return { ...slot, type: '밭' };
+                }
+
+                return slot;
+              }),
+              jobCards: players[3].jobCards.map(card => {
+                if (card.name === '보조경작자') {
+                  return {
+                    ...card,
+                    isActive: true,
+                  };
+                }
+                return card;
+              }),
+              subCards: players[3].subCards.map(card => {
+                if (card.name === '통나무배') {
+                  return {
+                    ...card,
+                    isActive: true,
+                  };
+                }
+
+                return card;
+              }),
+            },
+          ]);
         }}
       >
         2번
