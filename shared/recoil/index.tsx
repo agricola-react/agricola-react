@@ -353,13 +353,15 @@ export type PlayerAction =
   | '울타리 설치'
   | '가축 추가';
 
+export type StockInfo = {
+  count: number;
+  type: LiveStock;
+};
+
 export type PlayerActionType = {
   type: PlayerAction;
   isDone: boolean;
-  stockInfo?: {
-    count: number;
-    type: LiveStock;
-  };
+  stockInfo?: StockInfo;
 };
 
 export const currentActionState = atom<PlayerActionType | null>({
