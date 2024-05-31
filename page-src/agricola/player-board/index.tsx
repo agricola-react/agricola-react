@@ -15,9 +15,7 @@ import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/ca
 import { useCurrentPlayer } from '../shared/hooks/use-current-player';
 import { SubCardModal } from './player-board.sub/card/sub-card-modal';
 import { MainCardModal } from '@/shared/components/main-card-modal';
-import { getTwoDimensionBoard } from '../shared/utils/get-two-dimension-board';
-import { COL } from '@/shared/constants';
-import { d, validatePosition } from '../shared/utils/is-near-position';
+import { 울타리action } from '../shared/utils/do-action/울타리action';
 
 type Props = {
   playerNumber: number;
@@ -49,71 +47,16 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         setAction({ type: '씨뿌리기', isDone: true });
         break;
       case '울타리 설치':
-        //TODO: 검증 로직 + slots 업데이트
-        //? 1. fenceId 결정하기
         // eslint-disable-next-line no-case-declarations
-        const fenceId =
-          owner.slots.reduce((acc, cur) => {
-            if (cur.fenceId) return Math.max(acc, cur.fenceId);
-            return acc;
-          }, 0) + 1;
+        const resultPlayer = 울타리action(owner, tempSelectedFenceIndex);
 
-        //? 2. 이중 배열 변환
-        // eslint-disable-next-line no-case-declarations
-        const slotBoard = getTwoDimensionBoard(owner.slots);
-        // eslint-disable-next-line no-case-declarations
-        let totalFence = 0;
-
-        //? 3. 검증
-        // eslint-disable-next-line no-case-declarations
-        const tempSlots = [...playerSlots];
-
-        tempSelectedFenceIndex.forEach(position => {
-          const row = Math.floor(position / COL);
-          const col = position % COL;
-          const emptyDirections: number[] = []; // 비어있는 위치
-          d.forEach(({ dr, dc }, i) => {
-            const next_row = row + dr;
-            const next_col = col + dc;
-            if (validatePosition(next_row, next_col)) {
-              const slot = slotBoard[next_row][next_col];
-              //? 필요한 개수 계산하기
-              const next_index = next_row * COL + next_col;
-              if (slot.fenceId === undefined && !tempSelectedFenceIndex.includes(next_index)) {
-                ++totalFence;
-              } else {
-                emptyDirections.push(i);
-              }
-            } else {
-              ++totalFence;
-            }
-          });
-
-          tempSlots[position] = {
-            ...tempSlots[position],
-            type: '울타리',
-            fenceId,
-            emptyFenceDirections: emptyDirections,
-          };
-        });
-
-        //? 4. 검증2 - 자원개수
-        if (owner.wood < totalFence) {
-          alert(`[울타리 설치] 울타리가 부족합니다.`);
-          setTempSelectedFenceIndexState([]);
-          //TODO: 다시 선택할 수 있도록
-          break;
+        if (resultPlayer !== null) {
+          setPlayers(
+            produce(_players => {
+              _players[playerNumber - 1] = resultPlayer;
+            })
+          );
         }
-
-        //? setPlayers
-        setPlayers(
-          produce(_players => {
-            _players[playerNumber - 1].fence += totalFence;
-            _players[playerNumber - 1].wood -= totalFence;
-            _players[playerNumber - 1].slots = tempSlots;
-          })
-        );
-
         setTempSelectedFenceIndexState([]);
         break;
 
@@ -124,6 +67,7 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
   const handleEndAction = (type: PlayerAction) => {
     if (type === '울타리 설치') {
+      setTempSelectedFenceIndexState([]);
       setAction({
         type: '울타리 설치',
         isDone: true,
