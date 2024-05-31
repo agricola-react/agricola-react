@@ -6,6 +6,7 @@ import {
   roundState,
 } from '@/shared/recoil';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Tutoring4 } from 'page-src/agricola/central-board/central-board.sub/action-board/교습(4인용추가판)';
 import { Bush } from 'page-src/agricola/central-board/central-board.sub/action-board/덤불';
@@ -26,7 +27,7 @@ const harvest_rounds = [5, 8, 10, 12, 15, 16];
 
 const AgricolaPage = () => {
   const [isBottom, setIsBottom] = useState(false);
-
+  const router = useRouter();
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
   const [, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
@@ -36,6 +37,13 @@ const AgricolaPage = () => {
   const homeFarmers = players.reduce((acc, cur) => {
     return acc + cur.homeFarmer;
   }, 0);
+
+  useEffect(() => {
+    const value = window.sessionStorage.getItem('isAccept');
+    if (!value) {
+      router.replace('/');
+    }
+  }, []);
 
   useEffect(() => {
     // 라운드가 끝났으면 다음 라운드로 넘어가기
