@@ -51,6 +51,11 @@ export const TravelingTheater = () => {
   useEffect(() => {
     setCurrentFood(prev => prev + 1);
     setSelectedPlayerNumber(undefined);
+
+    // 시뮬레이션을 위한 코드
+    if (round === 4) {
+      setCurrentFood(1);
+    }
   }, [round]);
 
   return (
