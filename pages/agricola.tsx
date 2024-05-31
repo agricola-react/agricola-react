@@ -6,6 +6,7 @@ import {
   roundState,
 } from '@/shared/recoil';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { CentralBoard } from 'page-src/agricola/central-board';
 import { Tutoring4 } from 'page-src/agricola/central-board/central-board.sub/action-board/교습(4인용추가판)';
 import { Bush } from 'page-src/agricola/central-board/central-board.sub/action-board/덤불';
@@ -16,6 +17,7 @@ import { ClayQuarry } from 'page-src/agricola/central-board/central-board.sub/ac
 import { Header } from 'page-src/agricola/header';
 import { PlayerSlots } from 'page-src/agricola/player-board';
 import ResultModal from 'page-src/agricola/result-modal';
+import { calculateBreeding } from 'page-src/agricola/shared/utils/calculate-breeding';
 import { calculateFeedingCount } from 'page-src/agricola/shared/utils/calculate-feeding-count';
 import { harvest } from 'page-src/agricola/shared/utils/harvest';
 import { UserSection } from 'page-src/agricola/user-section';
@@ -26,7 +28,7 @@ const harvest_rounds = [5, 8, 10, 12, 15, 16];
 
 const AgricolaPage = () => {
   const [isBottom, setIsBottom] = useState(false);
-
+  const router = useRouter();
   const [players, setPlayers] = useRecoilState(playersState);
   const [round, setRound] = useRecoilState(roundState);
   const [, setCurrentPlayerIndex] = useRecoilState(currentPlayerIndexState);
@@ -36,6 +38,13 @@ const AgricolaPage = () => {
   const homeFarmers = players.reduce((acc, cur) => {
     return acc + cur.homeFarmer;
   }, 0);
+
+  useEffect(() => {
+    const value = window.sessionStorage.getItem('isAccept');
+    if (!value) {
+      router.replace('/');
+    }
+  }, []);
 
   useEffect(() => {
     // 라운드가 끝났으면 다음 라운드로 넘어가기
@@ -119,9 +128,9 @@ const AgricolaPage = () => {
             }
           }
 
-          // 1. 수확
+          //* 1. 수확
           const player = isHarvestTime ? harvest(_player) : _player;
-          // 2. 가족 먹여 살리기
+          //* 2. 가족 먹여 살리기
           const { newFood, newGrain, newVegetable, remainingFood } = calculateFeedingCount({
             farmer: player.farmer,
             food: player.food + addFood,
@@ -132,7 +141,7 @@ const AgricolaPage = () => {
 
           if (isHarvestTime) {
             alert(
-              `${player.number} 유저 가족 먹여살라기 결과입니다.\n 남은 음식:${newFood} / 남은 곡식:${newGrain} / 남은 채소:${newVegetable} / 남은 내야할 음식:${remainingFood}`
+              `${player.number} 유저 가족 먹여살리기 결과입니다.\n 남은 음식:${newFood} / 남은 곡식:${newGrain} / 남은 채소:${newVegetable} / 남은 내야할 음식:${remainingFood}`
             );
           }
 
@@ -143,6 +152,9 @@ const AgricolaPage = () => {
             : 부엌방가지고있고나무집에살고있는지
               ? player.food + 1
               : player.food;
+
+          //* 3. 가축 번식
+          const resultSlot = isHarvestTime ? calculateBreeding(player) : player.slots;
 
           return {
             ...player,
@@ -160,6 +172,7 @@ const AgricolaPage = () => {
                 ? player.bagging + remainingFood
                 : player.bagging
               : player.bagging,
+            slots: resultSlot === null ? player.slots : resultSlot,
           };
         })
       );

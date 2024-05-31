@@ -47,7 +47,7 @@ export const ActionContainer = ({
           <Footer />
         </Wrapper>
       )}
-      {true && userNumber && (
+      {isActive && userNumber && (
         <UserContainer>
           <Farmer width={30} height={40} userNumber={userNumber} />
           {isFamily && (

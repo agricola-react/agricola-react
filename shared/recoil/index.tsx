@@ -19,7 +19,7 @@ export const resultModalOpenState = atom({
 
 export const roundState = atom({
   key: 'roundState',
-  default: 11,
+  default: 1,
 });
 
 export const currentPlayerIndexState = atom({
@@ -89,9 +89,6 @@ export const INIT_PLAYER: Player = {
   reed: 0,
   grain: 0,
   vegetable: 0,
-  sheep: 0,
-  pig: 0,
-  cattle: 0,
   food: 3,
   farmer: 2,
   fence: 0,
@@ -121,10 +118,6 @@ export type Player = {
   grain: number;
   vegetable: number;
   food: number;
-  // 가축
-  sheep: number;
-  pig: number;
-  cattle: number;
   // 전체 사람수
   farmer: number;
   // 집에 있는 사람수
