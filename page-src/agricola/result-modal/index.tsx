@@ -254,13 +254,13 @@ const ResultModal = () => {
               <StyledTr key={value.name}>
                 <StyledTd>{value.name}</StyledTd>
                 {value.players.map((player, index) => (
-                  <div key={index}>
+                  <>
                     <StyledFlexTd>
                       <div>{player.count}</div>
                       {player.Icon}
                     </StyledFlexTd>
                     <StyledTd>{player.score}점</StyledTd>
-                  </div>
+                  </>
                 ))}
               </StyledTr>
             ))}
