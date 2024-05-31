@@ -22,7 +22,7 @@ import { UserSection } from 'page-src/agricola/user-section';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-const harvest_rounds = [5, 8, 10, 12, 14, 15];
+const harvest_rounds = [5, 8, 10, 12, 15, 16];
 
 const AgricolaPage = () => {
   const [isBottom, setIsBottom] = useState(false);
