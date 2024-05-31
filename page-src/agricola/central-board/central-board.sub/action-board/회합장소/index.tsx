@@ -23,10 +23,7 @@ export const 회합장소 = () => {
       return;
     }
 
-    if (selectedPlayerNumber !== undefined) {
-      alert('이미 선택한 플레이어입니다!!');
-      return;
-    }
+    if (selectedPlayerNumber !== undefined) return;
 
     if (currentPlayer.homeFarmer === 0) {
       alert('홈파머가 부족합니다.');

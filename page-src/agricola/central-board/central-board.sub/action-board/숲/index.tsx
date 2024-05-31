@@ -20,10 +20,7 @@ export const 숲 = () => {
       return;
     }
 
-    if (selectedPlayerNumber !== undefined) {
-      alert('이미 선택한 플레이어입니다!!');
-      return;
-    }
+    if (selectedPlayerNumber !== undefined) return;
 
     if (currentPlayer.homeFarmer === 0) {
       alert('홈파머가 부족합니다.');
@@ -90,6 +87,11 @@ export const 숲 = () => {
   useEffect(() => {
     setCurrentWood(prev => prev + 3);
     setSelectedPlayerNumber(undefined);
+
+    // 시뮬레이션을 위한 코드
+    if (round === 4) {
+      setCurrentWood(3);
+    }
   }, [round]);
 
   return (

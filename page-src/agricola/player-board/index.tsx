@@ -1,4 +1,10 @@
-import { Player, currentActionState, playersState } from '@/shared/recoil';
+import {
+  Player,
+  PlayerAction,
+  currentActionState,
+  playersState,
+  tempSelectedFenceIndexState,
+} from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useEffect, useState } from 'react';
@@ -9,6 +15,7 @@ import { JobCardModal } from 'page-src/agricola/player-board/player-board.sub/ca
 import { useCurrentPlayer } from '../shared/hooks/use-current-player';
 import { SubCardModal } from './player-board.sub/card/sub-card-modal';
 import { MainCardModal } from '@/shared/components/main-card-modal';
+import { 울타리action } from '../shared/utils/do-action/울타리action';
 
 type Props = {
   playerNumber: number;
@@ -23,6 +30,9 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
 
   const [action, setAction] = useRecoilState(currentActionState);
   const { currentPlayer } = useCurrentPlayer();
+  const [tempSelectedFenceIndex, setTempSelectedFenceIndexState] = useRecoilState(
+    tempSelectedFenceIndexState
+  );
 
   const playerSlots = owner.slots;
 
@@ -31,8 +41,48 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
     return sum;
   }, 0);
 
-  const handleEndAction = () => {
-    setAction({ type: '씨뿌리기', isDone: true });
+  const handleAction = (type: PlayerAction) => {
+    switch (type) {
+      case '씨뿌리기':
+        setAction({ type: '씨뿌리기', isDone: true });
+        break;
+      case '울타리 설치':
+        // eslint-disable-next-line no-case-declarations
+        const resultPlayer = 울타리action(owner, tempSelectedFenceIndex);
+
+        if (resultPlayer !== null) {
+          setPlayers(
+            produce(_players => {
+              _players[playerNumber - 1] = resultPlayer;
+            })
+          );
+        }
+        setTempSelectedFenceIndexState([]);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleEndAction = (type: PlayerAction) => {
+    if (type === '울타리 설치') {
+      setTempSelectedFenceIndexState([]);
+      setAction({
+        type: '울타리 설치',
+        isDone: true,
+      });
+      return;
+    }
+
+    if (type === '가축 추가') {
+      setAction({
+        ...action,
+        type: '가축 추가',
+        isDone: true,
+      });
+      return;
+    }
   };
 
   useEffect(() => {
@@ -71,7 +121,22 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
           <h4>{owner?.name} 보드</h4>
         </Title>
         {currentPlayer.number === playerNumber && action?.type === '씨뿌리기' && (
-          <ActionButton onClick={handleEndAction}>
+          <ActionButton onClick={() => handleAction(action.type)}>
+            <strong>[{action?.type}]</strong> 액션 종료
+          </ActionButton>
+        )}
+        {currentPlayer.number === playerNumber && action?.type === '울타리 설치' && (
+          <div>
+            <ActionButton onClick={() => handleAction(action.type)}>
+              <strong>[{action?.type}]</strong> 완료
+            </ActionButton>
+            <ActionButton onClick={() => handleEndAction(action.type)}>
+              <strong>[{action?.type}]</strong> 액션 종료
+            </ActionButton>
+          </div>
+        )}
+        {currentPlayer.number === playerNumber && action?.type === '가축 추가' && (
+          <ActionButton onClick={() => handleEndAction(action.type)}>
             <strong>[{action?.type}]</strong> 액션 종료
           </ActionButton>
         )}
@@ -151,6 +216,7 @@ const CardContainer = styled.div<{ bgColor: string }>`
   &:hover {
     background-color: ${props => props.bgColor};
   }
+
   cursor: pointer;
   width: 5rem; /* Tailwind w-20 */
   display: flex;

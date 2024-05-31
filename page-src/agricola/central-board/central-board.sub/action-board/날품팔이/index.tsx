@@ -26,8 +26,10 @@ export const 날품팔이 = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+    setSelectedPlayerNumber(currentPlayer.number);
     // 현재턴인 플레이어의 음식을 2 증가시킨다.
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].food += 2;
@@ -50,13 +52,13 @@ export const 날품팔이 = () => {
 
           if (isValid) {
             setAction({ type: ACTION_TITLE, isDone: false });
-            setSelectedPlayerNumber(currentPlayer.number);
+
             return;
           }
           alert('농지를 설치할 수 있는 칸이 없습니다.');
         }
       }
-      // setSelectedPlayerNumber(currentPlayer.number);
+
       nextPlayer();
     }
   };

@@ -1,10 +1,17 @@
-import { Player, PlayerAction, currentActionState, playersState } from '@/shared/recoil';
+import {
+  Player,
+  PlayerAction,
+  currentActionState,
+  playersState,
+  tempSelectedFenceIndexState,
+} from '@/shared/recoil';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { 농장확장action } from 'page-src/agricola/shared/utils/do-action/농장확장action';
 import { 농지설치action } from 'page-src/agricola/shared/utils/do-action/농지설치action';
-import { ReactNode, useCallback } from 'react';
+import { 외양간설치action } from 'page-src/agricola/shared/utils/do-action/외양간설치action';
+import { ReactNode } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 // TODO: 확장 수 플레이어 지정으로 변경
@@ -20,6 +27,9 @@ type Props = {
 export const EmptySlot = ({ width, height, index, playerNumber, children }: Props) => {
   const players = useRecoilValue(playersState);
   const [action, setAction] = useRecoilState(currentActionState);
+  const [tempSelectedFenceIndex, setTempSelectedFenceIndexState] = useRecoilState(
+    tempSelectedFenceIndexState
+  );
 
   const { currentPlayer, setPlayers } = useCurrentPlayer();
 
@@ -63,20 +73,31 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
         break;
 
       case '외양간 설치':
-        //TODO
-        alert('외양간 설치 완료');
-        setAction({
-          type: '외양간 설치',
-          isDone: true,
-        });
-        break;
+        // eslint-disable-next-line no-case-declarations
+        const updatedPlayer3 = 외양간설치action(owner, index);
 
+        if (updatedPlayer3 !== null) {
+          setPlayers(
+            produce(_players => {
+              _players[playerNumber - 1] = updatedPlayer3;
+            })
+          );
+
+          setAction({
+            type: '외양간 설치',
+            isDone: true,
+          });
+        }
+        break;
+      case '울타리 설치':
+        setTempSelectedFenceIndexState(prev => [...prev, index]);
+        break;
       default:
         break;
     }
   };
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (currentPlayer.number !== playerNumber) {
       alert(`'${currentPlayer.name}'님의 차례입니다.`);
       return;
@@ -91,16 +112,28 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       handleAction(action.type);
       return;
     }
-  }, [action, currentPlayer]);
+  };
 
   return (
-    <Container width={width} height={height} onClick={handleClick} color={owner.color}>
+    <Container
+      width={width}
+      height={height}
+      onClick={handleClick}
+      color={owner.color}
+      isSelected={tempSelectedFenceIndex.includes(index) && playerNumber === currentPlayer.number}
+    >
       {children}
+      <div>{owner.slots[index].emptyFenceDirections}</div>
     </Container>
   );
 };
 
-const Container = styled.div<{ width: number; height: number; color: string }>`
+const Container = styled.div<{
+  width: number;
+  height: number;
+  color: string;
+  isSelected?: boolean;
+}>`
   background-image: url('/empty_slot.png');
   background-repeat: no-repeat;
   background-size: 100%;
@@ -110,4 +143,5 @@ const Container = styled.div<{ width: number; height: number; color: string }>`
   &:hover {
     background-color: ${props => props.color};
   }
+  background-color: ${props => (props.isSelected ? props.color : 'transparent')};
 `;

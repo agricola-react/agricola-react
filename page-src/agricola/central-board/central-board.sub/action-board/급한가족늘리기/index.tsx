@@ -1,13 +1,27 @@
-import { roundState } from '@/shared/recoil';
+import { currentActionState, roundState } from '@/shared/recoil';
 import { MeepleChild } from '@/shared/resource/meeple-child';
 import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
+import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 export const 급한가족늘리기 = () => {
   const round = useRecoilValue(roundState);
   const [isActive, setIsActive] = useState(false);
+  const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<number | undefined>();
+
+  const action = useRecoilValue(currentActionState);
+  const { currentPlayer } = useCurrentPlayer();
+
+  const handleClick = () => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
+    if (selectedPlayerNumber !== undefined) return;
+  };
 
   useEffect(() => {
     if (round >= 13) {
@@ -24,6 +38,7 @@ export const 급한가족늘리기 = () => {
       backNumber={5}
       isActive={isActive}
       title="급한가족늘리기"
+      onClick={handleClick}
     >
       <ContentWrapper>
         <Wrapper>

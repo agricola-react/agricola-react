@@ -52,7 +52,7 @@ const IndexPage = () => {
         ))}
       </CardsWrapper>
       <div className="flex flex-col justify-center items-center">
-        <div className="font-bold">아르리콜라에 오신 것을 환영합니다!</div>
+        <div className="font-bold">아그리콜라에 오신 것을 환영합니다!</div>
         <div>코드를 입력해주세요!</div>
         <StyledInput
           value={inputValue}

@@ -19,6 +19,9 @@ export const Bush = () => {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
     }
+    const 버섯따는사람인경우 = currentPlayer.jobCards.find(
+      job => job.name === '버섯따는사람' && job.isActive
+    );
 
     const 나무꾼소유여부 = currentPlayer.jobCards.find(
       card => card.name === '나무꾼' && card.isActive
@@ -27,24 +30,59 @@ export const Bush = () => {
     if (나무꾼소유여부) {
       alert('나무꾼카드가 발동하여 나무 +1 됩니다.');
     }
-    // 현재턴인 플레이어의 나무 자원을 3 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+
+    if (버섯따는사람인경우) {
+      const 버섯따는사람효과를사용했는지 = confirm(
+        '나무 누적 칸을 이용할때 나무 1개를 그 칸에 남겨 놓고 음식 2개를 대신 가져오시겠습니까?'
+      );
+
+      if (버섯따는사람효과를사용했는지) {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].wood += currentWood - 1;
+            _players[currentPlayerIndex].food += 2;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+        setCurrentWood(1);
+      } else {
+        setPlayers(
+          produce(_players => {
+            _players[currentPlayerIndex].wood += currentWood;
+            _players[currentPlayerIndex].homeFarmer -= 1;
+          })
+        );
+        setCurrentWood(0);
+      }
+    } else if (나무꾼소유여부) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].wood += 나무꾼소유여부 ? 1 + currentWood : currentWood;
-
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
       setCurrentWood(0);
-      setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
+    } else {
+      setPlayers(
+        produce(_players => {
+          _players[currentPlayerIndex].wood += currentWood;
+          _players[currentPlayerIndex].homeFarmer -= 1;
+        })
+      );
+      setCurrentWood(0);
     }
+
+    setSelectedPlayerNumber(currentPlayer.number);
+    nextPlayer();
   };
 
   useEffect(() => {
     setCurrentWood(prev => prev + 1);
     setSelectedPlayerNumber(undefined);
+
+    if (round === 9) {
+      setCurrentWood(5);
+    }
   }, [round]);
 
   return (

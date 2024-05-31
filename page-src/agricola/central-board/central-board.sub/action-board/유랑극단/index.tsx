@@ -20,13 +20,15 @@ export const TravelingTheater = () => {
       return;
     }
 
+    if (selectedPlayerNumber !== undefined) return;
+
     // 있으면 나무 1개와 곡식1개 추가로 가져옴
     const 마술사가있는지 = currentPlayer.jobCards.find(
       job => job.name === '마술사' && job.isActive
     );
 
     // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
-    if (selectedPlayerNumber === undefined && currentPlayer.homeFarmer > 0) {
+    if (currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
           _players[currentPlayerIndex].food += currentFood;
@@ -49,6 +51,11 @@ export const TravelingTheater = () => {
   useEffect(() => {
     setCurrentFood(prev => prev + 1);
     setSelectedPlayerNumber(undefined);
+
+    // 시뮬레이션을 위한 코드
+    if (round === 4) {
+      setCurrentFood(1);
+    }
   }, [round]);
 
   return (

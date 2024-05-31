@@ -3,15 +3,22 @@ import { getTwoDimensionBoard } from './get-two-dimension-board';
 import { SlotType } from 'page-src/agricola/player-board/player-board.sub/slot';
 import { SlotValue } from '@/shared/recoil';
 import { MESSAGES } from '@/shared/constants/messages';
+import { DirectionKey } from '@/shared/constants/direction';
 
-const d = [
-  { dr: -1, dc: 0 },
-  { dr: 1, dc: 0 },
-  { dr: 0, dc: -1 },
-  { dr: 0, dc: 1 },
-];
+type DirectionInfo = {
+  dr: number;
+  dc: number;
+  key: DirectionKey;
+};
 
-function validatePosition(row: number, col: number) {
+export const d: DirectionInfo[] = [
+  { dr: -1, dc: 0, key: '상' },
+  { dr: 1, dc: 0, key: '하' },
+  { dr: 0, dc: -1, key: '좌' },
+  { dr: 0, dc: 1, key: '우' },
+] as const;
+
+export function validatePosition(row: number, col: number) {
   return row >= 0 && row < ROW && col >= 0 && col < COL;
 }
 /**

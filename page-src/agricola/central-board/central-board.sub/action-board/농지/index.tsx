@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const ACTION_TITLE: PlayerAction = '농지';
@@ -23,7 +23,7 @@ export const 농지 = () => {
   const round = useRecoilValue(roundState);
   const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (action !== null) {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
@@ -47,7 +47,7 @@ export const 농지 = () => {
     }
 
     alert('농지를 설치할 수 있는 칸이 없습니다.');
-  }, [action, currentPlayer, selectedPlayerNumber]);
+  };
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);

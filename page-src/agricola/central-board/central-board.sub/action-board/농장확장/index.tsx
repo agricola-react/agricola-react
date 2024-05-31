@@ -20,7 +20,7 @@ import { ActionContainer } from 'page-src/agricola/central-board/central-board.s
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { can농장확장 } from 'page-src/agricola/shared/utils/validate-action/can농장확장';
 import { can외양간설치 } from 'page-src/agricola/shared/utils/validate-action/can외양간설치';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const ROUND_NAME = '농장 확장';
@@ -31,14 +31,13 @@ const SECOND_ACTION: PlayerAction = '외양간 설치';
 const COUNT = 1;
 
 export const 농장확장 = () => {
-  const { currentPlayer } = useCurrentPlayer();
+  const { currentPlayer, setPlayers, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
   const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
-  const { setPlayers, nextPlayer } = useCurrentPlayer();
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (action !== null) {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
@@ -59,13 +58,14 @@ export const 농장확장 = () => {
     }
 
     if (can외양간설치(currentPlayer)) {
+      alert(`[농장확장] 외양간 설치를 진행합니다.`);
       setAction({ type: SECOND_ACTION, isDone: false });
       setSelectedPlayerNumber(currentPlayer.number);
       return;
     }
 
     alert('자원이 부족합니다.');
-  }, [action, selectedPlayerNumber, currentPlayer]);
+  };
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);

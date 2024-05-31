@@ -1,4 +1,4 @@
-import { Player, roundState } from '@/shared/recoil';
+import { Player, currentActionState, roundState } from '@/shared/recoil';
 import { Arrow } from '@/shared/resource/arrow';
 import { MeepleFence } from '@/shared/resource/meeple-fence';
 import { MeepleUpgrade } from '@/shared/resource/meeple-upgrade';
@@ -7,52 +7,55 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 export const 농장개조 = () => {
   const [isActive, setIsActive] = useState(false);
 
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
+  const action = useRecoilValue(currentActionState);
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>();
   const round = useRecoilValue(roundState);
 
   const [isDone, setIsDone] = useState(false);
 
-  const validate = useCallback(
-    (player: Player, roomCnt: number) => {
-      switch (player.roomType) {
-        case 'stone':
-          alert('돌 집은 더이상 업그레이드 할 수 없습니다.');
-          return false;
-        case 'clay':
-          if (player.reed >= roomCnt && player.stone >= roomCnt) {
-            setPlayers(
-              produce(_players => {
-                _players[currentPlayerIndex].roomType = 'stone';
-              })
-            );
-            return true;
-          }
-          return false;
-        case 'wood':
-          if (player.reed >= roomCnt && player.clay >= roomCnt) {
-            setPlayers(
-              produce(_players => {
-                _players[currentPlayerIndex].roomType = 'clay';
-              })
-            );
-            return true;
-          }
-          return false;
-        default:
-          return false;
-      }
-    },
-    [currentPlayer]
-  );
+  const validate = (player: Player, roomCnt: number) => {
+    switch (player.roomType) {
+      case 'stone':
+        alert('돌 집은 더이상 업그레이드 할 수 없습니다.');
+        return false;
+      case 'clay':
+        if (player.reed >= roomCnt && player.stone >= roomCnt) {
+          setPlayers(
+            produce(_players => {
+              _players[currentPlayerIndex].roomType = 'stone';
+            })
+          );
+          return true;
+        }
+        return false;
+      case 'wood':
+        if (player.reed >= roomCnt && player.clay >= roomCnt) {
+          setPlayers(
+            produce(_players => {
+              _players[currentPlayerIndex].roomType = 'clay';
+            })
+          );
+          return true;
+        }
+        return false;
+      default:
+        return false;
+    }
+  };
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
+    if (action !== null) {
+      alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
+      return;
+    }
+
     if (selectedPlayerNumber !== undefined) return;
 
     const roomCnt = currentPlayer.slots.filter(slot => slot.type === '방').length;
@@ -72,7 +75,7 @@ export const 농장개조 = () => {
       return;
     }
     alert('자원이 부족합니다.');
-  }, [currentPlayer, selectedPlayerNumber]);
+  };
 
   useEffect(() => {
     if (isDone) {

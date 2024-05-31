@@ -265,7 +265,7 @@ const ResultModal = () => {
             {tableList.map(value => (
               <StyledTr key={value.name}>
                 <StyledTd>{value.name}</StyledTd>
-                {value.players.map(player => (
+                {value.players.map((player, index) => (
                   <>
                     <StyledFlexTd>
                       <div>{player.count}</div>
