@@ -12,8 +12,27 @@ export function 가축추가action(
   if (fenceId === undefined) {
     //? 1. 외양간만 존재하는 경우
     if (player.slots[index].barn) {
-      // TODO
-      return player;
+      if (player.slots[index].count > 0) {
+        alert(
+          `[가축 추가] 외양간에는 하나의 가축만 키울 수 있습니다.\n가축을 추가하려면 울타리를 설치하세요.`
+        );
+        return null;
+      }
+
+      const updatedSlots = player.slots.map((slot, idx) => {
+        if (idx === index)
+          return {
+            ...slot,
+            resource: stockInfo.type,
+            count: 1,
+          };
+        return slot;
+      });
+
+      return {
+        ...player,
+        slots: updatedSlots,
+      };
     }
     //? 2. 빈 땅인 경우
     alert(`[가축 추가] 가축을 데려오려면 외양간 혹은 울타리가 존재해야 합니다.`);

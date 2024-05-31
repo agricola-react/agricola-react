@@ -15,7 +15,7 @@ import { Farm } from '../farm';
 export type SlotType = '방' | '밭' | '울타리' | null;
 export type Crops = '곡식' | '채소';
 export type LiveStock = '양' | '소' | '돼지';
-export type ResourceType = '외양간' | '사람' | Crops | LiveStock | null;
+export type ResourceType = '사람' | Crops | LiveStock | null;
 
 type Props = {
   type: SlotType;
@@ -29,6 +29,7 @@ type Props = {
 export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) => {
   const players = useRecoilValue(playersState);
   const owner = players.find(_player => _player.number === playerNumber) as Player;
+  const slotInfo = owner.slots[index];
 
   const ResourceComponent =
     resourceType === '소'
@@ -91,7 +92,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
 
   //* 빈 땅인 경우
   if (type === null) {
-    if (resourceType === '외양간')
+    if (slotInfo.barn !== undefined)
       return <Farm width={110} height={110} index={index} playerNumber={playerNumber} />;
     return (
       <EmptySlot width={110} height={110} index={index} playerNumber={playerNumber}>
