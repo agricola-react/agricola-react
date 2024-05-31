@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil';
 export const ClayQuarry = () => {
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
-  const [currentClay, setcurrentClay] = useState(0);
+  const [currentClay, setCurrentClay] = useState(0);
   const round = useRecoilValue(roundState);
   const action = useRecoilValue(currentActionState);
 
@@ -30,15 +30,19 @@ export const ClayQuarry = () => {
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
-      setcurrentClay(0);
+      setCurrentClay(0);
       setSelectedPlayerNumber(currentPlayer.number);
       nextPlayer();
     }
   };
 
   useEffect(() => {
-    setcurrentClay(prev => prev + 2);
+    setCurrentClay(prev => prev + 2);
     setSelectedPlayerNumber(undefined);
+
+    if (round === 9) {
+      setCurrentClay(6);
+    }
   }, [round]);
 
   return (

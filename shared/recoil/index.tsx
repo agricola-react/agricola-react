@@ -171,16 +171,16 @@ export const playersState = atom<Player[]>({
           score: 1,
         },
         {
-          name: '보조경작자',
+          name: '소규모농부',
           isActive: false,
-          src: '/job-card/보조경작자.jpg',
+          src: '/job-card/소규모농부.jpg',
           score: 1,
         },
         {
-          name: '쟁기몰이꾼',
+          name: '작살꾼',
           isActive: false,
-          src: '/job-card/쟁기몰이꾼.jpg',
-          score: 1,
+          src: '/job-card/작살꾼.jpg',
+          score: 20,
         },
       ],
       subCards: [
@@ -229,24 +229,24 @@ export const playersState = atom<Player[]>({
           score: 1,
         },
       ],
-
       subCards: [
         {
-          name: '통나무배',
+          name: '곡식용삽',
           isActive: false,
-          src: '/sub-card/통나무배.jpg',
+          src: '/sub-card/곡식용삽.jpg',
           score: 1,
         },
         {
-          name: '네덜란드식풍차',
+          name: '버터제조기',
+
           isActive: false,
-          src: '/sub-card/네덜란드식풍차.jpg',
+          src: '/sub-card/버터제조기.jpg',
           score: 1,
         },
         {
-          name: '병',
+          name: '삽',
           isActive: false,
-          src: '/sub-card/병.jpg',
+          src: '/sub-card/삽.jpg',
           score: 1,
         },
       ],
@@ -304,16 +304,16 @@ export const playersState = atom<Player[]>({
       color: 'purple',
       jobCards: [
         {
-          name: '소규모농부',
+          name: '보조경작자',
           isActive: false,
-          src: '/job-card/소규모농부.jpg',
+          src: '/job-card/보조경작자.jpg',
           score: 1,
         },
         {
-          name: '작살꾼',
+          name: '쟁기몰이꾼',
           isActive: false,
-          src: '/job-card/작살꾼.jpg',
-          score: 20,
+          src: '/job-card/쟁기몰이꾼.jpg',
+          score: 1,
         },
         {
           name: '재산관리인',
@@ -324,21 +324,21 @@ export const playersState = atom<Player[]>({
       ],
       subCards: [
         {
-          name: '곡식용삽',
+          name: '통나무배',
           isActive: false,
-          src: '/sub-card/곡식용삽.jpg',
+          src: '/sub-card/통나무배.jpg',
           score: 1,
         },
         {
-          name: '버터제조기',
+          name: '네덜란드식풍차',
           isActive: false,
-          src: '/sub-card/버터제조기.jpg',
+          src: '/sub-card/네덜란드식풍차.jpg',
           score: 1,
         },
         {
-          name: '삽',
+          name: '병',
           isActive: false,
-          src: '/sub-card/삽.jpg',
+          src: '/sub-card/병.jpg',
           score: 1,
         },
       ],
