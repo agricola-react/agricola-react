@@ -20,7 +20,7 @@ import { ActionContainer } from 'page-src/agricola/central-board/central-board.s
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { can농장확장 } from 'page-src/agricola/shared/utils/validate-action/can농장확장';
 import { can외양간설치 } from 'page-src/agricola/shared/utils/validate-action/can외양간설치';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const ROUND_NAME = '농장 확장';
@@ -37,7 +37,7 @@ export const 농장확장 = () => {
   const round = useRecoilValue(roundState);
   const [currentRoundName, setCurrentRoundName] = useRecoilState(currentRoundNameState);
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (action !== null) {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
@@ -65,7 +65,7 @@ export const 농장확장 = () => {
     }
 
     alert('자원이 부족합니다.');
-  }, [action, selectedPlayerNumber, currentPlayer]);
+  };
 
   useEffect(() => {
     setSelectedPlayerNumber(undefined);

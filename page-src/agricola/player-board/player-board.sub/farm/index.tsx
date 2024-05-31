@@ -8,7 +8,7 @@ import {
 import { Barn } from '@/shared/resource/barn';
 import styled from '@emotion/styled';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { useCallback } from 'react';
+
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 type Props = {
@@ -29,7 +29,7 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const slotValue = owner.slots[index];
 
-  const handleAction = useCallback((actionType: PlayerAction) => {
+  const handleAction = (actionType: PlayerAction) => {
     switch (actionType) {
       case '울타리 설치':
         setTempSelectedFenceIndexState(prev => [...prev, index]);
@@ -42,9 +42,9 @@ export function Farm({ width, height, index, playerNumber }: Props) {
       default:
         break;
     }
-  }, []);
+  };
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (currentPlayer.number !== playerNumber) {
       alert(`'${currentPlayer.name}'님의 차례입니다.`);
       return;
@@ -59,7 +59,7 @@ export function Farm({ width, height, index, playerNumber }: Props) {
       handleAction(action.type);
       return;
     }
-  }, [action, currentPlayer]);
+  };
 
   return (
     <Container

@@ -11,7 +11,7 @@ import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-pla
 import { 농장확장action } from 'page-src/agricola/shared/utils/do-action/농장확장action';
 import { 농지설치action } from 'page-src/agricola/shared/utils/do-action/농지설치action';
 import { 외양간설치action } from 'page-src/agricola/shared/utils/do-action/외양간설치action';
-import { ReactNode, useCallback } from 'react';
+import { ReactNode } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 // TODO: 확장 수 플레이어 지정으로 변경
@@ -97,7 +97,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
     }
   };
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (currentPlayer.number !== playerNumber) {
       alert(`'${currentPlayer.name}'님의 차례입니다.`);
       return;
@@ -112,7 +112,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       handleAction(action.type);
       return;
     }
-  }, [action, currentPlayer]);
+  };
 
   return (
     <Container
@@ -120,7 +120,7 @@ export const EmptySlot = ({ width, height, index, playerNumber, children }: Prop
       height={height}
       onClick={handleClick}
       color={owner.color}
-      isSelected={tempSelectedFenceIndex.includes(index)}
+      isSelected={tempSelectedFenceIndex.includes(index) && playerNumber === currentPlayer.number}
     >
       {children}
       <div>{owner.slots[index].emptyFenceDirections}</div>
