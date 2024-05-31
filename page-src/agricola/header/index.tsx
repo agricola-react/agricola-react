@@ -182,6 +182,12 @@ export const Header = () => {
               food: 4,
               farmer: 3,
               grain: 1,
+              ownedFence: [
+                {
+                  id: 1,
+                  animalType: '양',
+                },
+              ],
               slots: players[2].slots.map((slot, index) => {
                 if (index === 0) {
                   return { ...slot, type: '방' };
@@ -194,15 +200,36 @@ export const Header = () => {
                 //12.13.14
 
                 if (index === 12) {
-                  return { ...slot, type: '울타리', fenceId: 1, emptyFenceDirections: [3] };
+                  return {
+                    ...slot,
+                    type: '울타리',
+                    fenceId: 1,
+                    emptyFenceDirections: [3],
+                    resource: '양',
+                    count: 2,
+                  };
                 }
 
                 if (index === 13) {
-                  return { ...slot, type: '울타리', fenceId: 1, emptyFenceDirections: [2, 3] };
+                  return {
+                    ...slot,
+                    type: '울타리',
+                    fenceId: 1,
+                    emptyFenceDirections: [2, 3],
+                    resource: '양',
+                    count: 2,
+                  };
                 }
 
                 if (index === 14) {
-                  return { ...slot, type: '울타리', fenceId: 1, emptyFenceDirections: [2] };
+                  return {
+                    ...slot,
+                    type: '울타리',
+                    fenceId: 1,
+                    emptyFenceDirections: [2],
+                    resource: '양',
+                    count: 2,
+                  };
                 }
 
                 return slot;
