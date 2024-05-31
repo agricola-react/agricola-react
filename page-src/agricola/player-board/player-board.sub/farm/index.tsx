@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-case-declarations */
+import { DIRECTION } from '@/shared/constants/direction';
 import {
   FenceType,
   Player,
@@ -15,7 +16,7 @@ import { MeepleSheep } from '@/shared/resource/meeple-sheep';
 import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { calculateFenceTotalMax } from 'page-src/agricola/shared/utils/calculate-fence-total-max';
+import { 가축추가action } from 'page-src/agricola/shared/utils/do-action/가축추가action';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -29,7 +30,7 @@ type Props = {
 export function Farm({ width, height, index, playerNumber }: Props) {
   const players = useRecoilValue(playersState);
   const { currentPlayer, setPlayers } = useCurrentPlayer();
-  const [action, setAction] = useRecoilState(currentActionState);
+  const action = useRecoilValue(currentActionState);
   const [tempSelectedFenceIndex, setTempSelectedFenceIndexState] = useRecoilState(
     tempSelectedFenceIndexState
   );
@@ -58,92 +59,20 @@ export function Farm({ width, height, index, playerNumber }: Props) {
       case '가축 추가':
         const stockInfo = action?.stockInfo;
         if (stockInfo === undefined) {
-          console.log(`[가축 추가] 가축 정보가 없습니다.`);
-          return;
+          console.error(`[가축 추가] 가축 정보가 없습니다.`);
+          break;
         }
 
-        const { count, type } = stockInfo;
         const fenceId = owner.slots[index].fenceId;
+        const updatedPlayer = 가축추가action(owner, index, stockInfo, fenceId);
 
-        //* 예외처리
-        //? 울타리가 존재하지 않는 경우
-        if (fenceId === undefined) {
-          //? 1. 외양간만 존재하는 경우
-          if (owner.slots[index].barn) {
-            //TODO
-            break;
-          }
-          //? 2. 빈 땅인 경우
-          alert(`[가축 추가] 가축을 데려오려면 외양간 혹은 울타리가 존재해야 합니다.`);
-          break;
+        if (updatedPlayer !== null) {
+          setPlayers(
+            produce(_players => {
+              _players[playerNumber - 1] = updatedPlayer;
+            })
+          );
         }
-
-        //? 1. fenceInfo 가져오기
-        const fenceInfo = owner.ownedFence.find(fenceInfo => fenceInfo.id === fenceId) as FenceType;
-
-        if (fenceInfo.animalType !== null && fenceInfo.animalType !== type) {
-          alert(`[가축 추가] 하나의 울타리에는 동일한 가축만 키울 수 있습니다.`);
-          break;
-        }
-
-        let ownedFences = [...owner.ownedFence];
-        //* 검증
-        //? 비어있는 울타리의 경우 가축 종류 추가
-        if (fenceInfo.animalType === null) {
-          ownedFences = ownedFences.map(fence => {
-            if (fence.id === fenceId)
-              return {
-                ...fence,
-                animalType: type,
-              };
-            return {
-              ...fence,
-            };
-          });
-        }
-
-        const sameFenceSlots = owner.slots.filter(slot => slot.fenceId === fenceId);
-        const sameFenceTotalCount = sameFenceSlots.reduce((acc, slot) => acc + slot.count, 0);
-        const fenceTotalMax = calculateFenceTotalMax(owner.slots, fenceId);
-        const singleFenceMax = Math.floor(fenceTotalMax / sameFenceSlots.length);
-
-        //? 예외처리
-        if (sameFenceTotalCount === fenceTotalMax) {
-          alert(`[가축 추가] 울타리가 가득 찼습니다.`);
-          break;
-        }
-
-        //* 계산
-        let remain = count;
-        const updatedSlots = owner.slots.map(slot => {
-          if (remain > 0 && slot.fenceId === fenceId) {
-            if (slot.count < singleFenceMax) {
-              let plus = Math.min(remain, singleFenceMax - slot.count);
-              remain -= plus;
-              setAction({
-                type: actionType,
-                isDone: false,
-                stockInfo: {
-                  type,
-                  count: count - plus,
-                },
-              });
-              return {
-                ...slot,
-                count: slot.count + plus,
-              };
-            }
-          }
-          return slot;
-        });
-
-        //* 반영
-        setPlayers(
-          produce(_players => {
-            _players[playerNumber - 1].slots = updatedSlots;
-            _players[playerNumber - 1].ownedFence = ownedFences;
-          })
-        );
 
         break;
 
@@ -177,10 +106,10 @@ export function Farm({ width, height, index, playerNumber }: Props) {
       isFence={slotValue.fenceId !== undefined}
       onClick={handleClick}
       style={{
-        borderTopWidth: slotValue.emptyFenceDirections?.includes(0) ? 0 : `6px`,
-        borderBottomWidth: slotValue.emptyFenceDirections?.includes(1) ? 0 : `6px`,
-        borderLeftWidth: slotValue.emptyFenceDirections?.includes(2) ? 0 : `6px`,
-        borderRightWidth: slotValue.emptyFenceDirections?.includes(3) ? 0 : `6px`,
+        borderTopWidth: slotValue.emptyFenceDirections?.includes(DIRECTION.상) ? 0 : `8px`,
+        borderBottomWidth: slotValue.emptyFenceDirections?.includes(DIRECTION.하) ? 0 : `8px`,
+        borderLeftWidth: slotValue.emptyFenceDirections?.includes(DIRECTION.좌) ? 0 : `8px`,
+        borderRightWidth: slotValue.emptyFenceDirections?.includes(DIRECTION.우) ? 0 : `8px`,
       }}
       isSelected={tempSelectedFenceIndex.includes(index)}
     >
@@ -224,7 +153,7 @@ const Container = styled.div<{
   flex-direction: column;
   align-items: center;
 
-  border: ${props => (props.isFence ? `6px solid ${props.color}` : `0px`)};
+  border: ${props => (props.isFence ? `8px solid ${props.color}` : `0px`)};
 `;
 
 const LivestockContainer = styled.div`
