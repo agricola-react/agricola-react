@@ -61,8 +61,8 @@ const IndexPage = () => {
         />
         <StyledButton
           onClick={() => {
-            // TODO: 검증로직이 추가될 예정입니다.
             if (inputValue === '1234') {
+              window.sessionStorage.setItem('isAccept', 'true');
               router.push('/agricola');
             } else {
               alert('실패!');
