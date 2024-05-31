@@ -66,9 +66,6 @@ export function 울타리action(player: Player, selectedIndexArray: number[]): P
     return null;
   }
 
-  console.log(`울타리 설치 후 resultSlots >>>`, resultSlots);
-  console.log(`울타리 설치 후 ownedFence >>>`, [...player.ownedFence, newFenceInfo]);
-
   return {
     ...player,
     fence: player.fence + totalFence,

@@ -107,8 +107,6 @@ export function Farm({ width, height, index, playerNumber }: Props) {
         const fenceTotalMax = calculateFenceTotalMax(owner.slots, fenceId);
         const singleFenceMax = Math.floor(fenceTotalMax / sameFenceSlots.length);
 
-        console.log(`[fenceId] ${fenceId} / [수용 가능 최대 가축 수] ::`, fenceTotalMax);
-
         //? 예외처리
         if (sameFenceTotalCount === fenceTotalMax) {
           alert(`[가축 추가] 울타리가 가득 찼습니다.`);
