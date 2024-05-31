@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { isEmptyField } from 'page-src/agricola/shared/utils/is-empty-field';
-import { ReactNode, useCallback } from 'react';
+import { ReactNode } from 'react';
 import { useRecoilValue } from 'recoil';
 
 type Props = {
@@ -76,25 +76,22 @@ export const Field = ({ width, height, index, playerNumber, children }: Props) =
   const isActive =
     action?.type === '씨뿌리기' && !action.isDone && currentPlayer.number === playerNumber;
 
-  const handleClick = useCallback(
-    (type: 'grain' | 'vegetable') => {
-      if (currentPlayer.number !== playerNumber) {
-        alert(`'${currentPlayer.name}'님의 차례입니다.`);
-        return;
-      }
+  const handleClick = (type: 'grain' | 'vegetable') => {
+    if (currentPlayer.number !== playerNumber) {
+      alert(`'${currentPlayer.name}'님의 차례입니다.`);
+      return;
+    }
 
-      if (action === null) {
-        alert(`액션을 선택해주세요.`);
-        return;
-      }
+    if (action === null) {
+      alert(`액션을 선택해주세요.`);
+      return;
+    }
 
-      if (!action.isDone) {
-        handleSeedClick(type);
-        return;
-      }
-    },
-    [action, currentPlayer]
-  );
+    if (!action.isDone) {
+      handleSeedClick(type);
+      return;
+    }
+  };
 
   return (
     <Container width={width} height={height}>

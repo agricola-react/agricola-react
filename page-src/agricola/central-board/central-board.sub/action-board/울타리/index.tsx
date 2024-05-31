@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { produce } from 'immer';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 export const 울타리 = () => {
@@ -17,7 +17,7 @@ export const 울타리 = () => {
 
   const [isActive, setIsActive] = useState(true);
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (action !== null) {
       alert(`[${currentPlayer.name}] 님의 액션을 완료해주세요.`);
       return;
@@ -35,7 +35,7 @@ export const 울타리 = () => {
         _players[currentPlayer.number - 1].homeFarmer -= 1;
       })
     );
-  }, []);
+  };
 
   useEffect(() => {
     if (action?.type === '울타리 설치' && action.isDone) {
@@ -48,6 +48,7 @@ export const 울타리 = () => {
     if (round >= 4) {
       setIsActive(true);
     }
+    setSelectedPlayerNumber(undefined);
   }, [round]);
 
   return (
