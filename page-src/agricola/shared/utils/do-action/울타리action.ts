@@ -16,9 +16,7 @@ export function 울타리action(player: Player, selectedIndexArray: number[]): P
   let totalFence = 0; // 필요한 울타리 수
   let newFenceInfo: FenceType = {
     id: fenceId,
-    totalBarn: 0,
     animalType: null,
-    totalCount: 0,
   };
 
   //* 2. 울타리 설치 검증 및 필요 울타리 수 구하기
@@ -52,10 +50,6 @@ export function 울타리action(player: Player, selectedIndexArray: number[]): P
         }
       });
 
-      if (resultSlots[position].resource === '외양간') {
-        newFenceInfo.totalBarn += resultSlots[position].count;
-      }
-
       resultSlots[position] = {
         ...resultSlots[position],
         type: '울타리',
@@ -71,6 +65,9 @@ export function 울타리action(player: Player, selectedIndexArray: number[]): P
     alert(`[울타리 설치] 울타리가 부족합니다.`);
     return null;
   }
+
+  console.log(`울타리 설치 후 resultSlots >>>`, resultSlots);
+  console.log(`울타리 설치 후 ownedFence >>>`, [...player.ownedFence, newFenceInfo]);
 
   return {
     ...player,
