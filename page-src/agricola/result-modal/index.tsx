@@ -19,6 +19,7 @@ import { getGrainScore } from 'page-src/agricola/result-modal/utils/get-grain-sc
 import { getSheepScore } from 'page-src/agricola/result-modal/utils/get-sheep-score';
 import { getVegetableScore } from 'page-src/agricola/result-modal/utils/get-vegetable-score';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { getFenceScore } from './utils/get-fence-score';
 
 const ResultModal = () => {
   const [resultModalOpen, setResultModalOpen] = useRecoilState(resultModalOpenState);
@@ -30,7 +31,7 @@ const ResultModal = () => {
     const fieldScore = getFieldScore(player.slots.filter(slot => slot.type === '밭').length);
 
     // 울타리 추가해야함
-
+    const fenceScore = getFenceScore(player.ownedFence.length);
     // 곡식점수
     const grainScore = getGrainScore(player.grain);
 
@@ -78,9 +79,8 @@ const ResultModal = () => {
     let 카드점수 = 보조설비점수 + 주요설비점수;
     let bonusPoint = 0;
 
-    const totalScore =
-      fieldScore +
-      grainScore +
+    const totalScore = fieldScore + fenceScore;
+    grainScore +
       vegetableScore +
       sheepScore +
       pigScore +
@@ -97,6 +97,7 @@ const ResultModal = () => {
     return {
       ...player,
       fieldScore,
+      fenceScore,
       grainScore,
       vegetableScore,
       sheepScore,
@@ -126,8 +127,8 @@ const ResultModal = () => {
     {
       name: '울타리',
       players: playersWithCore.map(player => ({
-        count: player.slots.filter(slot => slot.type === '밭').length,
-        score: player.fieldScore,
+        count: player.ownedFence.length,
+        score: player.fenceScore,
         Icon: <FrameIcon width={25} height={15} />,
       })),
     },
