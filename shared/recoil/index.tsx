@@ -35,7 +35,7 @@ export type SlotValue = {
   count: number;
   // 울타리 슬롯인 경우에만 존재하는 필드 값
   fenceId?: number;
-  barn?: number;
+  barn?: number; // 외양간 수
   emptyFenceDirections?: number[];
 };
 
@@ -51,9 +51,7 @@ export type SlotValue = {
 // 여러 슬롯에 해당되는 타입(슬롯 여러개가 연결된 울타리 하나의 정보)
 export type FenceType = {
   id: number;
-  totalBarn: number;
   animalType: LiveStock | null;
-  totalCount: number;
 };
 
 export type CardType = {
@@ -358,6 +356,10 @@ export type PlayerAction =
 export type PlayerActionType = {
   type: PlayerAction;
   isDone: boolean;
+  stockInfo?: {
+    count: number;
+    type: LiveStock;
+  };
 };
 
 export const currentActionState = atom<PlayerActionType | null>({

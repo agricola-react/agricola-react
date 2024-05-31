@@ -72,6 +72,16 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
         type: '울타리 설치',
         isDone: true,
       });
+      return;
+    }
+
+    if (type === '가축 추가') {
+      setAction({
+        ...action,
+        type: '가축 추가',
+        isDone: true,
+      });
+      return;
     }
   };
 
@@ -124,6 +134,11 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
               <strong>[{action?.type}]</strong> 액션 종료
             </ActionButton>
           </div>
+        )}
+        {currentPlayer.number === playerNumber && action?.type === '가축 추가' && (
+          <ActionButton onClick={() => handleEndAction(action.type)}>
+            <strong>[{action?.type}]</strong> 액션 종료
+          </ActionButton>
         )}
       </TitleContainer>
       <Wrapper>
