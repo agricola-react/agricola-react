@@ -19,6 +19,7 @@ export const ModalContainer = ({ open, setOpen, children, width, style }: Props)
           <Dialog.Content
             className="DialogContent"
             style={{
+              overflow: 'scroll',
               width,
               ...style,
             }}

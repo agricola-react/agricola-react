@@ -27,6 +27,8 @@ export const SubCardModal = ({ player, open, setOpen, isAction, setIsDone }: Pro
         border: '1px solid #624603',
         borderRadius: '10px',
         boxShadow: '2px 2px 5px #000',
+
+        overflow: 'scroll',
       }}
     >
       <ModalWrapper>
