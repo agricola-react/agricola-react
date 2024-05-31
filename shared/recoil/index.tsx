@@ -357,6 +357,10 @@ export type PlayerAction =
 export type PlayerActionType = {
   type: PlayerAction;
   isDone: boolean;
+  stockInfo?: {
+    count: number;
+    type: ResourceType;
+  };
 };
 
 export const currentActionState = atom<PlayerActionType | null>({

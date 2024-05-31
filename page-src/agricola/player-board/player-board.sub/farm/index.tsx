@@ -20,24 +20,7 @@ export function Farm({ width, height, index, playerNumber }: Props) {
   const owner = players.find(_player => _player.number === playerNumber) as Player;
   const slotValue = owner.slots[index];
 
-  const handleAction = (actionType: PlayerAction) => {
-    switch (actionType) {
-      case '울타리 설치':
-        alert(`울타리 설치하기`);
-        break;
-
-      case '가축 추가':
-        alert(`가축 추가`);
-        break;
-
-      default:
-        break;
-    }
-  };
-
   const handleClick = () => {
-    alert(`Farm 슬롯 클릭`);
-
     if (currentPlayer.number !== playerNumber) {
       alert(`'${currentPlayer.name}'님의 차례입니다.`);
       return;
@@ -48,10 +31,7 @@ export function Farm({ width, height, index, playerNumber }: Props) {
       return;
     }
 
-    if (!action.isDone) {
-      handleAction(action.type);
-      return;
-    }
+    const { count, type } = action.stockInfo!;
   };
 
   return (

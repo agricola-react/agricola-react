@@ -181,6 +181,11 @@ export const PlayerSlots = ({ playerNumber }: Props) => {
             </ActionButton>
           </div>
         )}
+        {currentPlayer.number === playerNumber && action?.type === '가축 추가' && (
+          <ActionButton onClick={() => handleEndAction(action.type)}>
+            <strong>[{action?.type}]</strong> 액션 종료
+          </ActionButton>
+        )}
       </TitleContainer>
       <Wrapper>
         {playerSlots.map((info, index) => (
