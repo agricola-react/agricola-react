@@ -87,6 +87,11 @@ export const 숲 = () => {
   useEffect(() => {
     setCurrentWood(prev => prev + 3);
     setSelectedPlayerNumber(undefined);
+
+    // 시뮬레이션을 위한 코드
+    if (round === 4) {
+      setCurrentWood(3);
+    }
   }, [round]);
 
   return (

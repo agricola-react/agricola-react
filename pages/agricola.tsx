@@ -46,124 +46,129 @@ const AgricolaPage = () => {
   }, [homeFarmers, action]);
 
   useEffect(() => {
-    const firstPlayerIndex = players.findIndex(player => player.isFirst);
-    setCurrentPlayerIndex(firstPlayerIndex);
-    /**
-     * 수확로직 (harvest_rounds로 넘어가기전 실행)
-     * 1. 작물수확(TODO)
-     * 2. 가족먹여살리기
-     * 3. 번식(TODO)
-     */
-    const isHarvestTime = harvest_rounds.includes(round);
+    // 2초 여유시간
+    setTimeout(() => {
+      const firstPlayerIndex = players.findIndex(player => player.isFirst);
+      setCurrentPlayerIndex(firstPlayerIndex);
+      /**
+       * 수확로직 (harvest_rounds로 넘어가기전 실행)
+       * 1. 작물수확(TODO)
+       * 2. 가족먹여살리기
+       * 3. 번식(TODO)
+       */
+      const isHarvestTime = harvest_rounds.includes(round);
 
-    if (isHarvestTime) {
-      alert(`수확 및 가족 먹여살리기 시간입니다.`);
-    }
+      if (isHarvestTime) {
+        alert(`수확 및 가족 먹여살리기 시간입니다.`);
+      }
 
-    setPlayers(
-      players.map(_player => {
-        // 0. 수확전 카드 사용여부
-        let addWood = 0;
-        let addClay = 0;
-        let addReed = 0;
-        let addFood = 0;
+      setPlayers(
+        players.map(_player => {
+          // 0. 수확전 카드 사용여부
+          let addWood = 0;
+          let addClay = 0;
+          let addReed = 0;
+          let addFood = 0;
 
-        const 부엌방가지고있고나무집에살고있는지 =
-          _player.subCards.find(card => card.name === '부엌방' && card.isActive) &&
-          _player.roomType === 'wood';
+          const 부엌방가지고있고나무집에살고있는지 =
+            _player.subCards.find(card => card.name === '부엌방' && card.isActive) &&
+            _player.roomType === 'wood';
 
-        // 주요설비 카드 사용여부 확인
-        const 가구제작소가지고있는지 = _player.mainCards.some(card => card.name === '가구제작소');
-        if (가구제작소가지고있는지) {
-          const 가구제작소나무사용갯수 = Number(
-            prompt(
-              `가구제작소를 사용하시겠습니까?\n 사용하신다면 사용할 나무 갯수를 적어주시고 아니라면 0을 입력해주세요`
-            )
-          );
+          // 주요설비 카드 사용여부 확인
+          const 가구제작소가지고있는지 = _player.mainCards.some(card => card.name === '가구제작소');
+          if (가구제작소가지고있는지) {
+            const 가구제작소나무사용갯수 = Number(
+              prompt(
+                `가구제작소를 사용하시겠습니까?\n 사용하신다면 사용할 나무 갯수를 적어주시고 아니라면 0을 입력해주세요`
+              )
+            );
 
-          if (가구제작소나무사용갯수 <= _player.wood && 가구제작소나무사용갯수 > 0) {
-            addWood -= 가구제작소나무사용갯수;
-            addFood += 가구제작소나무사용갯수 * 2;
+            if (가구제작소나무사용갯수 <= _player.wood && 가구제작소나무사용갯수 > 0) {
+              addWood -= 가구제작소나무사용갯수;
+              addFood += 가구제작소나무사용갯수 * 2;
+            }
           }
-        }
 
-        const 그릇제작소가지고있는지 = _player.mainCards.some(card => card.name === '가구제작소');
-        if (그릇제작소가지고있는지) {
-          const 그릇제작소흙사용갯수 = Number(
-            prompt(
-              `그릇제작소를 사용하시겠습니까?\n 사용하신다면 사용할 나무 갯수를 적어주시고 아니라면 0을 입력해주세요`
-            )
-          );
+          const 그릇제작소가지고있는지 = _player.mainCards.some(card => card.name === '가구제작소');
+          if (그릇제작소가지고있는지) {
+            const 그릇제작소흙사용갯수 = Number(
+              prompt(
+                `그릇제작소를 사용하시겠습니까?\n 사용하신다면 사용할 나무 갯수를 적어주시고 아니라면 0을 입력해주세요`
+              )
+            );
 
-          if (그릇제작소흙사용갯수 <= _player.clay && 그릇제작소흙사용갯수 > 0) {
-            addClay -= 그릇제작소흙사용갯수;
-            addFood += 그릇제작소흙사용갯수 * 2;
+            if (그릇제작소흙사용갯수 <= _player.clay && 그릇제작소흙사용갯수 > 0) {
+              addClay -= 그릇제작소흙사용갯수;
+              addFood += 그릇제작소흙사용갯수 * 2;
+            }
           }
-        }
 
-        const 바구니제작소가지고있는지 = _player.mainCards.some(card => card.name === '가구제작소');
-        if (바구니제작소가지고있는지) {
-          const 바구니제작소갈대사용갯수 = Number(
-            prompt(
-              `바구니제작소를 사용하시겠습니까?\n 사용하신다면 사용할 나무 갯수를 적어주시고 아니라면 0을 입력해주세요`
-            )
+          const 바구니제작소가지고있는지 = _player.mainCards.some(
+            card => card.name === '가구제작소'
           );
+          if (바구니제작소가지고있는지) {
+            const 바구니제작소갈대사용갯수 = Number(
+              prompt(
+                `바구니제작소를 사용하시겠습니까?\n 사용하신다면 사용할 나무 갯수를 적어주시고 아니라면 0을 입력해주세요`
+              )
+            );
 
-          if (바구니제작소갈대사용갯수 <= _player.reed && 바구니제작소갈대사용갯수 > 0) {
-            addClay -= 바구니제작소갈대사용갯수;
-            addFood += 바구니제작소갈대사용갯수 * 3;
+            if (바구니제작소갈대사용갯수 <= _player.reed && 바구니제작소갈대사용갯수 > 0) {
+              addClay -= 바구니제작소갈대사용갯수;
+              addFood += 바구니제작소갈대사용갯수 * 3;
+            }
           }
-        }
 
-        // 1. 수확
-        const player = isHarvestTime ? harvest(_player) : _player;
-        // 2. 가족 먹여 살리기
-        const { newFood, newGrain, newVegetable, remainingFood } = calculateFeedingCount({
-          farmer: player.farmer,
-          food: player.food + addFood,
-          grain: player.grain,
-          vegetable: player.vegetable,
-          baby: player.baby,
-        });
+          // 1. 수확
+          const player = isHarvestTime ? harvest(_player) : _player;
+          // 2. 가족 먹여 살리기
+          const { newFood, newGrain, newVegetable, remainingFood } = calculateFeedingCount({
+            farmer: player.farmer,
+            food: player.food + addFood,
+            grain: player.grain,
+            vegetable: player.vegetable,
+            baby: player.baby,
+          });
 
-        if (isHarvestTime) {
-          alert(
-            `${player.number} 유저 가족 먹여살라기 결과입니다.\n 남은 음식:${newFood} / 남은 곡식:${newGrain} / 남은 채소:${newVegetable} / 남은 내야할 음식:${remainingFood}`
-          );
-        }
+          if (isHarvestTime) {
+            alert(
+              `${player.number} 유저 가족 먹여살라기 결과입니다.\n 남은 음식:${newFood} / 남은 곡식:${newGrain} / 남은 채소:${newVegetable} / 남은 내야할 음식:${remainingFood}`
+            );
+          }
 
-        const resultFood = 부엌방가지고있고나무집에살고있는지 ? newFood + 1 : newFood;
+          const resultFood = 부엌방가지고있고나무집에살고있는지 ? newFood + 1 : newFood;
 
-        const food = isHarvestTime
-          ? resultFood
-          : 부엌방가지고있고나무집에살고있는지
-            ? player.food + 1
-            : player.food;
+          const food = isHarvestTime
+            ? resultFood
+            : 부엌방가지고있고나무집에살고있는지
+              ? player.food + 1
+              : player.food;
 
-        return {
-          ...player,
-          farmer: player.farmer + player.baby,
-          homeFarmer: player.farmer + player.baby,
-          baby: 0,
-          wood: player.wood + addWood,
-          clay: player.clay + addClay,
-          reed: player.reed + addReed,
-          food,
-          grain: isHarvestTime ? newGrain : player.grain,
-          vegetable: isHarvestTime ? newVegetable : player.vegetable,
-          bagging: isHarvestTime
-            ? remainingFood > 0
-              ? player.bagging + remainingFood
-              : player.bagging
-            : player.bagging,
-        };
-      })
-    );
+          return {
+            ...player,
+            farmer: player.farmer + player.baby,
+            homeFarmer: player.farmer + player.baby,
+            baby: 0,
+            wood: player.wood + addWood,
+            clay: player.clay + addClay,
+            reed: player.reed + addReed,
+            food,
+            grain: isHarvestTime ? newGrain : player.grain,
+            vegetable: isHarvestTime ? newVegetable : player.vegetable,
+            bagging: isHarvestTime
+              ? remainingFood > 0
+                ? player.bagging + remainingFood
+                : player.bagging
+              : player.bagging,
+          };
+        })
+      );
 
-    // 마지막 결과확인
-    if (round === 15) {
-      setResultModalOpenState(true);
-    }
+      // 마지막 결과확인
+      if (round === 15) {
+        setResultModalOpenState(true);
+      }
+    }, 0);
   }, [round]);
 
   return (
