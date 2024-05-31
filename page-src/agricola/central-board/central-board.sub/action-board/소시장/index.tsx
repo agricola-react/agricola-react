@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { ActionContainer } from 'page-src/agricola/central-board/central-board.sub/action-board/shared/components/action-container';
 import { useCurrentPlayer } from 'page-src/agricola/shared/hooks/use-current-player';
 import { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { produce } from 'immer';
 
 export const 소시장 = () => {
@@ -13,7 +13,7 @@ export const 소시장 = () => {
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [currentCattle, setCurrentCattle] = useState(0);
   const round = useRecoilValue(roundState);
-  const action = useRecoilValue(currentActionState);
+  const [action, setAction] = useRecoilState(currentActionState);
 
   const handleClick = () => {
     if (action !== null) {
@@ -27,15 +27,28 @@ export const 소시장 = () => {
     if (isActive && currentPlayer.homeFarmer > 0) {
       setPlayers(
         produce(_players => {
-          _players[currentPlayerIndex].cattle += currentCattle;
           _players[currentPlayerIndex].homeFarmer -= 1;
         })
       );
       setCurrentCattle(0);
       setSelectedPlayerNumber(currentPlayer.number);
-      nextPlayer();
+      setAction({
+        type: '가축 추가',
+        isDone: false,
+        stockInfo: {
+          count: currentCattle,
+          type: '소',
+        },
+      });
     }
   };
+
+  useEffect(() => {
+    if (action?.type === '가축 추가' && action.stockInfo?.type === '소' && action.isDone) {
+      setAction(null);
+      nextPlayer();
+    }
+  }, [action]);
 
   useEffect(() => {
     if (round >= 11) {

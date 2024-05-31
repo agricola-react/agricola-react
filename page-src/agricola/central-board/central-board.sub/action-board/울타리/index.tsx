@@ -15,7 +15,7 @@ export const 울타리 = () => {
   const [action, setAction] = useRecoilState(currentActionState);
   const round = useRecoilValue(roundState);
 
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
     if (action !== null) {
