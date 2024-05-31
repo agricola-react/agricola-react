@@ -5,12 +5,9 @@ import { Clay } from '@/shared/resource/clay';
 import { Farmer } from '@/shared/resource/farmer';
 import { Grain } from '@/shared/resource/grain';
 import { MeepleBagging } from '@/shared/resource/meeple-bagging';
-import { MeepleCattle } from '@/shared/resource/meeple-cattle';
 import { MeepleFence } from '@/shared/resource/meeple-fence';
 import { MeepleFirst } from '@/shared/resource/meeple-first';
 import { MeepleFood } from '@/shared/resource/meeple-food';
-import { MeeplePig } from '@/shared/resource/meeple-pig';
-import { MeepleSheep } from '@/shared/resource/meeple-sheep';
 import { Reed } from '@/shared/resource/reed';
 import { Stone } from '@/shared/resource/stone';
 import { Vegetable } from '@/shared/resource/vegetable';
@@ -50,21 +47,6 @@ export const UserBoard = ({ player }: Props) => {
     {
       Component: <MeepleFood width={15} height={20} />,
       count: player.food,
-    },
-  ];
-
-  const livestocks = [
-    {
-      Component: <MeepleSheep width={20} height={20} />,
-      count: player.sheep,
-    },
-    {
-      Component: <MeeplePig width={20} height={20} />,
-      count: player.pig,
-    },
-    {
-      Component: <MeepleCattle width={20} height={20} />,
-      count: player.cattle,
     },
   ];
 
@@ -109,17 +91,7 @@ export const UserBoard = ({ player }: Props) => {
           );
         })}
       </div>
-      <hr className="border-1 border-solid border-[#80502e] my-[5px]" />
-      <div className="flex justify-center gap-[20px]">
-        {livestocks.map(({ Component, count }, index) => {
-          return (
-            <div className="flex items-center gap-[10px]" key={index}>
-              <div className="font-bold">{count}</div>
-              <div>{Component}</div>
-            </div>
-          );
-        })}
-      </div>
+
       <hr className="border-1 border-solid border-[#80502e] my-[5px]" />
       <div className="flex justify-center gap-[20px]">
         {EtcRecourseList.map(({ Component, count }, index) => {
