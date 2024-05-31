@@ -8,7 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { produce } from 'immer';
 
 export const 양시장 = () => {
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const { currentPlayer, setPlayers, currentPlayerIndex, nextPlayer } = useCurrentPlayer();
   const [selectedPlayerNumber, setSelectedPlayerNumber] = useState<undefined | number>(undefined);
   const [currentSheep, setCurrentSheep] = useState(10);
