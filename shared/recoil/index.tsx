@@ -165,21 +165,21 @@ export const playersState = atom<Player[]>({
       isFirst: true,
       jobCards: [
         {
-          name: '마술사',
+          name: '나무꾼',
           isActive: false,
-          src: '/job-card/마술사.jpg',
+          src: '/job-card/나무꾼.jpg',
           score: 1,
         },
         {
-          name: '창고관리인',
+          name: '보조경작자',
           isActive: false,
-          src: '/job-card/창고관리인.jpg',
+          src: '/job-card/보조경작자.jpg',
           score: 1,
         },
         {
-          name: '채소장수',
+          name: '쟁기몰이꾼',
           isActive: false,
-          src: '/job-card/채소장수.jpg',
+          src: '/job-card/쟁기몰이꾼.jpg',
           score: 1,
         },
       ],
@@ -211,24 +211,25 @@ export const playersState = atom<Player[]>({
       color: 'green',
       jobCards: [
         {
-          name: '나무꾼',
+          name: '마술사',
           isActive: false,
-          src: '/job-card/나무꾼.jpg',
+          src: '/job-card/마술사.jpg',
           score: 1,
         },
         {
-          name: '보조경작자',
+          name: '창고관리인',
           isActive: false,
-          src: '/job-card/보조경작자.jpg',
+          src: '/job-card/창고관리인.jpg',
           score: 1,
         },
         {
-          name: '쟁기몰이꾼',
+          name: '채소장수',
           isActive: false,
-          src: '/job-card/쟁기몰이꾼.jpg',
+          src: '/job-card/채소장수.jpg',
           score: 1,
         },
       ],
+
       subCards: [
         {
           name: '통나무배',
