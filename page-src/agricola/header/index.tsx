@@ -331,6 +331,12 @@ export const Header = () => {
               food: 2,
               grain: 5,
               roomType: 'clay',
+              ownedFence: [
+                {
+                  id: 1,
+                  animalType: null,
+                },
+              ],
               slots: players[0].slots.map((slot, index) => {
                 if (index === 0) {
                   return { ...slot, type: '방' };
@@ -387,7 +393,7 @@ export const Header = () => {
                   name: '그릇제작소',
                   isActive: true,
                   src: '/main-card/그릇제작소.jpg',
-                  score: 1,
+                  score: 2,
                 },
               ],
             },
