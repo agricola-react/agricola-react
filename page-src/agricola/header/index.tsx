@@ -454,7 +454,7 @@ export const Header = () => {
             {
               // 가족 3, 나무 8, 돌 0, 흙1, 갈대 0,  음식 0, 곡식 2, 채소 1, 밭 3(null, 채소1, null), 흙방 3, 보조설비(채굴망치), 주요설비(화로), 직업(버섯따는사람), 양 6, 돼지 5, 소 3, 울타리 15, 외양간 3
               ...players[2],
-              reed: 1,
+              reed: 0,
               wood: 8,
               stone: 0,
               clay: 1,
@@ -538,6 +538,7 @@ export const Header = () => {
                     emptyFenceDirections: [3],
                     resource: '양',
                     count: 2,
+                    barn: 1,
                   };
                 }
 
