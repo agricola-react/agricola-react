@@ -65,9 +65,7 @@ export const Slot = ({ type, resourceType, count, index, playerNumber }: Props) 
         return (
           <>
             <Row>
-              {new Array(count).fill(0).map((_, index) => (
-                <Farmer key={index} width={36} height={45} userNumber={playerNumber} />
-              ))}
+              <Farmer key={index} width={36} height={45} userNumber={playerNumber} />
             </Row>
           </>
         );

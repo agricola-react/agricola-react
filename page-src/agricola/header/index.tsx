@@ -406,13 +406,24 @@ export const Header = () => {
               food: 0,
               grain: 7,
               vegetable: 1,
-              farmer: 3,
+              farmer: 4,
               roomType: 'clay',
               slots: players[1].slots.map((slot, index) => {
                 if (index === 0) {
                   return {
                     ...slot,
                     type: '방',
+                    resource: '사람',
+                    count: 1,
+                  };
+                }
+
+                if (index === 1) {
+                  return {
+                    ...slot,
+                    type: null,
+                    resource: '사람',
+                    count: 1,
                   };
                 }
 
