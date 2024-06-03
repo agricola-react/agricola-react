@@ -618,7 +618,7 @@ export const Header = () => {
               ],
               slots: players[3].slots.map((slot, index) => {
                 if (index === 0) {
-                  return { ...slot, type: '방' };
+                  return { ...slot, type: '방', resource: '사람', count: 1 };
                 }
 
                 if (index === 6 || index === 7 || index === 8 || index === 11) {
