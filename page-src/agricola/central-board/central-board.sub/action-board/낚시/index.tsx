@@ -76,6 +76,10 @@ export const 낚시 = () => {
   useEffect(() => {
     setCurrentFood(prev => prev + 1);
     setSelectedPlayerNumber(undefined);
+
+    if (round === 9) {
+      setCurrentFood(3);
+    }
   }, [round]);
 
   return (

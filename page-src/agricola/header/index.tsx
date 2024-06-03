@@ -477,7 +477,7 @@ export const Header = () => {
                 },
               ],
               slots: players[2].slots.map((slot, index) => {
-                if (index === 0) {
+                if (index === 0 || index === 1) {
                   return { ...slot, type: '방' };
                 }
 
@@ -498,7 +498,7 @@ export const Header = () => {
                     ...slot,
                     type: '울타리',
                     fenceId: 2,
-                    emptyFenceDirections: [1],
+                    emptyFenceDirections: [1, 3],
                     resource: '돼지',
                     count: 3,
                     barn: 1,
@@ -524,6 +524,7 @@ export const Header = () => {
                     emptyFenceDirections: [3],
                     resource: '소',
                     count: 2,
+                    barn: 1,
                   };
                 }
 
@@ -534,7 +535,7 @@ export const Header = () => {
                     fenceId: 3,
                     emptyFenceDirections: [2],
                     resource: '소',
-                    count: 2,
+                    count: 1,
                   };
                 }
 
@@ -620,8 +621,12 @@ export const Header = () => {
                   return { ...slot, type: '방' };
                 }
 
-                if (index === 1 || index === 6 || index === 7 || index === 8 || index === 11) {
+                if (index === 6 || index === 7 || index === 8 || index === 11) {
                   return { ...slot, type: '밭' };
+                }
+
+                if (index === 1) {
+                  return { ...slot, type: '밭', resource: '채소', count: 1 };
                 }
 
                 if (index === 2) {
@@ -632,8 +637,15 @@ export const Header = () => {
                   return { ...slot, type: '밭', resource: '곡식', count: 2 };
                 }
 
-                if (index === 3) {
-                  return { ...slot, type: '밭', resource: '채소', count: 1 };
+                if (index === 9) {
+                  return {
+                    ...slot,
+                    type: '울타리',
+                    fenceId: 2,
+                    emptyFenceDirections: [1],
+                    resource: '돼지',
+                    count: 1,
+                  };
                 }
 
                 if (index === 12) {

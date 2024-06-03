@@ -98,7 +98,7 @@ const ResultModal = () => {
 
     const 활성된보조설비 = player.subCards.filter(subCard => subCard.isActive);
     const 활성된주요설비 = player.mainCards;
-    console.log(활성된주요설비, player.number);
+
     let 보조설비점수 = 활성된보조설비.reduce((acc, cur) => cur.score + acc, 0);
     let 주요설비점수 = 활성된주요설비.reduce((acc, cur) => cur.score + acc, 0);
 
