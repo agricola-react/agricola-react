@@ -596,6 +596,7 @@ export const Header = () => {
               wood: 6,
               stone: 0,
               clay: 2,
+              farmer: 3,
               food: 2,
               reed: 2,
               grain: 3,
