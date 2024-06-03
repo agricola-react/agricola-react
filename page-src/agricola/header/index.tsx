@@ -626,16 +626,9 @@ export const Header = () => {
                   return { ...slot, type: '밭', resource: '곡식', count: 2 };
                 }
 
-                // if (index === 9) {
-                //   return {
-                //     ...slot,
-                //     type: '울타리',
-                //     fenceId: 2,
-                //     emptyFenceDirections: [1],
-                //     resource: '돼지',
-                //     count: 1,
-                //   };
-                // }
+                if (index === 4) {
+                  return { ...slot, type: '밭' };
+                }
 
                 if (index === 12) {
                   return {
@@ -673,7 +666,7 @@ export const Header = () => {
                 return slot;
               }),
               jobCards: players[3].jobCards.map(card => {
-                if (card.name === '보조경작자') {
+                if (card.name === '보조경작자' || card.name === '병') {
                   return {
                     ...card,
                     isActive: true,
