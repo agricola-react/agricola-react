@@ -108,8 +108,10 @@ const ResultModal = () => {
     let 카드점수 = 보조설비점수 + 주요설비점수;
     let bonusPoint = 0;
 
-    const totalScore = fieldScore + fenceScore;
-    grainScore +
+    const totalScore =
+      fieldScore +
+      fenceScore +
+      grainScore +
       vegetableScore +
       sheepScore +
       pigScore +
