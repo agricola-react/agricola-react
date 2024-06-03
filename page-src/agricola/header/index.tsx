@@ -510,7 +510,7 @@ export const Header = () => {
                     ...slot,
                     type: '울타리',
                     fenceId: 2,
-                    emptyFenceDirections: [0],
+                    emptyFenceDirections: [0, 3],
                     resource: '돼지',
                     count: 2,
                   };
@@ -521,21 +521,10 @@ export const Header = () => {
                     ...slot,
                     type: '울타리',
                     fenceId: 3,
-                    emptyFenceDirections: [3],
+                    emptyFenceDirections: [1],
                     resource: '소',
                     count: 2,
                     barn: 1,
-                  };
-                }
-
-                if (index === 8) {
-                  return {
-                    ...slot,
-                    type: '울타리',
-                    fenceId: 3,
-                    emptyFenceDirections: [2],
-                    resource: '소',
-                    count: 1,
                   };
                 }
 
