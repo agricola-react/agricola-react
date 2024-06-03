@@ -50,6 +50,15 @@ export const UserBoard = ({ player }: Props) => {
     },
   ];
 
+  const 울타리수 = player.slots.filter(value => value.type === '울타리').length * 4;
+  const 빈울타리수 = player.slots
+    .filter(value => value.type === '울타리')
+    .reduce((acc, cur) => {
+      return acc + Number(cur.emptyFenceDirections?.length || 0);
+    }, 0);
+
+  const 외양간수 = player.slots.filter(slot => slot.barn !== undefined).length;
+
   const EtcRecourseList = [
     {
       Component: <Farmer width={15} height={20} userNumber={player.number} />,
@@ -57,11 +66,11 @@ export const UserBoard = ({ player }: Props) => {
     },
     {
       Component: <MeepleFence width={15} height={20} userNumber={player.number} />,
-      count: player.fence,
+      count: 울타리수 - 빈울타리수,
     },
     {
       Component: <Barn width={15} height={20} userNumber={player.number} />,
-      count: player.barn,
+      count: 외양간수,
     },
     {
       Component: <MeepleBagging width={20} height={20} />,
