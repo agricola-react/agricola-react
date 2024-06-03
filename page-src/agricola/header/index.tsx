@@ -637,16 +637,16 @@ export const Header = () => {
                   return { ...slot, type: '밭', resource: '곡식', count: 2 };
                 }
 
-                if (index === 9) {
-                  return {
-                    ...slot,
-                    type: '울타리',
-                    fenceId: 2,
-                    emptyFenceDirections: [1],
-                    resource: '돼지',
-                    count: 1,
-                  };
-                }
+                // if (index === 9) {
+                //   return {
+                //     ...slot,
+                //     type: '울타리',
+                //     fenceId: 2,
+                //     emptyFenceDirections: [1],
+                //     resource: '돼지',
+                //     count: 1,
+                //   };
+                // }
 
                 if (index === 12) {
                   return {

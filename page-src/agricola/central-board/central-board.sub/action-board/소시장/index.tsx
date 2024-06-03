@@ -58,7 +58,7 @@ export const 소시장 = () => {
     }
 
     if (round === 14) {
-      setCurrentCattle(3);
+      setCurrentCattle(2);
     }
   }, [round]);
 

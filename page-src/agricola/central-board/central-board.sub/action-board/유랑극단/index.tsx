@@ -60,6 +60,10 @@ export const TravelingTheater = () => {
     if (round === 4) {
       setCurrentFood(1);
     }
+
+    if (round === 14) {
+      setCurrentFood(3);
+    }
   }, [round]);
 
   return (
