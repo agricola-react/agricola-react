@@ -83,7 +83,7 @@ export const INIT_PLAYER: Player = {
   name: '',
   color: '',
   isFirst: false,
-  wood: 10,
+  wood: 0,
   clay: 0,
   stone: 0,
   reed: 0,
