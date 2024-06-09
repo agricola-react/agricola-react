@@ -83,7 +83,7 @@ export const INIT_PLAYER: Player = {
   name: '',
   color: '',
   isFirst: false,
-  wood: 10,
+  wood: 0,
   clay: 0,
   stone: 0,
   reed: 0,
@@ -162,9 +162,9 @@ export const playersState = atom<Player[]>({
           score: 0,
         },
         {
-          name: '소규모농부',
+          name: '재산관리인',
           isActive: false,
-          src: '/job-card/소규모농부.jpg',
+          src: '/job-card/재산관리인.jpg',
           score: 0,
         },
         {
@@ -307,9 +307,9 @@ export const playersState = atom<Player[]>({
           score: 0,
         },
         {
-          name: '재산관리인',
+          name: '소규모농부',
           isActive: false,
-          src: '/job-card/재산관리인.jpg',
+          src: '/job-card/소규모농부.jpg',
           score: 0,
         },
       ],

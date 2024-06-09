@@ -406,13 +406,24 @@ export const Header = () => {
               food: 0,
               grain: 7,
               vegetable: 1,
-              farmer: 3,
+              farmer: 4,
               roomType: 'clay',
               slots: players[1].slots.map((slot, index) => {
                 if (index === 0) {
                   return {
                     ...slot,
                     type: '방',
+                    resource: '사람',
+                    count: 1,
+                  };
+                }
+
+                if (index === 1) {
+                  return {
+                    ...slot,
+                    type: null,
+                    resource: '사람',
+                    count: 1,
                   };
                 }
 
@@ -454,7 +465,7 @@ export const Header = () => {
             {
               // 가족 3, 나무 8, 돌 0, 흙1, 갈대 0,  음식 0, 곡식 2, 채소 1, 밭 3(null, 채소1, null), 흙방 3, 보조설비(채굴망치), 주요설비(화로), 직업(버섯따는사람), 양 6, 돼지 5, 소 3, 울타리 15, 외양간 3
               ...players[2],
-              reed: 1,
+              reed: 0,
               wood: 8,
               stone: 0,
               clay: 1,
@@ -477,7 +488,7 @@ export const Header = () => {
                 },
               ],
               slots: players[2].slots.map((slot, index) => {
-                if (index === 0) {
+                if (index === 0 || index === 1) {
                   return { ...slot, type: '방' };
                 }
 
@@ -498,7 +509,7 @@ export const Header = () => {
                     ...slot,
                     type: '울타리',
                     fenceId: 2,
-                    emptyFenceDirections: [1],
+                    emptyFenceDirections: [1, 3],
                     resource: '돼지',
                     count: 3,
                     barn: 1,
@@ -510,7 +521,7 @@ export const Header = () => {
                     ...slot,
                     type: '울타리',
                     fenceId: 2,
-                    emptyFenceDirections: [0],
+                    emptyFenceDirections: [0, 3],
                     resource: '돼지',
                     count: 2,
                   };
@@ -521,20 +532,10 @@ export const Header = () => {
                     ...slot,
                     type: '울타리',
                     fenceId: 3,
-                    emptyFenceDirections: [3],
+                    emptyFenceDirections: [1],
                     resource: '소',
                     count: 2,
-                  };
-                }
-
-                if (index === 8) {
-                  return {
-                    ...slot,
-                    type: '울타리',
-                    fenceId: 3,
-                    emptyFenceDirections: [2],
-                    resource: '소',
-                    count: 2,
+                    barn: 1,
                   };
                 }
 
@@ -548,6 +549,7 @@ export const Header = () => {
                     emptyFenceDirections: [3],
                     resource: '양',
                     count: 2,
+                    barn: 1,
                   };
                 }
 
@@ -605,6 +607,7 @@ export const Header = () => {
               wood: 6,
               stone: 0,
               clay: 2,
+              farmer: 3,
               food: 2,
               reed: 2,
               grain: 3,
@@ -617,11 +620,15 @@ export const Header = () => {
               ],
               slots: players[3].slots.map((slot, index) => {
                 if (index === 0) {
-                  return { ...slot, type: '방' };
+                  return { ...slot, type: '방', resource: '사람', count: 1 };
                 }
 
-                if (index === 1 || index === 6 || index === 7 || index === 8 || index === 11) {
+                if (index === 6 || index === 7 || index === 8 || index === 11) {
                   return { ...slot, type: '밭' };
+                }
+
+                if (index === 1) {
+                  return { ...slot, type: '밭', resource: '채소', count: 1 };
                 }
 
                 if (index === 2) {
@@ -632,8 +639,8 @@ export const Header = () => {
                   return { ...slot, type: '밭', resource: '곡식', count: 2 };
                 }
 
-                if (index === 3) {
-                  return { ...slot, type: '밭', resource: '채소', count: 1 };
+                if (index === 4) {
+                  return { ...slot, type: '밭' };
                 }
 
                 if (index === 12) {
@@ -672,7 +679,7 @@ export const Header = () => {
                 return slot;
               }),
               jobCards: players[3].jobCards.map(card => {
-                if (card.name === '보조경작자') {
+                if (card.name === '보조경작자' || card.name === '병') {
                   return {
                     ...card,
                     isActive: true,

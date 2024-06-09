@@ -43,6 +43,10 @@ export const ClayQuarry = () => {
     if (round === 9) {
       setCurrentClay(6);
     }
+
+    if (round === 14) {
+      setCurrentClay(10);
+    }
   }, [round]);
 
   return (

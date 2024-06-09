@@ -27,6 +27,10 @@ export const TravelingTheater = () => {
       job => job.name === '마술사' && job.isActive
     );
 
+    if (마술사가있는지) {
+      alert('마술사카드가 활성화되어 나무 1개와 곡식 1개를 추가로 얻습니다.');
+    }
+
     // 현재턴인 플레이어의 갈대 음식을 1 증가시킨다.(누적됨)
     if (currentPlayer.homeFarmer > 0) {
       setPlayers(
@@ -55,6 +59,10 @@ export const TravelingTheater = () => {
     // 시뮬레이션을 위한 코드
     if (round === 4) {
       setCurrentFood(1);
+    }
+
+    if (round === 14) {
+      setCurrentFood(3);
     }
   }, [round]);
 

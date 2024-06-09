@@ -56,6 +56,10 @@ export const 소시장 = () => {
       setCurrentCattle(prev => prev + 1);
       setSelectedPlayerNumber(undefined);
     }
+
+    if (round === 14) {
+      setCurrentCattle(2);
+    }
   }, [round]);
 
   return (

@@ -54,6 +54,10 @@ export const 돼지시장 = () => {
       setCurrentPig(prev => prev + 1);
       setSelectedPlayerNumber(undefined);
     }
+
+    if (round === 14) {
+      setCurrentPig(1);
+    }
   }, [round]);
 
   return (

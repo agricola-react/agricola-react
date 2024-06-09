@@ -21,6 +21,8 @@ export const 급한가족늘리기 = () => {
     }
 
     if (selectedPlayerNumber !== undefined) return;
+
+    alert('정식버전에서 만나요!!');
   };
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export const 급한가족늘리기 = () => {
       isActive={isActive}
       title="급한가족늘리기"
       onClick={handleClick}
+      userNumber={selectedPlayerNumber}
     >
       <ContentWrapper>
         <Wrapper>
