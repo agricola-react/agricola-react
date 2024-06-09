@@ -21,6 +21,16 @@ import { getVegetableScore } from 'page-src/agricola/result-modal/utils/get-vege
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getFenceScore } from './utils/get-fence-score';
 import { getPigScore } from './utils/get-pig-score';
+import React from 'react';
+
+type TableList = {
+  name: string;
+  players: {
+    count?: number;
+    score: number;
+    Icon: React.JSX.Element;
+  }[];
+};
 
 const ResultModal = () => {
   const [resultModalOpen, setResultModalOpen] = useRecoilState(resultModalOpenState);
@@ -151,7 +161,7 @@ const ResultModal = () => {
     };
   });
 
-  const tableList = [
+  const tableList: TableList[] = [
     {
       name: '밭',
       players: playersWithCore.map(player => ({
@@ -302,10 +312,10 @@ const ResultModal = () => {
             {tableList.map(value => (
               <StyledTr key={value.name}>
                 <StyledTd>{value.name}</StyledTd>
-                {value.players.map((player, index) => (
+                {value.players.map(player => (
                   <>
                     <StyledFlexTd>
-                      <div>{player.count}</div>
+                      <div>{player?.count}</div>
                       {player.Icon}
                     </StyledFlexTd>
                     <StyledTd>{player.score}점</StyledTd>

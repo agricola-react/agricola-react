@@ -3,7 +3,7 @@ import { BARN, MAX_BARN } from '@/shared/constants/barn';
 import { Player } from '@/shared/recoil';
 
 export function 외양간설치action(player: Player, index: number): Player | null {
-  if (player.slots[index].resource === '외양간') {
+  if (player.slots[index].barn !== undefined) {
     alert(외양간존재Alert);
     return null;
   }
