@@ -414,18 +414,18 @@ export const Header = () => {
                     ...slot,
                     type: '방',
                     resource: '사람',
-                    count: 1,
+                    count: 2,
                   };
                 }
 
-                if (index === 1) {
-                  return {
-                    ...slot,
-                    type: null,
-                    resource: '사람',
-                    count: 1,
-                  };
-                }
+                // if (index === 1) {
+                //   return {
+                //     ...slot,
+                //     type: null,
+                //     resource: '사람',
+                //     count: 1,
+                //   };
+                // }
 
                 if (index === 3) {
                   return { ...slot, type: '밭', resource: '채소', count: 1 };
